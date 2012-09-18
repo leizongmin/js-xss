@@ -1,36 +1,3 @@
-过滤XSS攻击
-======
-
-## 安装
-
-**npm install xss**
-
-
-## 使用方法：
-
-```javascript
-var xss = require('xss');
-// 使用默认的HTML白名单
-console.log(xss('<script>alert("fff");</script>'));
-// 指定HTML白名单
-var whiteList = {
-	tag: ['attribute1', 'attribute2']	// 允许的属性
-};
-console.log(xss('<script>alert("fff");</script>', whiteList));
-// 请参考默认的白名单：xss.whiteList
-```
-
-
-## 测试
-
-**npm test**
-
-
-## 授权协议
-
-基于MIT协议发布：
-
-```
 Copyright (c) 2012 Lei Zongmin(雷宗民) <leizongmin@gmail.com>
 http://ucdok.com
 
@@ -54,4 +21,3 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```

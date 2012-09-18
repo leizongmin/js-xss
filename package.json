@@ -1,0 +1,20 @@
+{
+  "name":           "xss",
+  "main":           "./index.js",
+  "version":        "0.0.1",
+  "description":    "Remove XSS attack vectors from user-supplied HTML",
+  "author":         "leizongmin <leizongmin@gmail.com> (http://ucdok.com)",
+  "repository": {
+    "type": "git",
+    "url":  "git://github.com/leizongmin/js-xss.git"
+  },
+  "engines": {
+    "node":         ">= 0.6.0"
+  },
+  "devDependencies": {
+    "mocha":        ">= 1.2"
+  },
+  "scripts": {
+    "test":         "mocha -t 5000"
+  }
+}
