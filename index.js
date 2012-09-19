@@ -19,6 +19,7 @@ var defaultWhiteList = {
   strong: ['style', 'class'],
   b:      ['style', 'class'],
   i:      ['style', 'class'],
+  br:     [],
   p:      ['style', 'class'],
   pre:    ['style', 'class'],
   code:   ['style', 'class'],
@@ -36,7 +37,7 @@ var defaultWhiteList = {
  * 过滤属性值
  */
 var defaultOnTagAttr = function (tag, attr, value) {
-  if (tag === 'a' && attr === 'href') {
+  if (attr === 'href' || attr === 'src') {
     if (value.substr(0, '11') === 'javascript:') {
       return '#';
     }
@@ -85,7 +86,8 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
     var _attrs = [];
     var tmpName = false;
     function addAttr (name, value) {
-      name = name.toLowerCase().trim();
+      name = name.replace(/[^a-zA-Z0-9_:\.\-]/img, '').toLowerCase().trim();
+      if (name.length < 1) return;
       if (value) {
         value = value.trim().replace(/"/g, '&quote;');
         var newValue = onTagAttr(tagName, name, value);
@@ -99,7 +101,7 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
     }
     for (var i = 0, len = attrs.length; i < len; i++) {
       var c = attrs[i];
-      if (c === '=') {
+      if (tmpName === false && c === '=') {
         tmpName = attrs.slice(lastPos, i);
         lastPos = i + 1;
         continue;
@@ -118,18 +120,25 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
             continue;
           }
         }
-      } else {
-        if (c === ' ') {
-          var v = attrs.slice(lastPos, i).trim();
+      }
+      if (c === ' ') {
+        var v = attrs.slice(lastPos, i).trim();
+        if (tmpName === false) {
           addAttr(v);
-          tmpName = false;
-          lastPos = i + 1;
-          continue;
+        } else {
+          addAttr(tmpName, v);
         }
+        tmpName = false;
+        lastPos = i + 1;
+        continue;
       }
     }
     if (lastPos < attrs.length) {
-      addAttr(attrs.slice(lastPos));
+      if (tmpName === false) {
+        addAttr(attrs.slice(lastPos));
+      } else {
+        addAttr(tmpName, attrs.slice(lastPos));
+      }
     }
     return _attrs.join(' ');
   };
@@ -148,6 +157,7 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
     } else {
       var tagName = tag.slice(spos, i + 1).trim();
     }
+    tagName = tagName.toLowerCase();
     if (tagName in whiteList) {
       // 过滤不合法的属性
       if (i === -1) {

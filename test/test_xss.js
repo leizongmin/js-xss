@@ -36,10 +36,16 @@ describe('test XSS', function () {
     // 属性内的特殊字符
     assert.equal(xss('<a href="\'<<>>">'), '<a href="\'<<>>">');
     assert.equal(xss('<a href=""">'), '&lt;a href=\"\"\"&gt;');
+    assert.equal(xss('<a h=href="oo">'), '<a>');
+    assert.equal(xss('<a h= href="oo">'), '<a href="oo">');
 
     // 自动将属性值的单引号转为双引号
     assert.equal(xss('<a href=\'abcd\'>'), '<a href="abcd">');
     assert.equal(xss('<a href=\'"\'>'), '<a href="&quote;">');
+
+    // 没有双引号括起来的属性值
+    assert.equal(xss('<a href=home>'), '<a href="home">');
+    assert.equal(xss('<a href=home class="b">'), '<a href="home" class="b">');
 
   });
 
@@ -64,6 +70,23 @@ describe('test XSS', function () {
         }
       }
     }), '<a href="#">abc</a>');
+
+  });
+
+  // XSS攻击测试：https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
+  it('#XSS_Filter_Evasion_Cheat_Sheet', function () {
+
+    assert.equal(xss('></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>'),
+        '&gt;&lt;/SCRIPT&gt;"&gt;\'&gt;&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;');
+
+    assert.equal(xss(';!--"<XSS>=&{()}'), ';!--"&lt;XSS&gt;=&{()}');
+
+    assert.equal(xss('<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>'),
+        '&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;');
+
+    assert.equal(xss('<IMG SRC="javascript:alert(\'XSS\');">'), '<img src="#">');
+
+    //assert.equal(xss('<IMG SRC=javascript:alert(\'XSS\')>'), '<img src="#">');
 
   });
 
