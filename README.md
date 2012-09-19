@@ -35,6 +35,13 @@ console.log(xss('<a href="javascript:ooxx">abc</a>', function (tag, attr, value)
 **npm test**
 
 
+## 性能
+
+解析速度为**6.26MB/s**，而另外一个**validator**模块的xss()函数速度仅为**2.82MB/s**。
+
+测试代码参考**benchmark**目录
+
+
 ## 授权协议
 
 基于MIT协议发布：
