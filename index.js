@@ -38,7 +38,7 @@ var defaultWhiteList = {
  */
 var defaultOnTagAttr = function (tag, attr, value) {
   if (attr === 'href' || attr === 'src') {
-    if (/^[\s"'`]*javascript:/ig.test(value)) {
+    if (/^[\s"'`]*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:/ig.test(value)) {
       return '#';
     }
   }
@@ -91,10 +91,14 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
       if (whites.indexOf(name) !== -1) {
         if (value) {
           value = value.trim().replace(/"/g, '&quote;');
-          // 转换unicode字符
-          value = value.replace(/&#([a-zA-Z0-9]*);/img, function (str, code) {
+          // 转换unicode字符 及过滤不可见字符
+          value = value.replace(/&#([a-zA-Z0-9]*);?/img, function (str, code) {
             code = parseInt(code);
-            return String.fromCharCode(code);
+            if (code >= 32) {
+              return String.fromCharCode(code);
+            } else {
+              return '';
+            }
           });
           var newValue = onTagAttr(tagName, name, value);
           if (typeof(newValue) !== 'undefined') {
