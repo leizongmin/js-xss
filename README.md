@@ -17,6 +17,9 @@
 var xss = require('xss');
 // 使用默认的HTML白名单
 console.log(xss('<script>alert("fff");</script>'));
+// 修改默认的白名单
+xss.whiteList.em = ['style']; //添加或更新一个 tag 到白名单
+delete xss.whiteList.em; //从白名单删除一个 tag
 // 指定HTML白名单
 var whiteList = {
 	tag: ['attribute1', 'attribute2']	// 允许的属性
