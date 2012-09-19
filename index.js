@@ -40,10 +40,10 @@ var defaultWhiteList = {
 /**
  * 过滤属性值
  *
- * @param {string} tag
- * @param {string} attr
- * @param {string} value
- * @return {string}
+ * @param {string} tag 标签名
+ * @param {string} attr 属性名
+ * @param {string} value 属性值
+ * @return {string} 若不需要修改属性值，不返回任何值
  */
 var defaultOnTagAttr = function (tag, attr, value) {
   if (attr === 'href' || attr === 'src') {
@@ -64,36 +64,46 @@ var defaultOnTagAttr = function (tag, attr, value) {
 };
 
 /**
+ * 过滤非白名单的标签
+ *
+ * @param {string} tag 标签名
+ * @param {string} html 标签HTML代码（包括属性值）
+ * @return {string} 若不返回任何值，则默认替换<>为&lt;&gt;
+ */
+var defaultOnIgnoreTag = function (tag, html) {
+  return noTag(html);
+};
+
+
+/**
+ * 转换<>为&lt; &gt
+ *
+ * @param {string} text
+ * @return {string}
+ */
+var noTag = function (text) {
+  return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+};
+
+/**
  * XSS过滤
  *
  * @param {string} html 要过滤的HTML代码
- * @param {object} whiteList 白名单，若不指定，则使用默认的
- * @param {function} onTagAttr 指定此回调用于处理属性值，格式：function (tagName, attrName, attrValue)
- *                             若要改变该值，返回新的值即可，否则不用返回任何值
+ * @param {object} options 选项：whiteList, onTagAttr, onIgnoreTag
  * @return {string}
  */
-exports = module.exports = function (html, whiteList, onTagAttr) {
+exports = module.exports = function (html, options) {
   'use strict';
 
-  if (typeof(whiteList) === 'function') {
-    onTagAttr = whiteList;
-    whiteList = defaultWhiteList;
-  } else {
-    whiteList = whiteList || exports.whiteList;
-    onTagAttr = onTagAttr || exports.onTagAttr;
-  }
+  options = options || {};
+  var whiteList = options.whiteList || exports.whiteList;
+  var onTagAttr = options.onTagAttr || exports.onTagAttr;
+  var onIgnoreTag = options.onIgnoreTag || exports.onIgnoreTag;
 
   var rethtml = '';
   var lastPos = 0;
   var tagStart = false;
   var quoteStart = false;
-
-  /**
-   * 转换<>为&lt; &gt
-   */
-  var noTag = function (text) {
-    return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  };
 
   /**
    * 过滤不合法的属性
@@ -196,8 +206,12 @@ exports = module.exports = function (html, whiteList, onTagAttr) {
         rethtml += tag.slice(0, spos) + tagName + (attrs.length > 0 ? ' ' + attrs : '') + '>';
       }
     } else {
-      // 过滤 <>
-      rethtml += noTag(tag);
+      // 过滤不合法的标签
+      var tagHtml = onIgnoreTag(tagName, tag);
+      if (typeof(tagHtml) === 'undefined') {
+        tagHtml = noTag(tag);
+      }
+      rethtml += tagHtml;
     }
   };
 
@@ -240,5 +254,7 @@ exports = module.exports = function (html, whiteList, onTagAttr) {
   return rethtml;
 };
 
+// 默认配置
 exports.whiteList = defaultWhiteList;
 exports.onTagAttr = defaultOnTagAttr;
+exports.onIgnoreTag = defaultOnIgnoreTag;

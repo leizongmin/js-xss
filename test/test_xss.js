@@ -51,29 +51,49 @@ describe('test XSS', function () {
 
   });
 
+  // 自定义白名单
   it('#white list', function () {
 
     // 过滤所有标签
-    assert.equal(xss('<a href="xx">bb</a>', {}), '&lt;a href="xx"&gt;bb&lt;/a&gt;');
-    assert.equal(xss('<hr>', {}), '&lt;hr&gt;');
-
+    assert.equal(xss('<a href="xx">bb</a>', {whiteList: {}}), '&lt;a href="xx"&gt;bb&lt;/a&gt;');
+    assert.equal(xss('<hr>', {whiteList: {}}), '&lt;hr&gt;');
     // 增加白名单标签及属性
-    assert.equal(xss('<ooxx yy="ok" cc="no">uu</ooxx>', {ooxx: ['yy']}), '<ooxx yy="ok">uu</ooxx>');
+    assert.equal(xss('<ooxx yy="ok" cc="no">uu</ooxx>', {whiteList: {ooxx: ['yy']}}), '<ooxx yy="ok">uu</ooxx>');
 
   });
 
+  // 自定义过滤属性函数
   it('#process attribute value', function () {
 
-    // 过滤指定属性值
-    assert.equal(xss('<a href="javascript:ooxx">abc</a>', function (tag, attr, value) {
-      if (tag === 'a' && attr === 'href') {
-        if (value.substr(0, '11') === 'javascript:') {
-          return '#';
+    assert.equal(xss('<a href="ignore:ooxx">abc</a><a href="ooxx">', {
+      onTagAttr: function (tag, attr, value) {
+        if (tag === 'a' && attr === 'href') {
+          if (value.substr(0, 7) === 'ignore:') {
+            return '#';
+          }
         }
       }
-    }), '<a href="#">abc</a>');
+    }), '<a href="#">abc</a><a href="ooxx">');
 
   });
+
+  // 自定义处理不在白名单中的标签
+  it('#process ignore tag', function () {
+
+    assert.equal(xss('<ooxx xxyy>ookk</ooxx><img>', {
+      onIgnoreTag: function (tag, html) {
+        return '';
+      }
+    }), 'ookk<img>');
+
+    assert.equal(xss('<ooxx xxyy>ookk</ooxx><img>', {
+      onIgnoreTag: function (tag, html) {
+        return '[removed]';
+      }
+    }), '[removed]ookk[removed]<img>');
+
+  });
+
 
   // XSS攻击测试：https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
   it('#XSS_Filter_Evasion_Cheat_Sheet', function () {
