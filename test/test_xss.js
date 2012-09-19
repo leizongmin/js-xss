@@ -132,6 +132,28 @@ describe('test XSS', function () {
     assert.equal(xss('<SCRIPT SRC=//ha.ckers.org/.j'),
         '&lt;SCRIPT SRC=//ha.ckers.org/.j');
 
+    assert.equal(xss('<IMG SRC="javascript:alert(\'XSS\')"'),
+        '&lt;IMG SRC=\"javascript:alert(\'XSS\')"');
+
+    assert.equal(xss('<iframe src=http://ha.ckers.org/scriptlet.html <'),
+        '&lt;iframe src=http://ha.ckers.org/scriptlet.html &lt;');
+
+    assert.equal(xss('<a style="url(\'javascript:alert(1)\')">'), '<a style>');
+
+    assert.equal(xss('<IMG SRC=\'vbscript:msgbox("XSS")\'>'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC="livescript:[code]">'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC="mocha:[code]">'), '<img src="#">');
+
+    assert.equal(xss('<a href="javas/**/cript:alert(\'XSS\');">'), '<a href="#">');
+
+    // 这个暂时不知道怎么处理
+    //assert.equal(xss('¼script¾alert(¢XSS¢)¼/script¾'), '');
+
+    assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]-->'),
+        '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt;');
+
   });
 
 });

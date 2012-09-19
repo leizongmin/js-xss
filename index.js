@@ -31,6 +31,8 @@ var defaultWhiteList = {
   td:     ['style', 'class', 'width', 'colspan'],
   th:     ['style', 'class', 'width', 'colspan'],
   tbody:  ['style', 'class'],
+  ul:     ['style', 'class'],
+  li:     ['style', 'class'],
 };
 
 /**
@@ -38,8 +40,18 @@ var defaultWhiteList = {
  */
 var defaultOnTagAttr = function (tag, attr, value) {
   if (attr === 'href' || attr === 'src') {
-    if (/^[\s"'`]*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*:/ig.test(value)) {
+    if (/\/\*|\*\//mg.test(value)) {
       return '#';
+    }
+    if (/^[\s"'`]*((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig.test(value)) {
+      return '#';
+    }
+  } else if (attr === 'style') {
+    if (/\/\*|\*\//mg.test(value)) {
+      return '#';
+    }
+    if (/((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig.test(value)) {
+      return '';
     }
   }
 };
