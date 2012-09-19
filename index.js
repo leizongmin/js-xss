@@ -38,12 +38,21 @@ var defaultWhiteList = {
  *
  * @param {string} html 要过滤的HTML代码
  * @param {object} whiteList 白名单，若不指定，则使用默认的
+ * @param {function} onTagAttr 指定此回调用于处理属性值，格式：function (tagName, attrName, attrValue)
+ *                             若要改变该值，返回新的值即可，否则不用返回任何值
  * @return {string}
  */
-var xss = module.exports = function (html, whiteList) {
+var xss = module.exports = function (html, whiteList, onTagAttr) {
   'use strict';
 
-  whiteList = whiteList || defaultWhiteList;
+  if (typeof(whiteList) === 'function') {
+    onTagAttr = whiteList;
+    whiteList = defaultWhiteList;
+  } else {
+    whiteList = whiteList || exports.whiteList;
+    onTagAttr = function () {};
+  }
+
   var rethtml = '';
   var lastPos = 0;
   var tagStart = false;
@@ -59,7 +68,9 @@ var xss = module.exports = function (html, whiteList) {
   /**
    * 过滤不合法的属性
    */
-  var filterAttributes = function (attrs, whites) {
+  var filterAttributes = function (tagName, attrs) {
+    tagName = tagName.toLowerCase();
+    var whites = whiteList[tagName];
     var lastPos = 0;
     var _attrs = [];
     var tmpName = false;
@@ -67,11 +78,13 @@ var xss = module.exports = function (html, whiteList) {
       name = name.toLowerCase().trim();
       if (value) {
         value = value.trim();
-        // 值中不能出现</script>
-        value = value.replace(/<\/script>/img, '&lt;/script&gt;');
+        var newValue = onTagAttr(tagName, name, value);
+        if (typeof(newValue) !== 'undefined') {
+          value = newValue;
+        }
       }
       if (whites.indexOf(name) !== -1) {
-        _attrs.push(name + (value ? '=' + value : ''));
+        _attrs.push(name + (value ? '="' + value + '"' : ''));
       }
     }
     for (var i = 0, len = attrs.length; i < len; i++) {
@@ -87,7 +100,7 @@ var xss = module.exports = function (html, whiteList) {
           if (j === -1) {
             break;
           } else {
-            var v = attrs.slice(lastPos, j + 1).trim();
+            var v = attrs.slice(lastPos + 1, j).trim();
             addAttr(tmpName, v);
             tmpName = false;
             i = j;
@@ -130,7 +143,7 @@ var xss = module.exports = function (html, whiteList) {
       if (i === -1) {
         rethtml += tag.slice(0, spos) + tagName + '>';
       } else {
-        var attrs = filterAttributes(tag.slice(i + 1, tag.length - 1).trim(), whiteList[tagName]);
+        var attrs = filterAttributes(tagName, tag.slice(i + 1, tag.length - 1).trim());
         rethtml += tag.slice(0, spos) + tagName + (attrs.length > 0 ? ' ' + attrs : '') + '>';
       }
     } else {

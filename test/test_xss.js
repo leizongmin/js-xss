@@ -35,8 +35,7 @@ describe('test XSS', function () {
 
     // 属性内的特殊字符
     assert.equal(xss('<a href="\'<<>>">'), '<a href="\'<<>>">');
-    assert.equal(xss('<a href="</script>">'), '<a href="&lt;/script&gt;">');
-
+    
   });
 
   it('#white list', function () {
@@ -47,6 +46,19 @@ describe('test XSS', function () {
 
     // 增加白名单标签及属性
     assert.equal(xss('<ooxx yy="ok" cc="no">uu</ooxx>', {ooxx: ['yy']}), '<ooxx yy="ok">uu</ooxx>');
+
+  });
+
+  it('#process attribute value', function () {
+
+    // 过滤指定属性值
+    assert.equal(xss('<a href="javascript:ooxx">abc</a>', function (tag, attr, value) {
+      if (tag === 'a' && attr === 'href') {
+        if (value.substr(0, '11') === 'javascript:') {
+          return '#';
+        }
+      }
+    }), '<a href="#">abc</a>');
 
   });
 
