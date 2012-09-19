@@ -32,6 +32,16 @@ var defaultWhiteList = {
   tbody:  ['style', 'class'],
 };
 
+/**
+ * 过滤属性值
+ */
+var defaultOnTagAttr = function (tag, attr, value) {
+  if (tag === 'a' && attr === 'href') {
+    if (value.substr(0, '11') === 'javascript:') {
+      return '#';
+    }
+  }
+};
 
 /**
  * XSS过滤
@@ -50,7 +60,7 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
     whiteList = defaultWhiteList;
   } else {
     whiteList = whiteList || exports.whiteList;
-    onTagAttr = function () {};
+    onTagAttr = onTagAttr || exports.onTagAttr;
   }
 
   var rethtml = '';
@@ -192,3 +202,4 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
 };
 
 exports.whiteList = defaultWhiteList;
+exports.onTagAttr = defaultOnTagAttr;
