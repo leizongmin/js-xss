@@ -46,6 +46,8 @@ describe('test XSS', function () {
     // 没有双引号括起来的属性值
     assert.equal(xss('<a href=home>'), '<a href="home">');
     assert.equal(xss('<a href=home class="b">'), '<a href="home" class="b">');
+    assert.equal(xss('<a href=abc("d")>'), '<a href="abc(&quote;d&quote;)">');
+    assert.equal(xss('<a href=abc(\'d\')>'), '<a href="abc(\'d\')">');
 
   });
 
@@ -86,7 +88,7 @@ describe('test XSS', function () {
 
     assert.equal(xss('<IMG SRC="javascript:alert(\'XSS\');">'), '<img src="#">');
 
-    //assert.equal(xss('<IMG SRC=javascript:alert(\'XSS\')>'), '<img src="#">');
+    assert.equal(xss('<IMG SRC=javascript:alert(\'XSS\')>'), '<img src="#">');
 
   });
 

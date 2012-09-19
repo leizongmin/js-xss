@@ -88,14 +88,14 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
     function addAttr (name, value) {
       name = name.replace(/[^a-zA-Z0-9_:\.\-]/img, '').toLowerCase().trim();
       if (name.length < 1) return;
-      if (value) {
-        value = value.trim().replace(/"/g, '&quote;');
-        var newValue = onTagAttr(tagName, name, value);
-        if (typeof(newValue) !== 'undefined') {
-          value = newValue;
-        }
-      }
       if (whites.indexOf(name) !== -1) {
+        if (value) {
+          value = value.trim().replace(/"/g, '&quote;');
+          var newValue = onTagAttr(tagName, name, value);
+          if (typeof(newValue) !== 'undefined') {
+            value = newValue;
+          }
+        }
         _attrs.push(name + (value ? '="' + value + '"' : ''));
       }
     }
@@ -107,7 +107,7 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
         continue;
       }
       if (tmpName !== false) {
-        if (c === '"' || c === "'") {
+        if (i === lastPos && (c === '"' || c === "'")) {
           var j = attrs.indexOf(c, i + 1);
           if (j === -1) {
             break;
