@@ -33,6 +33,8 @@ var defaultWhiteList = {
   tbody:  ['style', 'class'],
   ul:     ['style', 'class'],
   li:     ['style', 'class'],
+  em:     ['style'],    //added by jim
+  cite:   ['style']     //added by jim
 };
 
 /**
@@ -65,7 +67,7 @@ var defaultOnTagAttr = function (tag, attr, value) {
  *                             若要改变该值，返回新的值即可，否则不用返回任何值
  * @return {string}
  */
-var xss = module.exports = function (html, whiteList, onTagAttr) {
+exports = module.exports = function (html, whiteList, onTagAttr) {
   'use strict';
 
   if (typeof(whiteList) === 'function') {
