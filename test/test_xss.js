@@ -90,6 +90,17 @@ describe('test XSS', function () {
 
     assert.equal(xss('<IMG SRC=javascript:alert(\'XSS\')>'), '<img src="#">');
 
+    assert.equal(xss('<IMG SRC=JaVaScRiPt:alert(\'XSS\')>'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC=`javascript:alert("RSnake says, \'XSS\'")`>'), '<img src="#">');
+
+    assert.equal(xss('<IMG """><SCRIPT>alert("XSS")</SCRIPT>">'), '<img>');
+
+    assert.equal(xss('<IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>'),
+        '<img src="#">');
+
   });
 
 });
