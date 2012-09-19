@@ -13,68 +13,68 @@
 
 ## 使用方法
 
+### 载入模块
+
 ```javascript
 var xss = require('xss');
-// 使用默认的HTML白名单
-console.log(xss('<script>alert("fff");</script>'));
-// 修改默认的白名单
-xss.whiteList.em = ['style']; //添加或更新一个 tag 到白名单
-delete xss.whiteList.em; //从白名单删除一个 tag
-// 指定HTML白名单
-var whiteList = {
-	tag: ['attribute1', 'attribute2']	// 允许的属性
+```
+
+### 使用默认的配置
+
+```javascript
+var html = xss('<script>alert("xss");</script>');
+console.log(html);
+```
+
+### 修改默认配置
+
+```javascript
+// 添加或更新白名单中的标签 标签名（小写） = ['允许的属性列表（小写）']
+xss.whiteList['p'] = ['class', 'style'];
+
+// 自定义处理属性值函数
+xss.onTagAttr = function (tag, attr, vaule) {
+	// tag：当前标签名（小写）
+	// attr：当前属性名（小写）
+	// value：当前属性值
+	// 返回新的属性值，如果想使用默认的处理方式，不返回任何值即可	
 };
-console.log(xss('<script>alert("fff");</script>', whiteList));
-// 请参考默认的白名单：xss.whiteList
 
-// 过滤指定属性的值，参考默认的 xss.onTagAttr
-console.log(xss('<a href="javascript:ooxx">abc</a>', function (tag, attr, value) {
-	if (tag === 'a' && attr === 'href') {
-		if (value.substr(0, '11') === 'javascript:') {
-			return '#';
-    	}
-  	}
-}));
-```
-
-
-## 函数调用格式
-
-* 使用默认配置： xss('要过滤的HTML代码');
-
-* 使用自定义配置： xss('要过滤的HTML代码', 白名单, 过滤属性值函数); (可仅指定白名单或过滤属性值函数作为第二个参数)
-
-白名单格式：
-
-```
-{
-	'小写标签名':   ['允许出现的属性名（小写）']
+// 自定义处理不在白名单中的标签
+xss.onIgnoreTag = function (tag, html) {
+	// tag：当前标签名（小写），如：a
+	// html：当前标签的HTML代码，如：<a href="ooxx">
+	// 返回新的标签HTML代码，如果想使用默认的处理方式，不返回任何值即可
 }
 ```
 
-过滤属性值函数格式：
+### 使用临时配置
 
+```javascript
+var options = {
+	whiteList: 	 {},				// 若不指定，则使用默认配置
+	onTagAttr: 	 function () {},	// 若不指定，则使用默认配置
+	onIgnoreTag: function () {}		// 若不指定，则使用默认配置
+};
+var html = xss('<script>alert("xss");</script>', options);
+console.log(html);
 ```
-/**
- * @param {string} tag 标签名
- * @param {string} attr 属性名
- * @param {string} value 属性值
- * @return {string} 若要修改此属性值，返回新属性值即可，否则不用返回值
-function (tag, attr, value) {
-	// ...
-}
-```
+
 
 ## 测试
 
-单元测试：**npm test**
+### 单元测试
 
-在线测试：运行目录中的**cli.js**，可在命令行中输入HTML代码，并看到过滤后的代码
+在源码目录执行命令：**npm test**
+
+### 在线测试
+
+在源码目录执行命令：**node cli.js**，可在命令行中输入HTML代码，并看到过滤后的代码
 
 
 ## 性能
 
-解析速度为**6.26MB/s**，而另外一个**validator**模块的xss()函数速度仅为**2.82MB/s**。
+解析速度为**5.81MB/s**，而另外一个**validator**模块的xss()函数速度仅为**2.48MB/s**。
 
 测试代码参考**benchmark**目录
 
