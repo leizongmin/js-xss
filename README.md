@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/leizongmin/js-xss.png?branch=master)](http://travis-ci.org/leizongmin/js-xss)
+
 过滤XSS攻击
 ======
 
