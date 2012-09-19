@@ -18,6 +18,15 @@ var whiteList = {
 };
 console.log(xss('<script>alert("fff");</script>', whiteList));
 // 请参考默认的白名单：xss.whiteList
+
+// 过滤指定属性的值，参考默认的 xss.onTagAttr
+console.log(xss('<a href="javascript:ooxx">abc</a>', function (tag, attr, value) {
+	if (tag === 'a' && attr === 'href') {
+		if (value.substr(0, '11') === 'javascript:') {
+			return '#';
+    	}
+  	}
+}));
 ```
 
 
