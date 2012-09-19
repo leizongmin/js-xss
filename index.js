@@ -39,6 +39,11 @@ var defaultWhiteList = {
 
 /**
  * 过滤属性值
+ *
+ * @param {string} tag
+ * @param {string} attr
+ * @param {string} value
+ * @return {string}
  */
 var defaultOnTagAttr = function (tag, attr, value) {
   if (attr === 'href' || attr === 'src') {
