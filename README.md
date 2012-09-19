@@ -6,7 +6,12 @@
 **npm install xss**
 
 
-## 使用方法：
+## 原理
+
+通过标签白名单及属性白名单来过滤HTML标签，同时对包含特殊字符的属性值进行处理。默认配置可过滤大多数的XSS攻击代码，可根据实际应用场景来定制白名单及过滤方法。
+
+
+## 使用方法
 
 ```javascript
 var xss = require('xss');
@@ -30,9 +35,38 @@ console.log(xss('<a href="javascript:ooxx">abc</a>', function (tag, attr, value)
 ```
 
 
+## 函数调用格式
+
+* 使用默认配置： xss('要过滤的HTML代码');
+
+* 使用自定义配置： xss('要过滤的HTML代码', 白名单, 过滤属性值函数); (可仅指定白名单或过滤属性值函数作为第二个参数)
+
+白名单格式：
+
+```
+{
+	'小写标签名':   ['允许出现的属性名（小写）']
+}
+```
+
+过滤属性值函数格式：
+
+```
+/**
+ * @param {string} tag 标签名
+ * @param {string} attr 属性名
+ * @param {string} value 属性值
+ * @return {string} 若要修改此属性值，返回新属性值即可，否则不用返回值
+function (tag, attr, value) {
+	// ...
+}
+```
+
 ## 测试
 
-**npm test**
+单元测试：**npm test**
+
+在线测试：运行目录中的**cli.js**，可在命令行中输入HTML代码，并看到过滤后的代码
 
 
 ## 性能
