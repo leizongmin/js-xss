@@ -86,7 +86,7 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
    */
   var noTag = function (text) {
     return text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
+  };
 
   /**
    * 过滤不合法的属性
