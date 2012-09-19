@@ -35,7 +35,12 @@ describe('test XSS', function () {
 
     // 属性内的特殊字符
     assert.equal(xss('<a href="\'<<>>">'), '<a href="\'<<>>">');
-    
+    assert.equal(xss('<a href=""">'), '&lt;a href=\"\"\"&gt;');
+
+    // 自动将属性值的单引号转为双引号
+    assert.equal(xss('<a href=\'abcd\'>'), '<a href="abcd">');
+    assert.equal(xss('<a href=\'"\'>'), '<a href="&quote;">');
+
   });
 
   it('#white list', function () {

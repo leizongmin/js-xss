@@ -87,7 +87,7 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
     function addAttr (name, value) {
       name = name.toLowerCase().trim();
       if (value) {
-        value = value.trim();
+        value = value.trim().replace(/"/g, '&quote;');
         var newValue = onTagAttr(tagName, name, value);
         if (typeof(newValue) !== 'undefined') {
           value = newValue;
