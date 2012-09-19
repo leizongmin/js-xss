@@ -94,12 +94,13 @@ var xss = module.exports = function (html, whiteList, onTagAttr) {
           // 转换unicode字符 及过滤不可见字符
           value = value.replace(/&#([a-zA-Z0-9]*);?/img, function (str, code) {
             code = parseInt(code);
-            if (code >= 32) {
-              return String.fromCharCode(code);
-            } else {
-              return '';
-            }
+            return String.fromCharCode(code);
           });
+          var _value = '';
+          for (var i = 0, len = value.length; i < len; i++) {
+            _value += value.charCodeAt(i) < 32 ? ' ' : value[i];
+          }
+          value = _value.trim();
           var newValue = onTagAttr(tagName, name, value);
           if (typeof(newValue) !== 'undefined') {
             value = newValue;

@@ -102,12 +102,35 @@ describe('test XSS', function () {
         '<img src="#">');
 
     assert.equal(xss('<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>'),
-        '<img src="FMLEJNALN !">');
+        '<img src="F   M LEJN   ALN      !">');
 
     assert.equal(xss('<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>'),
         '<img src>');
 
     assert.equal(xss('<IMG SRC="jav ascript:alert(\'XSS\');">'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC="jav&#x09;ascript:alert(\'XSS\');">'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC="jav\nascript:alert(\'XSS\');">'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC=java\0script:alert(\"XSS\")>'), '<img src="#">');
+
+    assert.equal(xss('<IMG SRC=" &#14;  javascript:alert(\'XSS\');">'), '<img src="#">');
+
+    assert.equal(xss('<SCRIPT/XSS SRC="http://ha.ckers.org/xss.js"></SCRIPT>'),
+        '&lt;SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"&gt;&lt;/SCRIPT&gt;');
+
+    assert.equal(xss('<BODY onload!#$%&()*~+-_.,:;?@[/|\]^`=alert("XSS")>'),
+        '&lt;BODY onload!#$%&()*~+-_.,:;?@[/|]^`=alert(\"XSS\")&gt;');
+
+    assert.equal(xss('<<SCRIPT>alert("XSS");//<</SCRIPT>'),
+        '&lt;&lt;SCRIPT&gt;alert(\"XSS\");//&lt;&lt;/SCRIPT&gt;');
+
+    assert.equal(xss('<SCRIPT SRC=http://ha.ckers.org/xss.js?< B >'),
+        '&lt;SCRIPT SRC=http://ha.ckers.org/xss.js?&lt; B &gt;');
+
+    assert.equal(xss('<SCRIPT SRC=//ha.ckers.org/.j'),
+        '&lt;SCRIPT SRC=//ha.ckers.org/.j');
 
   });
 
