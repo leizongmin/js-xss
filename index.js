@@ -69,9 +69,13 @@ var defaultOnTagAttr = function (tag, attr, value) {
  *
  * @param {string} tag 标签名
  * @param {string} html 标签HTML代码（包括属性值）
+ * @param {object} options 更多属性：
+ *                   position：在返回的HTML代码中的开始位置
+ *                   originalPosition：在原HTML代码中的开始位置
+ *                   isClosing：是否为闭合标签，如</a>
  * @return {string} 若不返回任何值，则默认替换<>为&lt;&gt;
  */
-var defaultOnIgnoreTag = function (tag, html) {
+var defaultOnIgnoreTag = function (tag, html, options) {
   return noTag(html);
 };
 
@@ -105,6 +109,7 @@ exports = module.exports = function (html, options) {
   var lastPos = 0;
   var tagStart = false;
   var quoteStart = false;
+  var currentPos = 0;
 
   /**
    * 过滤不合法的属性
@@ -115,8 +120,14 @@ exports = module.exports = function (html, options) {
     var lastPos = 0;
     var _attrs = [];
     var tmpName = false;
-    function addAttr (name, value) {
-      name = name.replace(/[^a-zA-Z0-9_:\.\-]/img, '').toLowerCase().trim();
+    var hasSprit = false;
+    var addAttr = function (name, value) {
+      name =  name.trim();
+      if (!hasSprit && name === '/') {
+        hasSprit = true;
+        return;
+      };
+      name = name.replace(/[^a-zA-Z0-9_:\.\-]/img, '').toLowerCase();
       if (name.length < 1) return;
       if (whites.indexOf(name) !== -1) {
         if (value) {
@@ -138,7 +149,7 @@ exports = module.exports = function (html, options) {
         }
         _attrs.push(name + (value ? '="' + value + '"' : ''));
       }
-    }
+    };
     for (var i = 0, len = attrs.length; i < len; i++) {
       var c = attrs[i];
       if (tmpName === false && c === '=') {
@@ -180,6 +191,7 @@ exports = module.exports = function (html, options) {
         addAttr(tmpName, attrs.slice(lastPos));
       }
     }
+    if (hasSprit) _attrs.push('/');
     return _attrs.join(' ');
   };
 
@@ -208,7 +220,12 @@ exports = module.exports = function (html, options) {
       }
     } else {
       // 过滤不合法的标签
-      var tagHtml = onIgnoreTag(tagName, tag);
+      var options = {
+        isClosing:        (spos === 2),
+        position:         rethtml.length,
+        originalPosition: currentPos - tag.length + 1
+      };
+      var tagHtml = onIgnoreTag(tagName, tag, options);
       if (typeof(tagHtml) === 'undefined') {
         tagHtml = noTag(tag);
       }
@@ -217,23 +234,23 @@ exports = module.exports = function (html, options) {
   };
 
   // 逐个分析字符
-  for (var i = 0, len = html.length; i < len; i++) {
-    var c = html[i];
+  for (var currentPos = 0, len = html.length; currentPos < len; currentPos++) {
+    var c = html[currentPos];
     if (tagStart === false) {
       if (c === '<') {
-        tagStart = i;
+        tagStart = currentPos;
         continue;
       }
     } else {
       if (quoteStart === false) {
         if (c === '<') {
-          rethtml += noTag(html.slice(lastPos, i));
-          tagStart = i;
-          lastPos = i;
+          rethtml += noTag(html.slice(lastPos, currentPos));
+          tagStart = currentPos;
+          lastPos = currentPos;
           continue;
         }
         if (c === '>') {
-          addNewTag(html.slice(tagStart, i + 1), i);
+          addNewTag(html.slice(tagStart, currentPos + 1), currentPos);
           tagStart = false;
           continue;
         }

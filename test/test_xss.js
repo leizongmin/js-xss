@@ -49,6 +49,11 @@ describe('test XSS', function () {
     assert.equal(xss('<a href=abc("d")>'), '<a href="abc(&quote;d&quote;)">');
     assert.equal(xss('<a href=abc(\'d\')>'), '<a href="abc(\'d\')">');
 
+    // 单个闭合标签
+    assert.equal(xss('<img src="#"/>'), '<img src="#" />');
+    assert.equal(xss('<img src="#" />'), '<img src="#" />');
+    assert.equal(xss('<img src="#"//>'), '<img src="#">');
+
   });
 
   // 自定义白名单
@@ -80,17 +85,63 @@ describe('test XSS', function () {
   // 自定义处理不在白名单中的标签
   it('#process ignore tag', function () {
 
+    // 过滤标签
     assert.equal(xss('<ooxx xxyy>ookk</ooxx><img>', {
       onIgnoreTag: function (tag, html) {
         return '';
       }
     }), 'ookk<img>');
-
     assert.equal(xss('<ooxx xxyy>ookk</ooxx><img>', {
       onIgnoreTag: function (tag, html) {
         return '[removed]';
       }
     }), '[removed]ookk[removed]<img>');
+
+    // 检验附加属性
+    var isClosing = [];
+    var position = [];
+    var originalPosition = [];
+    var html = xss('TTG:<ooxx href="ooy" >ds</ooxx>--ds  d<yy hh uu>', {
+      onIgnoreTag: function (tag, html, options) {
+        isClosing.push(options.isClosing);
+        position.push(options.position);
+        originalPosition.push(options.originalPosition);
+      }
+    });
+    //console.log(html);
+    assert.deepEqual(isClosing, [false, true, false]);
+    assert.deepEqual(position, [4, 30, 50]);
+    assert.deepEqual(originalPosition, [4, 24, 38]);
+
+    // 替换检验
+    var hidden = [];
+    var posStart = false;
+    var html = xss('<b >script is <script t="d">alert("xss"); ooxx()</script>, wahaha!!</b>', {
+      onIgnoreTag: function (tag, html, options) {
+        if (tag === 'script') {
+          var ret = '[removed]';
+          if (posStart !== false && options.isClosing) {
+            var end = options.position + ret.length;
+            hidden.push([posStart, end]);
+            posStart = false;
+          } else {
+            posStart = options.position;
+          }
+          return ret;
+        }
+      }
+    });
+    var rethtml = '';
+    var lastPos = 0;
+    hidden.forEach(function (pos) {
+      rethtml += html.slice(lastPos, pos[0]);
+      lastPos = pos[1];
+    });
+    rethtml += html.slice(lastPos);
+    //console.log(hidden);
+    //console.log(html);
+    //console.log(rethtml);
+    assert.equal(rethtml, '<b>script is , wahaha!!</b>');
 
   });
 
