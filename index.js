@@ -33,8 +33,9 @@ var defaultWhiteList = {
   tbody:  ['style', 'class'],
   ul:     ['style', 'class'],
   li:     ['style', 'class'],
-  em:     ['style'],    //added by jim
-  cite:   ['style']     //added by jim
+  em:     ['style'],
+  cite:   ['style'],
+  section:['style', 'class'],
 };
 
 /**

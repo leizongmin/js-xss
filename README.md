@@ -33,22 +33,42 @@ console.log(html);
 ```javascript
 // 添加或更新白名单中的标签 标签名（小写） = ['允许的属性列表（小写）']
 xss.whiteList['p'] = ['class', 'style'];
+// 删除默认的白名单标签
+delete xss.whiteList['div'];
 
 // 自定义处理属性值函数
 xss.onTagAttr = function (tag, attr, vaule) {
-	// tag：当前标签名（小写）
-	// attr：当前属性名（小写）
-	// value：当前属性值
-	// 返回新的属性值，如果想使用默认的处理方式，不返回任何值即可
-	// 比如把属性值中的双引号替换为&amp;quote;：return value.replace(/"/g, '&amp;quote;');
+  // tag：当前标签名（小写）
+  // attr：当前属性名（小写）
+  // value：当前属性值
+  // 返回新的属性值，如果想使用默认的处理方式，不返回任何值即可
+  // 比如把属性值中的双引号替换为&amp;quote;：return value.replace(/"/g, '&amp;quote;');
+  // 以下为默认的处理代码：
+  if (attr === 'href' || attr === 'src') {
+    if (/\/\*|\*\//mg.test(value)) {
+      return '#';
+    }
+    if (/^[\s"'`]*((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig.test(value)) {
+      return '#';
+    }
+  } else if (attr === 'style') {
+    if (/\/\*|\*\//mg.test(value)) {
+      return '#';
+    }
+    if (/((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig.test(value)) {
+      return '';
+    }
+  }
 };
 
 // 自定义处理不在白名单中的标签
 xss.onIgnoreTag = function (tag, html) {
-	// tag：当前标签名（小写），如：a
-	// html：当前标签的HTML代码，如：<a href="ooxx">
-	// 返回新的标签HTML代码，如果想使用默认的处理方式，不返回任何值即可
-	// 比如将标签替换为[removed]：return '[removed]';
+  // tag：当前标签名（小写），如：a
+  // html：当前标签的HTML代码，如：<a href="ooxx">
+  // 返回新的标签HTML代码，如果想使用默认的处理方式，不返回任何值即可
+  // 比如将标签替换为[removed]：return '[removed]';
+  // 以下为默认的处理代码：
+  return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 ```
 
@@ -56,9 +76,9 @@ xss.onIgnoreTag = function (tag, html) {
 
 ```javascript
 var options = {
-	whiteList: 	 {},				// 若不指定则使用默认配置，可参考xss.whiteList
-	onTagAttr: 	 function () {},	// 若不指定则使用默认配置，可参考xss.onTagAttr
-	onIgnoreTag: function () {}		// 若不指定则使用默认配置，可参考xss.onIgnoreTag
+  whiteList:   {},        // 若不指定则使用默认配置，可参考xss.whiteList
+  onTagAttr:   function () {},  // 若不指定则使用默认配置，可参考xss.onTagAttr
+  onIgnoreTag: function () {}   // 若不指定则使用默认配置，可参考xss.onIgnoreTag
 };
 var html = xss('<script>alert("xss");</script>', options);
 console.log(html);
