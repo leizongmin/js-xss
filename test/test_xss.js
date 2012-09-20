@@ -113,35 +113,18 @@ describe('test XSS', function () {
     assert.deepEqual(position, [4, 30, 50]);
     assert.deepEqual(originalPosition, [4, 24, 38]);
 
-    // 替换检验
-    var hidden = [];
-    var posStart = false;
+    // 替换检验 utils.tagFilter()
+    var filter = xss.utils.tagFilter(['script']);
     var html = xss('<b >script is <script t="d">alert("xss"); ooxx()</script>, wahaha!!</b>', {
-      onIgnoreTag: function (tag, html, options) {
-        if (tag === 'script') {
-          var ret = '[removed]';
-          if (posStart !== false && options.isClosing) {
-            var end = options.position + ret.length;
-            hidden.push([posStart, end]);
-            posStart = false;
-          } else {
-            posStart = options.position;
-          }
-          return ret;
-        }
-      }
+      onIgnoreTag:  filter.onIgnoreTag
     });
-    var rethtml = '';
-    var lastPos = 0;
-    hidden.forEach(function (pos) {
-      rethtml += html.slice(lastPos, pos[0]);
-      lastPos = pos[1];
+    assert.equal(filter.filter(html), '<b>script is , wahaha!!</b>');
+
+    var filter = xss.utils.tagFilter(['x2']);
+    var html = xss('<x1></b><x2>dds</x2><x3>fd</x3>', {
+      onIgnoreTag:  filter.onIgnoreTag
     });
-    rethtml += html.slice(lastPos);
-    //console.log(hidden);
-    //console.log(html);
-    //console.log(rethtml);
-    assert.equal(rethtml, '<b>script is , wahaha!!</b>');
+    assert.equal(filter.filter(html), '&lt;x1&gt;</b>&lt;x3&gt;fd&lt;/x3&gt;');
 
   });
 

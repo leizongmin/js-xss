@@ -84,6 +84,8 @@ var html = xss('<script>alert("xss");</script>', options);
 console.log(html);
 ```
 
+## 其他应用
+
 
 ## 测试
 

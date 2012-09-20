@@ -276,3 +276,6 @@ exports = module.exports = function (html, options) {
 exports.whiteList = defaultWhiteList;
 exports.onTagAttr = defaultOnTagAttr;
 exports.onIgnoreTag = defaultOnIgnoreTag;
+
+// 工具函数
+exports.utils = require('./utils');
