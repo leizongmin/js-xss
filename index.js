@@ -36,6 +36,7 @@ var defaultWhiteList = {
   em:     ['style'],
   cite:   ['style'],
   section:['style', 'class'],
+  blockquote: ['style', 'class'],
 };
 
 /**
