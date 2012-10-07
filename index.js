@@ -33,6 +33,7 @@ var defaultWhiteList = {
   tbody:  ['style', 'class'],
   ul:     ['style', 'class'],
   li:     ['style', 'class'],
+  ol:     ['style', 'class'],
   em:     ['style'],
   cite:   ['style'],
   section:['style', 'class'],
