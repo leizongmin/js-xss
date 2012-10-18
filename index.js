@@ -14,6 +14,7 @@ var defaultWhiteList = {
   h3:     ['style', 'class'],
   h4:     ['style', 'class'],
   h5:     ['style', 'class'],
+  h6:     ['style', 'class'],
   hr:     ['style', 'class'],
   span:   ['style', 'class'],
   strong: ['style', 'class'],
@@ -34,10 +35,16 @@ var defaultWhiteList = {
   ul:     ['style', 'class'],
   li:     ['style', 'class'],
   ol:     ['style', 'class'],
+  dl:     ['style', 'class'],
+  dt:     ['style', 'class'],
   em:     ['style'],
   cite:   ['style'],
   section:['style', 'class'],
+  header: ['style', 'class'],
+  footer: ['style', 'class'],
   blockquote: ['style', 'class'],
+  audio:  ['autoplay', 'controls', 'loop', 'preload', 'src'],
+  video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
 };
 
 /**
