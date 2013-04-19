@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+  <title>测试</title>
+  <meta charset="utf8">
+</head>
+<body>
+
+</body>
+</html>
+<script src="xss.js"></script>
+<script>
+var code = '<script>alert("xss");</' + 'script>';
+alert(code + '\n被转换成了\n' + filterXSS(code));
+</script>

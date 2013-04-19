@@ -288,3 +288,8 @@ exports.onIgnoreTag = defaultOnIgnoreTag;
 
 // 工具函数
 exports.utils = require('./utils');
+
+// 在浏览器端使用
+if (typeof window !== 'undefined') {
+  window.filterXSS = module.exports;
+}
