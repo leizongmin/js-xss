@@ -84,6 +84,18 @@ var html = xss('<script>alert("xss");</script>', options);
 console.log(html);
 ```
 
+### 在浏览器端使用
+
+```
+<script src="https://raw.github.com/leizongmin/js-xss/master/build/xss.js"></script>
+<script>
+// 使用函数名 filterXSS，用法一样
+var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
+alert(html);
+</script>
+```
+
+
 ## 其他应用
 
 
