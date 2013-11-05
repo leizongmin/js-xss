@@ -1,7 +1,7 @@
 {
   "name":           "xss",
   "main":           "./lib/index.js",
-  "version":        "0.0.6",
+  "version":        "0.0.7",
   "description":    "XSS攻击代码过滤 Remove XSS attack vectors from user-supplied HTML",
   "author":         "leizongmin <leizongmin@gmail.com> (http://ucdok.com)",
   "repository": {
