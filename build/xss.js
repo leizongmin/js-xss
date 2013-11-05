@@ -25,13 +25,14 @@ var defaultWhiteList = {
   pre:    [],
   code:   [],
   a:      ['target', 'href', 'title'],
-  img:    ['src', 'alt', 'title'],
+  img:    ['src', 'alt', 'title', 'width', 'height'],
   div:    [],
   table:  ['width', 'border'],
-  tr:     [],
+  tr:     ['rowspan'],
   td:     ['width', 'colspan'],
   th:     ['width', 'colspan'],
   tbody:  [],
+  thead:  [],
   ul:     [],
   li:     [],
   ol:     [],
@@ -44,7 +45,7 @@ var defaultWhiteList = {
   footer: [],
   blockquote: [],
   audio:  ['autoplay', 'controls', 'loop', 'preload', 'src'],
-  video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width'],
+  video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width']
 };
 
 // 正则表达式
@@ -120,7 +121,7 @@ function noTag (text) {
  *
  */
 function replaceUnicode (str, code) {
-  return String.fromCharCode(parseInt(code));
+  return String.fromCharCode(parseInt(code,10));
 }
 
 /**
@@ -160,7 +161,7 @@ FilterXSS.prototype.filterAttributes = function (tagName, attrs) {
     if (!hasSprit && name === '/') {
       hasSprit = true;
       return;
-    };
+    }
     name = name.replace(REGEXP_ATTR_NAME, '').toLowerCase();
     if (name.length < 1) return;
     if (whites.indexOf(name) !== -1) {
@@ -170,7 +171,7 @@ FilterXSS.prototype.filterAttributes = function (tagName, attrs) {
         value = value.replace(REGEXP_ATTR_VALUE, replaceUnicode);
         var _value = '';
         for (var i = 0, len = value.length; i < len; i++) {
-          _value += value.charCodeAt(i) < 32 ? ' ' : value[i];
+          _value += value.charCodeAt(i) < 32 ? ' ' : value.charAt(i);
         }
         value = _value.trim();
         var newValue = me.onTagAttr(tagName, name, value);
@@ -183,7 +184,7 @@ FilterXSS.prototype.filterAttributes = function (tagName, attrs) {
   };
 
   for (var i = 0, len = attrs.length; i < len; i++) {
-    var c = attrs[i];
+    var c = attrs.charAt(i),v;
     if (tmpName === false && c === '=') {
       tmpName = attrs.slice(lastPos, i);
       lastPos = i + 1;
@@ -195,7 +196,7 @@ FilterXSS.prototype.filterAttributes = function (tagName, attrs) {
         if (j === -1) {
           break;
         } else {
-          var v = attrs.slice(lastPos + 1, j).trim();
+          v = attrs.slice(lastPos + 1, j).trim();
           addAttr(tmpName, v);
           tmpName = false;
           i = j;
@@ -205,7 +206,7 @@ FilterXSS.prototype.filterAttributes = function (tagName, attrs) {
       }
     }
     if (c === ' ') {
-      var v = attrs.slice(lastPos, i).trim();
+      v = attrs.slice(lastPos, i).trim();
       if (tmpName === false) {
         addAttr(v);
       } else {
@@ -225,7 +226,7 @@ FilterXSS.prototype.filterAttributes = function (tagName, attrs) {
     }
   }
   if (hasSprit) _attrs += '/';
-  
+
   return _attrs.trim();
 };
 
@@ -240,19 +241,30 @@ FilterXSS.prototype.addNewTag = function (tag, currentPos, targetPos) {
   'use strict';
 
   var rethtml = '';
+  var tagName;
+  var hasSprit;
   var spos = tag.slice(0, 2) === '</' ? 2 : 1;
-    
+
   var i = tag.indexOf(' ');
   if (i === -1) {
-    var tagName = tag.slice(spos, tag.length - 1).trim();
+    tagName = tag.slice(spos, tag.length - 1).trim();
   } else {
-    var tagName = tag.slice(spos, i + 1).trim();
+    tagName = tag.slice(spos, i + 1).trim();
   }
   tagName = tagName.toLowerCase();
+
+  // 检查标签是否以“/”结尾
+  if (tagName.slice(-1) === '/') {
+    tagName = tagName.slice(0, -1);
+    hasSprit = true;
+  } else {
+    hasSprit = false;
+  }
+
   if (tagName in this.whiteList) {
     // 过滤不合法的属性
     if (i === -1) {
-      rethtml += tag.slice(0, spos) + tagName + '>';
+      rethtml += tag.slice(0, spos) + tagName + (hasSprit ? ' />' : '>');
     } else {
       var attrs = this.filterAttributes(tagName, tag.slice(i + 1, tag.length - 1).trim());
       rethtml += tag.slice(0, spos) + tagName + (attrs.length > 0 ? ' ' + attrs : '') + '>';
@@ -288,10 +300,11 @@ FilterXSS.prototype.process = function (html) {
   var tagStart = false;
   var quoteStart = false;
   var currentPos = 0;
+  var len = 0;
 
   // 逐个分析字符
-  for (var currentPos = 0, len = html.length; currentPos < len; currentPos++) {
-    var c = html[currentPos];
+  for (currentPos = 0, len = html.length; currentPos < len; currentPos++) {
+    var c = html.charAt(currentPos);
     if (tagStart === false) {
       if (c === '<') {
         tagStart = currentPos;
@@ -341,7 +354,7 @@ FilterXSS.prototype.process = function (html) {
 function filterXSS (html, options) {
   var xss = new FilterXSS(options);
   return xss.process(html);
-};
+}
 
 // 默认配置
 exports = module.exports = filterXSS;
@@ -355,6 +368,24 @@ exports.utils = require('./utils');
 
 // 在浏览器端使用
 if (typeof window !== 'undefined') {
+  if(!Array.indexOf){
+    Array.prototype.indexOf = function(item){
+        for(var i=0;i<this.length;i++){
+            if(this[i] == item) return i;
+        }
+        return -1;
+    };
+  }
+  if(!Array.forEach){
+    Array.prototype.forEach = function(fn){
+       for(var i=0;i<this.length;i++) fn(this[i],i,this);
+    };
+  }
+  if(!String.trim){
+    String.prototype.trim = function(){
+        return this.replace(/(^\s*)|(\s*$)/g,"");
+    };
+  }
   window.filterXSS = module.exports;
 }
 
