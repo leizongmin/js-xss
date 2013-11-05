@@ -27,7 +27,7 @@ describe('test XSS', function () {
     assert.equal(xss('<<a>b>'), '&lt;<a>b&gt;');
     assert.equal(xss('<<<a>>b</a><x>'), '&lt;&lt;<a>&gt;b</a>&lt;x&gt;');
 
-    // 过滤不再白名单中的属性
+    // 过滤不在白名单中的属性
     assert.equal(xss('<a oo="1" xx="2" href="3">yy</a>'), '<a href="3">yy</a>');
     assert.equal(xss('<a href xx oo>pp</a>'), '<a href>pp</a>');
     assert.equal(xss('<a href "">pp</a>'), '<a href>pp</a>');
@@ -52,6 +52,8 @@ describe('test XSS', function () {
     assert.equal(xss('<img src="#"/>'), '<img src="#" />');
     assert.equal(xss('<img src="#" />'), '<img src="#" />');
     assert.equal(xss('<img src="#"//>'), '<img src="#">');
+    assert.equal(xss('<br/>'), '<br />');
+    assert.equal(xss('<br />'), '<br />');
 
   });
 
