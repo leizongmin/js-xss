@@ -3,6 +3,8 @@
 过滤XSS攻击
 ======
 
+![xss](https://nodei.co/npm/xss.png?downloads=true&stars=true)
+
 ## 安装
 
 **npm install xss**
