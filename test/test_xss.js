@@ -209,6 +209,11 @@ describe('test XSS', function () {
     assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]-->'),
         '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt;');
 
+    // HTML5新增实体编码 冒号&colon; 换行&NewLine;
+    assert.equal(xss('<a href="javascript&colon;alert(/xss/)">'), '<a href="#">');
+    assert.equal(xss('<a href="javascript&colonalert(/xss/)">'), '<a href="#">');
+    assert.equal(xss('<a href="a&NewLine;b">'), '<a href="a b">');
+    assert.equal(xss('<a href="a&NewLineb">'), '<a href="a b">');
   });
 
 });
