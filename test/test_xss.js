@@ -203,6 +203,9 @@ describe('test XSS', function () {
 
     assert.equal(xss('<a href="javas/**/cript:alert(\'XSS\');">'), '<a href="#">');
 
+    assert.equal(xss('<a href="javascript">'), '<a href="javascript">');
+    assert.equal(xss('<a href="/javascript/a">'), '<a href="/javascript/a">');
+
     // 这个暂时不知道怎么处理
     //assert.equal(xss('¼script¾alert(¢XSS¢)¼/script¾'), '');
 
