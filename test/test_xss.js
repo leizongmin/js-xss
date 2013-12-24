@@ -214,6 +214,7 @@ describe('test XSS', function () {
     assert.equal(xss('<a href="javascript&colonalert(/xss/)">'), '<a href="#">');
     assert.equal(xss('<a href="a&NewLine;b">'), '<a href="a b">');
     assert.equal(xss('<a href="a&NewLineb">'), '<a href="a b">');
+    assert.equal(xss('<a href="javasc&NewLine;ript&colon;alert(1)">'), '<a href="#">');
   });
 
 });
