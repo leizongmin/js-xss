@@ -218,6 +218,17 @@ describe('test XSS', function () {
     assert.equal(xss('<a href="a&NewLine;b">'), '<a href="a b">');
     assert.equal(xss('<a href="a&NewLineb">'), '<a href="a b">');
     assert.equal(xss('<a href="javasc&NewLine;ript&colon;alert(1)">'), '<a href="#">');
+
+    // data URI 协议过滤，只允许 data: image/*
+    assert.equal(xss('<a href="data:">'), '<a href="#">');
+    assert.equal(xss('<a href="d a t a : ">'), '<a href="#">');
+    assert.equal(xss('<a href="data: html/text;">'), '<a href="#">');
+    assert.equal(xss('<a href="data:html/text;">'), '<a href="#">');
+    assert.equal(xss('<a href="data:html /text;">'), '<a href="#">');
+    assert.equal(xss('<a href="data: image/text;">'), '<a href="data: image/text;">');
+    assert.equal(xss('<img src="data: aaa/text;">'), '<img src="#">');
+    assert.equal(xss('<img src="data:image/png; base64; ofdkofiodiofl">'), '<img src="data:image/png; base64; ofdkofiodiofl">');
+
   });
 
 });
