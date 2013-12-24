@@ -1,4 +1,5 @@
-;(function(e,t,n,r){function i(r){if(!n[r]){if(!t[r]){if(e)return e(r);throw new Error("Cannot find module '"+r+"'")}var s=n[r]={exports:{}};t[r][0](function(e){var n=t[r][1][e];return i(n?n:e)},s,s.exports)}return n[r].exports}for(var s=0;s<r.length;s++)i(r[s]);return i})(typeof require!=="undefined"&&require,{1:[function(require,module,exports){(function(){/**
+;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/**
  * 过滤XSS攻击
  *
  * @author 老雷<leizongmin@gmail.com>
@@ -53,11 +54,15 @@ var REGEXP_LT = /</g;
 var REGEXP_GT = />/g;
 var REGEXP_QUOTE = /"/g;
 var REGEXP_ATTR_NAME = /[^a-zA-Z0-9_:\.\-]/img;
-var REGEXP_ATTR_VALUE = /&#([a-zA-Z0-9]*);?/img;
+var REGEXP_ATTR_VALUE_1 = /&#([a-zA-Z0-9]*);?/img;
+var REGEXP_ATTR_VALUE_COLON = /&colon;?/img;
+var REGEXP_ATTR_VALUE_NEWLINE = /&newline;?/img;
 var REGEXP_DEFAULT_ON_TAG_ATTR_1 = /\/\*|\*\//mg;
-var REGEXP_DEFAULT_ON_TAG_ATTR_2 = /^[\s"'`]*((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig;
+var REGEXP_DEFAULT_ON_TAG_ATTR_2 = /^[\s"'`]*((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a)\:/ig;
 var REGEXP_DEFAULT_ON_TAG_ATTR_3 = /\/\*|\*\//mg;
-var REGEXP_DEFAULT_ON_TAG_ATTR_4 = /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig;
+var REGEXP_DEFAULT_ON_TAG_ATTR_4 = /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a)\:/ig;
+var REGEXP_DEFAULT_ON_TAG_ATTR_5 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:/ig;
+var REGEXP_DEFAULT_ON_TAG_ATTR_6 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:\s*image\//ig;
 
 
 /**
@@ -70,19 +75,34 @@ var REGEXP_DEFAULT_ON_TAG_ATTR_4 = /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c
  */
 function defaultOnTagAttr (tag, attr, value) {
   if (attr === 'href' || attr === 'src') {
+    // 过滤 href 和 src 属性
+    // javascript:
     REGEXP_DEFAULT_ON_TAG_ATTR_1.lastIndex = 0;
     if (REGEXP_DEFAULT_ON_TAG_ATTR_1.test(value)) {
       return '#';
     }
+    // /*注释*/
     REGEXP_DEFAULT_ON_TAG_ATTR_2.lastIndex = 0;
     if (REGEXP_DEFAULT_ON_TAG_ATTR_2.test(value)) {
       return '#';
     }
+    // data:
+    REGEXP_DEFAULT_ON_TAG_ATTR_5.lastIndex = 0;
+    if (REGEXP_DEFAULT_ON_TAG_ATTR_5.test(value)) {
+      // 允许 data: image/* 类型
+      REGEXP_DEFAULT_ON_TAG_ATTR_6.lastIndex = 0;
+      if (!REGEXP_DEFAULT_ON_TAG_ATTR_6.test(value)) {
+        return '#';
+      }
+    }
   } else if (attr === 'style') {
+    // 过滤 style 属性 （这个xss漏洞较老了，可能已经不适用）
+    // javascript:
     REGEXP_DEFAULT_ON_TAG_ATTR_3.lastIndex = 0;
     if (REGEXP_DEFAULT_ON_TAG_ATTR_3.test(value)) {
       return '#';
     }
+    // /*注释*/
     REGEXP_DEFAULT_ON_TAG_ATTR_4.lastIndex = 0;
     if (REGEXP_DEFAULT_ON_TAG_ATTR_4.test(value)) {
       return '';
@@ -117,11 +137,77 @@ function noTag (text) {
 }
 
 /**
- * 过滤unicode字符（与REGEXP_ATTR_VALUE配合使用）
+ * 清除不可见字符
  *
+ * @param {String} str
+ * @return {String}
  */
-function replaceUnicode (str, code) {
-  return String.fromCharCode(parseInt(code,10));
+function clearNonPrintableCharacter (str) {
+  var str2 = '';
+  for (var i = 0, len = str.length; i < len; i++) {
+    str2 += str.charCodeAt(i) < 32 ? ' ' : str.charAt(i);
+  }
+  return str2.trim();
+}
+
+/**
+ * 对双引号进行转义
+ *
+ * @param {String} str
+ * @return {String} str
+ */
+function escapeQuotes (str) {
+  return str.replace(REGEXP_QUOTE, '&quote;');
+}
+
+/**
+ * 对html实体编码进行转义
+ *
+ * @param {String} str
+ * @return {String}
+ */
+function escapeHtmlEntities (str) {
+  return str.replace(REGEXP_ATTR_VALUE_1, function replaceUnicode (str, code) {
+    return (code[0] === 'x' || code[0] === 'X')
+            ? String.fromCharCode(parseInt(code.substr(1), 16))
+            : String.fromCharCode(parseInt(code, 10));
+  });
+}
+
+/**
+ * 对html5新增的危险实体编码进行转义
+ *
+ * @param {String} str
+ * @return {String}
+ */
+function escapeDangerHtml5Entities (str) {
+  return str.replace(REGEXP_ATTR_VALUE_COLON, ':')
+            .replace(REGEXP_ATTR_VALUE_NEWLINE, ' ');
+}
+
+/**
+ * 对属性值进行转义
+ *
+ * @param {String} str
+ * @return {String}
+ */
+function safeAttrValue (str) {
+  // 去掉两边的空白字符
+  str = str.trim();
+
+  // 过滤双引号
+  str = escapeQuotes(str);
+
+  // 转换HTML实体编码
+  str = escapeHtmlEntities(str);
+
+  // 转换危险的HTML5新增实体编码
+  str = escapeDangerHtml5Entities(str);
+
+  // 清除不可见字符
+  str = clearNonPrintableCharacter(str);
+
+  return str;
 }
 
 /**
@@ -166,14 +252,9 @@ FilterXSS.prototype.filterAttributes = function (tagName, attrs) {
     if (name.length < 1) return;
     if (whites.indexOf(name) !== -1) {
       if (value) {
-        value = value.trim().replace(REGEXP_QUOTE, '&quote;');
-        // 转换unicode字符 及过滤不可见字符
-        value = value.replace(REGEXP_ATTR_VALUE, replaceUnicode);
-        var _value = '';
-        for (var i = 0, len = value.length; i < len; i++) {
-          _value += value.charCodeAt(i) < 32 ? ' ' : value.charAt(i);
-        }
-        value = _value.trim();
+        // 先对属性值进行转义
+        value = safeAttrValue(value);
+        // 使用用户自定义的 onTagAttr 再过滤
         var newValue = me.onTagAttr(tagName, name, value);
         if (typeof newValue !== 'undefined') {
           value = newValue;
@@ -389,8 +470,8 @@ if (typeof window !== 'undefined') {
   window.filterXSS = module.exports;
 }
 
-})()
-},{"./utils":2}],2:[function(require,module,exports){/**
+},{"./utils":2}],2:[function(require,module,exports){
+/**
  * 工具函数
  *
  * @author 老雷<leizongmin@gmail.com>
@@ -440,4 +521,5 @@ utils.tagFilter = function (tags, next) {
 };
 
 
-},{}]},{},[1]);
+},{}]},{},[1])
+;
