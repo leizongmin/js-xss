@@ -3,6 +3,18 @@
 过滤XSS攻击
 ======
 
+![xss](https://nodei.co/npm/xss.png?downloads=true&stars=true)
+
+
+## 参考资料
+
++ [XSS与字符编码的那些事儿 ---科普文](http://drops.wooyun.org/tips/689)
++ [腾讯实例教程：那些年我们一起学XSS](http://www.wooyun.org/whitehats/%E5%BF%83%E4%BC%A4%E7%9A%84%E7%98%A6%E5%AD%90)
++ [XSS Filter Evasion Cheat Sheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
++ [Data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)
++ [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
+
+
 ## 安装
 
 **npm install xss**
@@ -122,7 +134,7 @@ alert(html);
 基于MIT协议发布：
 
 ```
-Copyright (c) 2012-2013 Lei Zongmin(雷宗民) <leizongmin@gmail.com>
+Copyright (c) 2012-2014 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
 http://ucdok.com
 
 The MIT License

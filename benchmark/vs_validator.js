@@ -10,7 +10,7 @@ var html = fs.readFileSync(__dirname + '/file.html', 'utf8');
 
 
 var timeStart = Date.now();
-for (var i = 0; i < 100; i++) {
+for (var i = 0; i < 200; i++) {
   var ret = sanitize(html).xss();
 }
 var timeEnd = Date.now();

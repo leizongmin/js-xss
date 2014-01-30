@@ -27,7 +27,7 @@ describe('test XSS', function () {
     assert.equal(xss('<<a>b>'), '&lt;<a>b&gt;');
     assert.equal(xss('<<<a>>b</a><x>'), '&lt;&lt;<a>&gt;b</a>&lt;x&gt;');
 
-    // 过滤不再白名单中的属性
+    // 过滤不在白名单中的属性
     assert.equal(xss('<a oo="1" xx="2" href="3">yy</a>'), '<a href="3">yy</a>');
     assert.equal(xss('<a href xx oo>pp</a>'), '<a href>pp</a>');
     assert.equal(xss('<a href "">pp</a>'), '<a href>pp</a>');
@@ -52,6 +52,8 @@ describe('test XSS', function () {
     assert.equal(xss('<img src="#"/>'), '<img src="#" />');
     assert.equal(xss('<img src="#" />'), '<img src="#" />');
     assert.equal(xss('<img src="#"//>'), '<img src="#">');
+    assert.equal(xss('<br/>'), '<br />');
+    assert.equal(xss('<br />'), '<br />');
 
   });
 
@@ -154,11 +156,11 @@ describe('test XSS', function () {
     assert.equal(xss('<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>'),
         '<img src="#">');
 
-    //assert.equal(xss('<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>'),
-    //    '<img src="F   M LEJN   ALN      !">');
+    assert.equal(xss('<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>'),
+        '<img src="#">');
 
     assert.equal(xss('<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>'),
-        '<img src>');
+        '<img src="#">');
 
     assert.equal(xss('<IMG SRC="jav ascript:alert(\'XSS\');">'), '<img src="#">');
 
@@ -201,11 +203,31 @@ describe('test XSS', function () {
 
     assert.equal(xss('<a href="javas/**/cript:alert(\'XSS\');">'), '<a href="#">');
 
+    assert.equal(xss('<a href="javascript">'), '<a href="javascript">');
+    assert.equal(xss('<a href="/javascript/a">'), '<a href="/javascript/a">');
+
     // 这个暂时不知道怎么处理
     //assert.equal(xss('¼script¾alert(¢XSS¢)¼/script¾'), '');
 
     assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]-->'),
         '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt;');
+
+    // HTML5新增实体编码 冒号&colon; 换行&NewLine;
+    assert.equal(xss('<a href="javascript&colon;alert(/xss/)">'), '<a href="#">');
+    assert.equal(xss('<a href="javascript&colonalert(/xss/)">'), '<a href="#">');
+    assert.equal(xss('<a href="a&NewLine;b">'), '<a href="a b">');
+    assert.equal(xss('<a href="a&NewLineb">'), '<a href="a b">');
+    assert.equal(xss('<a href="javasc&NewLine;ript&colon;alert(1)">'), '<a href="#">');
+
+    // data URI 协议过滤，只允许 data: image/*
+    assert.equal(xss('<a href="data:">'), '<a href="#">');
+    assert.equal(xss('<a href="d a t a : ">'), '<a href="#">');
+    assert.equal(xss('<a href="data: html/text;">'), '<a href="#">');
+    assert.equal(xss('<a href="data:html/text;">'), '<a href="#">');
+    assert.equal(xss('<a href="data:html /text;">'), '<a href="#">');
+    assert.equal(xss('<a href="data: image/text;">'), '<a href="data: image/text;">');
+    assert.equal(xss('<img src="data: aaa/text;">'), '<img src="#">');
+    assert.equal(xss('<img src="data:image/png; base64; ofdkofiodiofl">'), '<img src="data:image/png; base64; ofdkofiodiofl">');
 
   });
 
