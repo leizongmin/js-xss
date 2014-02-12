@@ -1,9 +1,18 @@
 [![Build Status](https://secure.travis-ci.org/leizongmin/js-xss.png?branch=master)](http://travis-ci.org/leizongmin/js-xss)
 
-过滤XSS攻击
+XSS代码过滤
 ======
 
 ![xss](https://nodei.co/npm/xss.png?downloads=true&stars=true)
+
+**注意：0.1.x版本与0.0.x版本在自定义配置（除白名单配置外）格式上有较大改动，如果
+要使用新版本，请详细阅读下文的使用说明**
+
+
+## 特性
+
++ 白名单控制允许的HTML标签及各标签的属性
++ 通过自定义处理函数，可对任意标签及其属性进行处理
 
 
 ## 参考资料
@@ -15,90 +24,27 @@
 + [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
 
 
-## 安装
+## 使用
 
-**npm install xss**
+### 在Node.js中使用
 
+安装：
 
-## 原理
+```bash
+$ npm install xss
+```
 
-通过标签白名单及属性白名单来过滤HTML标签，同时对包含特殊字符的属性值进行处理。默认配置可过滤大多数的XSS攻击代码，可根据实际应用场景来定制白名单及过滤方法。
+简单使用方法：
 
-
-## 使用方法
-
-### 载入模块
-
-```javascript
+```JavaScript
 var xss = require('xss');
-```
-
-### 使用默认的配置
-
-```javascript
 var html = xss('<script>alert("xss");</script>');
-console.log(html);
-```
-
-### 修改默认配置
-
-```javascript
-// 添加或更新白名单中的标签 标签名（小写） = ['允许的属性列表（小写）']
-xss.whiteList['p'] = ['class', 'style'];
-// 删除默认的白名单标签
-delete xss.whiteList['div'];
-
-// 自定义处理属性值函数
-xss.onTagAttr = function (tag, attr, vaule) {
-  // tag：当前标签名（小写）
-  // attr：当前属性名（小写）
-  // value：当前属性值
-  // 返回新的属性值，如果想使用默认的处理方式，不返回任何值即可
-  // 比如把属性值中的双引号替换为&amp;quote;：return value.replace(/"/g, '&amp;quote;');
-  // 以下为默认的处理代码：
-  if (attr === 'href' || attr === 'src') {
-    if (/\/\*|\*\//mg.test(value)) {
-      return '#';
-    }
-    if (/^[\s"'`]*((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig.test(value)) {
-      return '#';
-    }
-  } else if (attr === 'style') {
-    if (/\/\*|\*\//mg.test(value)) {
-      return '#';
-    }
-    if (/((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/ig.test(value)) {
-      return '';
-    }
-  }
-};
-
-// 自定义处理不在白名单中的标签
-xss.onIgnoreTag = function (tag, html) {
-  // tag：当前标签名（小写），如：a
-  // html：当前标签的HTML代码，如：<a href="ooxx">
-  // 返回新的标签HTML代码，如果想使用默认的处理方式，不返回任何值即可
-  // 比如将标签替换为[removed]：return '[removed]';
-  // 以下为默认的处理代码：
-  return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-```
-
-### 使用临时配置
-
-```javascript
-var options = {
-  whiteList:   {},        // 若不指定则使用默认配置，可参考xss.whiteList
-  onTagAttr:   function () {},  // 若不指定则使用默认配置，可参考xss.onTagAttr
-  onIgnoreTag: function () {}   // 若不指定则使用默认配置，可参考xss.onIgnoreTag
-};
-var html = xss('<script>alert("xss");</script>', options);
 console.log(html);
 ```
 
 ### 在浏览器端使用
 
-```
+```HTML
 <script src="https://raw.github.com/leizongmin/js-xss/master/build/xss.js"></script>
 <script>
 // 使用函数名 filterXSS，用法一样
@@ -108,30 +54,136 @@ alert(html);
 ```
 
 
-## 其他应用
+## 自定义过滤规则
+
+在调用 `xss()` 函数进行过滤时，可通过第二个参数来设置自定义规则：
+
+```JavaScript
+options = {};  // 自定义规则
+html = xss('<script>alert("xss");</script>', options);
+```
+
+具体用法详见下文。
+
+### 白名单
+
+通过 `whiteList` 来指定，格式为：`{'标签名': ['属性1', '属性2']}`。不在白名单中
+的标签将被过滤，不在白名单中的属性也会被过滤。以下是示例：
+
+```JavaScript
+// 只允许a标签，该标签只允许href, title, target这三个属性
+var options = {
+  whiteList: {
+    a: ['href', 'title', 'target']
+  }
+};
+// 使用以上配置后，下面的HTML
+// <a href="#" onclick="hello()"><i>大家好</i></a>
+// 将被过滤为
+// <a href="#">大家好</a>
+```
+
+默认白名单参考 `xss.whiteList`。
+
+### 自定义匹配到标签时的处理方法
+
+通过 `onTag` 来指定相应的处理函数。以下是详细说明：
+
+```JavaScript
+function onTag (tag, html, options) {
+  // tag是当前的标签名称，比如<a>标签，则tag的值是'a'
+  // html是该标签的HTML，比如<a>标签，则html的值是'<a>'
+  // options是一些附加的信息，具体如下：
+  //   isWhite    boolean类型，表示该标签是否在白名单中
+  //   isClosing  boolean类型，表示该标签是否为闭合标签，比如</a>时为true
+  //   position        integer类型，表示当前标签在输出的结果中的起始位置
+  //   originPosition  integer类型，表示当前标签在原HTML中的起始位置
+  // 如果返回一个字符串，则当前标签将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法（通过onIgnoreTag指定，详见下文）
+}
+```
+
+### 自定义匹配到标签的属性时的处理方法
+
+通过 `onTagAttr` 来指定相应的处理函数。以下是详细说明：
+
+```JavaScript
+function onTagAttr (tag, name, value, options) {
+  // tag是当前的标签名称，比如<a>标签，则tag的值是'a'
+  // name是当前属性的名称，比如href="#"，则name的值是'href'
+  // value是当前属性的值，比如href="#"，则value的值是'#'
+  // options是一些附加的信息，与onTag相同
+  // 如果返回一个字符串，则当前属性值将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法（通过onIgnoreTagAttr指定，详见下文）
+}
+```
+
+### 自定义匹配到不在白名单中的标签时的处理方法
+
+通过 `onIgnoreTag` 来指定相应的处理函数。以下是详细说明：
+
+```JavaScript
+function onIgnoreTag (tag, html, options) {
+  // 参数说明与onTag相同
+  // 如果返回一个字符串，则当前标签将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法（通过escape指定，详见下文）
+}
+```
+
+### 自定义匹配到不在白名单中的属性时的处理方法
+
+通过 `onIgnoreTagAttr` 来指定相应的处理函数。以下是详细说明：
+
+```JavaScript
+function onIgnoreTagAttr (tag, name, value, options) {
+  // 参数说明与onTagAttr相同
+  // 如果返回一个字符串，则当前属性值将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法（去掉该属）
+}
+```
+
+### 自定义HTML转义函数
+
+通过 `escape` 来指定相应的处理函数。以下是默认代码 **（不建议修改）** ：
+
+```JavaScript
+function escape (html) {
+  return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+```
+
+### 自定义标签属性值的转义函数
+
+通过 `safeAttrValue` 来指定相应的处理函数。以下是详细说明：
+
+```JavaScript
+function safeAttrValue (tag, attr, value) {
+  // 参数说明与onTagAttr相同（没有options参数）
+  // 返回一个字符串表示该属性值
+}
+```
+
+### 快捷配置
+
+#### stripIgnoreTag
+
+是否去掉不在白名单只的标签：
+
++ `true`：（默认），去掉不在白名单中的标签
++ `false`：使用配置的`escape`函数对该标签进行转义
 
 
-## 测试
+## 应用实例
 
-### 单元测试
+### 去掉<script>标签及标签体内的JS代码
 
-在源码目录执行命令： **npm test**
+### 允许标签以data-开头的属性
 
-### 在线测试
-
-在源码目录执行命令： **node lib/cli.js** ，可在命令行中输入HTML代码，并看到过滤后的代码
+### 分析HTML代码中的图片列表
 
 
-## 性能
 
-解析速度为 **5.81MB/s** ，而另外一个 **validator** 模块的xss()函数速度仅为 **2.48MB/s** 。
-
-测试代码参考 **benchmark** 目录
-
-
-## 授权协议
-
-基于MIT协议发布：
+## MIT协议
 
 ```
 Copyright (c) 2012-2014 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
