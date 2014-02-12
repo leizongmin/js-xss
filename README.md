@@ -175,12 +175,23 @@ function safeAttrValue (tag, attr, value) {
 
 ## 应用实例
 
-### 去掉<script>标签及标签体内的JS代码
+### 去掉&lt;script&gt;标签及标签体内的JS代码
+
+```JavaScript
+// 待续
+```
 
 ### 允许标签以data-开头的属性
 
+```JavaScript
+// 待续
+```
+
 ### 分析HTML代码中的图片列表
 
+```JavaScript
+// 待续
+```
 
 
 ## MIT协议
