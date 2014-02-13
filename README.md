@@ -190,7 +190,7 @@ function safeAttrValue (tag, attr, value) {
 // 待续
 ```
 
-### 允许标签以x开头的标签
+### 允许名称以x开头的标签
 
 ```JavaScript
 // 待续
