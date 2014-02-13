@@ -214,6 +214,25 @@ describe('test custom XSS method', function () {
     assert.equal(html, '<a href="#" target="_blank" $checked$ $data-a$>hi</a>');
   });
 
+  it('#escapeHtml - default', function () {
+    var source = '<x>yy</x><a>bb</a>';
+    var html = xss(source);
+    console.log(html);
+    assert.equal(html, '&lt;x&gt;yy&lt;/x&gt;<a>bb</a>');
+  });
+
+  it('#escapeHtml - return new value', function () {
+    var source = '<x>yy</x><a>bb</a>';
+    assert.equal(xss(source), '&lt;x&gt;yy&lt;/x&gt;<a>bb</a>');
+    var html = xss(source, {
+      escapeHtml: function (str) {
+        return (str ? '[' + str + ']' : str);
+      }
+    });
+    console.log(html);
+    assert.equal(html, '[<x>][yy][</x>]<a>[bb]</a>');
+  });
+
 /*
   // 自定义过滤属性函数
   it('#process attribute value', function () {
