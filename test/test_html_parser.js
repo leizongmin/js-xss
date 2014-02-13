@@ -13,6 +13,14 @@ describe('test HTML parser', function () {
     return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
+  function attr (n, v) {
+    if (v) {
+      return n + '="' + v.replace(/"/g, '&quote;') + '"';
+    } else {
+      return n;
+    }
+  }
+
   it('#parseTag', function () {
     var i = 0;
     var html = parseTag('hello<A href="#">www</A>ccc<b>', function (originPosition, position, tag, html, isClosing) {
@@ -52,13 +60,6 @@ describe('test HTML parser', function () {
 
   it('#parseAttr', function () {
     var i = 0;
-    function attr (n, v) {
-      if (v) {
-        return n + '="' + v.replace(/"/g, '&quote;') + '"';
-      } else {
-        return n;
-      }
-    }
     var html = parseAttr('href="#"attr1=b attr2=c attr3 attr4=\'value4"\'attr5/', function (name, value) {
       i++;
       console.log(arguments);
@@ -92,6 +93,24 @@ describe('test HTML parser', function () {
     });
     console.log(html);
     assert.equal(html, 'href="#" attr1="b" attr2="c" attr3 attr4="value4&quote;" attr5');
+  });
+
+  it('#parseTag & #parseAttr', function () {
+    var html = parseTag('hi:<a href="#"target=_blank title="this is a link">link</a>', function (originPosition, position, tag, html, isClosing) {
+      if (tag === 'a') {
+        if (isClosing) return '</a>';
+        var attrhtml = parseAttr(html.slice(2, -1), function (name, value) {
+          if (name === 'href' || name === 'target') {
+            return attr(name, value);
+          }
+        });
+        return '<a ' + attrhtml + '>';
+      } else {
+        return escapeHtml(html);
+      }
+    }, escapeHtml);
+    console.log(html);
+    assert.equal(html, 'hi:<a href="#" target="_blank">link</a>');
   });
 
 });
