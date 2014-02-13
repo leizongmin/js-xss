@@ -263,4 +263,44 @@ describe('test custom XSS method', function () {
     assert.equal(html, 'yy<a>bb</a>');
   });
 
+  it('#stripTagBody - true', function () {
+    var source = '<a>link</a><x>haha</x><y>a<y></y>b</y>k';
+    var html = xss(source, {
+      stripIgnoreTagBody: true
+    });
+    console.log(html);
+    assert.equal(html, '<a>link</a>bk');
+  });
+
+  it('#stripIgnoreTagBody - *', function () {
+    var source = '<a>link</a><x>haha</x><y>a<y></y>b</y>k';
+    var html = xss(source, {
+      stripIgnoreTagBody: '*'
+    });
+    console.log(html);
+    assert.equal(html, '<a>link</a>bk');
+  });
+
+  it('#stripIgnoreTagBody - [\'x\']', function () {
+    var source = '<a>link</a><x>haha</x><y>a<y></y>b</y>k';
+    var html = xss(source, {
+      stripIgnoreTagBody: ['x']
+    });
+    console.log(html);
+    assert.equal(html, '<a>link</a>&lt;y&gt;a&lt;y&gt;&lt;/y&gt;b&lt;/y&gt;k');
+  });
+
+  it('#stripIgnoreTagBody - [\'x\'] & onIgnoreTag', function () {
+    var source = '<a>link</a><x>haha</x><y>a<y></y>b</y>k';
+    var html = xss(source, {
+      stripIgnoreTagBody: ['x'],
+      onIgnoreTag: function (tag, html, options) {
+        return '$' + tag + '$';
+      }
+    });
+    console.log(html);
+    assert.equal(html, '<a>link</a>$y$a$y$$y$b$y$k');
+  });
+
+
 });
