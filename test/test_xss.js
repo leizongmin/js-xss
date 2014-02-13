@@ -1,5 +1,7 @@
 /**
  * 测试XSS
+ *
+ * @author 老雷<leizongmin@gmail.com>
  */
 
 var assert = require('assert');

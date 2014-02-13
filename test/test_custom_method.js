@@ -1,5 +1,7 @@
 /**
  * 测试XSS 自定义处理函数
+ *
+ * @author 老雷<leizongmin@gmail.com>
  */
 
 var assert = require('assert');
