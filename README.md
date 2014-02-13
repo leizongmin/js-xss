@@ -110,10 +110,11 @@ function onTag (tag, html, options) {
 通过 `onTagAttr` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
-function onTagAttr (tag, name, value) {
+function onTagAttr (tag, name, value, isWhiteAttr) {
   // tag是当前的标签名称，比如<a>标签，则tag的值是'a'
   // name是当前属性的名称，比如href="#"，则name的值是'href'
   // value是当前属性的值，比如href="#"，则value的值是'#'
+  // isWhiteAttr是否为白名单中的属性
   // 如果返回一个字符串，则当前属性值将被替换为该字符串
   // 如果不返回任何值，则使用默认的处理方法
   //   在白名单中：  输出该属性
@@ -138,7 +139,7 @@ function onIgnoreTag (tag, html, options) {
 通过 `onIgnoreTagAttr` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
-function onIgnoreTagAttr (tag, name, value) {
+function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
   // 参数说明与onTagAttr相同
   // 如果返回一个字符串，则当前属性值将被替换为该字符串
   // 如果不返回任何值，则使用默认的处理方法（删除该属）
@@ -160,7 +161,7 @@ function escapeHtml (html) {
 通过 `safeAttrValue` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
-function safeAttrValue (tag, attr, value) {
+function safeAttrValue (tag, name, value) {
   // 参数说明与onTagAttr相同（没有options参数）
   // 返回一个字符串表示该属性值
 }
