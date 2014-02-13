@@ -176,6 +176,44 @@ describe('test custom XSS method', function () {
     assert.equal(html, '<a $href$ $target$ $checked$ $data-a$>hi</a>');
   });
 
+  it('#onIgnoreTagAttr - match attr', function () {
+    var source = '<a href="#" target="_blank" checked data-a="b">hi</a href="d">';
+    var i = 0;
+    var html = xss(source, {
+      onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
+        console.log(arguments);
+        assert.equal(tag, 'a');
+        i++;
+        if (i === 1) {
+          assert.equal(name, 'checked');
+          assert.equal(value, '');
+          assert.equal(isWhiteAttr, false);
+        } else if (i === 2) {
+          assert.equal(name, 'data-a');
+          assert.equal(value, 'b');
+          assert.equal(isWhiteAttr, false);
+        } else {
+          throw new Error();
+        }
+      }
+    });
+    console.log(html);
+    assert.equal(html, '<a href="#" target="_blank">hi</a>');
+  });
+
+  it('#onIgnoreTagAttr - match attr', function () {
+    var source = '<a href="#" target="_blank" checked data-a="b">hi</a href="d">';
+    var i = 0;
+    var html = xss(source, {
+      onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
+        console.log(arguments);
+        return '$' + name + '$';
+      }
+    });
+    console.log(html);
+    assert.equal(html, '<a href="#" target="_blank" $checked$ $data-a$>hi</a>');
+  });
+
 /*
   // 自定义过滤属性函数
   it('#process attribute value', function () {
