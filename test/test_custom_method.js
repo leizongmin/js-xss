@@ -223,7 +223,6 @@ describe('test custom XSS method', function () {
 
   it('#escapeHtml - return new value', function () {
     var source = '<x>yy</x><a>bb</a>';
-    assert.equal(xss(source), '&lt;x&gt;yy&lt;/x&gt;<a>bb</a>');
     var html = xss(source, {
       escapeHtml: function (str) {
         return (str ? '[' + str + ']' : str);
@@ -231,6 +230,26 @@ describe('test custom XSS method', function () {
     });
     console.log(html);
     assert.equal(html, '[<x>][yy][</x>]<a>[bb]</a>');
+  });
+
+  it('#safeAttrValue - default', function () {
+    var source = '<a href="javascript:alert(/xss/)" title="hi">link</a>';
+    var html = xss(source);
+    console.log(html);
+    assert.equal(html, '<a href="#" title="hi">link</a>');
+  });
+
+  it('#safeAttrValue - return new value', function () {
+    var source = '<a href="javascript:alert(/xss/)" title="hi">link</a>';
+    var html = xss(source, {
+      safeAttrValue: function (tag, name, value) {
+        console.log(arguments);
+        assert.equal(tag, 'a');
+        return '$' + name + '$';
+      }
+    });
+    console.log(html);
+    assert.equal(html, '<a href="$href$" title="$title$">link</a>');
   });
 
 /*
