@@ -46,11 +46,52 @@ describe('test HTML parser', function () {
         throw new Error();
       }
     }, escapeHtml);
+    console.log(html);
     assert.equal(html, 'hello[link]www[/link]ccc[B]');
   });
 
   it('#parseAttr', function () {
-
+    var i = 0;
+    function attr (n, v) {
+      if (v) {
+        return n + '="' + v.replace(/"/g, '&quote;') + '"';
+      } else {
+        return n;
+      }
+    }
+    var html = parseAttr('href="#"attr1=b attr2=c attr3 attr4=\'value4"\'attr5/', function (name, value) {
+      i++;
+      console.log(arguments);
+      if (i === 1) {
+        assert.equal(name, 'href');
+        assert.equal(value, '#');
+        return attr(name, value);
+      } else if (i === 2) {
+        assert.equal(name, 'attr1');
+        assert.equal(value, 'b');
+        return attr(name, value);
+      } else if (i === 3) {
+        assert.equal(name, 'attr2');
+        assert.equal(value, 'c');
+        return attr(name, value);
+      } else if (i === 4) {
+        assert.equal(name, 'attr3');
+        assert.equal(value, '');
+        return attr(name, value);
+      } else if (i === 5) {
+        assert.equal(name, 'attr4');
+        assert.equal(value, 'value4"');
+        return attr(name, value);
+      } else if (i === 6) {
+        assert.equal(name, 'attr5');
+        assert.equal(value, '');
+        return attr(name, value);
+      } else {
+        throw new Error();
+      }
+    });
+    console.log(html);
+    assert.equal(html, 'href="#" attr1="b" attr2="c" attr3 attr4="value4&quote;" attr5');
   });
 
 });
