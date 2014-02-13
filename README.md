@@ -99,7 +99,9 @@ function onTag (tag, html, options) {
   //   position        integer类型，表示当前标签在输出的结果中的起始位置
   //   originPosition  integer类型，表示当前标签在原HTML中的起始位置
   // 如果返回一个字符串，则当前标签将被替换为该字符串
-  // 如果不返回任何值，则使用默认的处理方法（通过onIgnoreTag指定，详见下文）
+  // 如果不返回任何值，则使用默认的处理方法：
+  //   在白名单中：  通过onTagAttr来过滤属性，详见下文
+  //   不在白名单中：通过onIgnoreTag指定，详见下文
 }
 ```
 
@@ -108,13 +110,14 @@ function onTag (tag, html, options) {
 通过 `onTagAttr` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
-function onTagAttr (tag, name, value, options) {
+function onTagAttr (tag, name, value) {
   // tag是当前的标签名称，比如<a>标签，则tag的值是'a'
   // name是当前属性的名称，比如href="#"，则name的值是'href'
   // value是当前属性的值，比如href="#"，则value的值是'#'
-  // options是一些附加的信息，与onTag相同
   // 如果返回一个字符串，则当前属性值将被替换为该字符串
-  // 如果不返回任何值，则使用默认的处理方法（通过onIgnoreTagAttr指定，详见下文）
+  // 如果不返回任何值，则使用默认的处理方法
+  //   在白名单中：  输出该属性
+  //   不在白名单中：通过onIgnoreTagAttr指定，详见下文
 }
 ```
 
@@ -135,19 +138,19 @@ function onIgnoreTag (tag, html, options) {
 通过 `onIgnoreTagAttr` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
-function onIgnoreTagAttr (tag, name, value, options) {
+function onIgnoreTagAttr (tag, name, value) {
   // 参数说明与onTagAttr相同
   // 如果返回一个字符串，则当前属性值将被替换为该字符串
-  // 如果不返回任何值，则使用默认的处理方法（去掉该属）
+  // 如果不返回任何值，则使用默认的处理方法（删除该属）
 }
 ```
 
 ### 自定义HTML转义函数
 
-通过 `escape` 来指定相应的处理函数。以下是默认代码 **（不建议修改）** ：
+通过 `escapeHtml` 来指定相应的处理函数。以下是默认代码 **（不建议修改）** ：
 
 ```JavaScript
-function escape (html) {
+function escapeHtml (html) {
   return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 ```
@@ -182,6 +185,12 @@ function safeAttrValue (tag, attr, value) {
 ```
 
 ### 允许标签以data-开头的属性
+
+```JavaScript
+// 待续
+```
+
+### 允许标签以x开头的标签
 
 ```JavaScript
 // 待续
