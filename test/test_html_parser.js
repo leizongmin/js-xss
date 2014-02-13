@@ -23,12 +23,12 @@ describe('test HTML parser', function () {
 
   it('#parseTag', function () {
     var i = 0;
-    var html = parseTag('hello<A href="#">www</A>ccc<b><br/>', function (originPosition, position, tag, html, isClosing) {
+    var html = parseTag('hello<A href="#">www</A>ccc<b><br/>', function (sourcePosition, position, tag, html, isClosing) {
       i++;
       console.log(arguments);
       if (i === 1) {
         // 第1个标签
-        assert.equal(originPosition, 5);
+        assert.equal(sourcePosition, 5);
         assert.equal(position, 5);
         assert.equal(tag, 'a');
         assert.equal(html, '<A href="#">');
@@ -36,7 +36,7 @@ describe('test HTML parser', function () {
         return '[link]';
       } else if (i === 2) {
         // 第2个标签
-        assert.equal(originPosition, 20);
+        assert.equal(sourcePosition, 20);
         assert.equal(position, 14);
         assert.equal(tag, 'a');
         assert.equal(html, '</A>');
@@ -44,7 +44,7 @@ describe('test HTML parser', function () {
         return '[/link]';
       } else if (i === 3) {
         // 第3个标签
-        assert.equal(originPosition, 27);
+        assert.equal(sourcePosition, 27);
         assert.equal(position, 24);
         assert.equal(tag, 'b');
         assert.equal(html, '<b>');
@@ -52,7 +52,7 @@ describe('test HTML parser', function () {
         return '[B]';
       } else if (i === 4) {
         // 第4个标签
-        assert.equal(originPosition, 30);
+        assert.equal(sourcePosition, 30);
         assert.equal(position, 27);
         assert.equal(tag, 'br');
         assert.equal(html, '<br/>');
@@ -104,7 +104,7 @@ describe('test HTML parser', function () {
   });
 
   it('#parseTag & #parseAttr', function () {
-    var html = parseTag('hi:<a href="#"target=_blank title="this is a link">link</a>', function (originPosition, position, tag, html, isClosing) {
+    var html = parseTag('hi:<a href="#"target=_blank title="this is a link">link</a>', function (sourcePosition, position, tag, html, isClosing) {
       if (tag === 'a') {
         if (isClosing) return '</a>';
         var attrhtml = parseAttr(html.slice(2, -1), function (name, value) {

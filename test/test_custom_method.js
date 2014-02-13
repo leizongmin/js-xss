@@ -20,49 +20,49 @@ describe('test custom XSS method', function () {
           assert.equal(html, '<a href="#">');
           assert.equal(options.isClosing, false);
           assert.equal(options.position, 2);
-          assert.equal(options.originPosition, 2);
+          assert.equal(options.sourcePosition, 2);
           assert.equal(options.isWhite, true);
         } else if (i === 2) {
           assert.equal(tag, 'b');
           assert.equal(html, '<b>');
           assert.equal(options.isClosing, false);
           assert.equal(options.position, 14);
-          assert.equal(options.originPosition, 14);
+          assert.equal(options.sourcePosition, 14);
           assert.equal(options.isWhite, true);
         } else if (i === 3) {
           assert.equal(tag, 'c');
           assert.equal(html, '<c>');
           assert.equal(options.isClosing, false);
           assert.equal(options.position, 17);
-          assert.equal(options.originPosition, 17);
+          assert.equal(options.sourcePosition, 17);
           assert.equal(options.isWhite, false);
         } else if (i === 4) {
           assert.equal(tag, 'c');
           assert.equal(html, '</c>');
           assert.equal(options.isClosing, true);
           assert.equal(options.position, 30);
-          assert.equal(options.originPosition, 24);
+          assert.equal(options.sourcePosition, 24);
           assert.equal(options.isWhite, false);
         } else if (i === 5) {
           assert.equal(tag, 'b');
           assert.equal(html, '</b>');
           assert.equal(options.isClosing, true);
           assert.equal(options.position, 40);
-          assert.equal(options.originPosition, 28);
+          assert.equal(options.sourcePosition, 28);
           assert.equal(options.isWhite, true);
         } else if (i === 6) {
           assert.equal(tag, 'a');
           assert.equal(html, '</a>');
           assert.equal(options.isClosing, true);
           assert.equal(options.position, 44);
-          assert.equal(options.originPosition, 32);
+          assert.equal(options.sourcePosition, 32);
           assert.equal(options.isWhite, true);
         } else if (i === 7) {
           assert.equal(tag, 'br');
           assert.equal(html, '<br>');
           assert.equal(options.isClosing, false);
           assert.equal(options.position, 48);
-          assert.equal(options.originPosition, 36);
+          assert.equal(options.sourcePosition, 36);
           assert.equal(options.isWhite, true);
         } else {
           throw new Error();
@@ -99,14 +99,14 @@ describe('test custom XSS method', function () {
           assert.equal(html, '<c>');
           assert.equal(options.isClosing, false);
           assert.equal(options.position, 17);
-          assert.equal(options.originPosition, 17);
+          assert.equal(options.sourcePosition, 17);
           assert.equal(options.isWhite, false);
         } else if (i === 2) {
           assert.equal(tag, 'c');
           assert.equal(html, '</c>');
           assert.equal(options.isClosing, true);
           assert.equal(options.position, 30);
-          assert.equal(options.originPosition, 24);
+          assert.equal(options.sourcePosition, 24);
           assert.equal(options.isWhite, false);
         } else {
           throw new Error();

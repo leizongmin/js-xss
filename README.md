@@ -97,7 +97,7 @@ function onTag (tag, html, options) {
   //   isWhite    boolean类型，表示该标签是否在白名单中
   //   isClosing  boolean类型，表示该标签是否为闭合标签，比如</a>时为true
   //   position        integer类型，表示当前标签在输出的结果中的起始位置
-  //   originPosition  integer类型，表示当前标签在原HTML中的起始位置
+  //   sourcePosition  integer类型，表示当前标签在原HTML中的起始位置
   // 如果返回一个字符串，则当前标签将被替换为该字符串
   // 如果不返回任何值，则使用默认的处理方法：
   //   在白名单中：  通过onTagAttr来过滤属性，详见下文
