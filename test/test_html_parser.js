@@ -23,7 +23,7 @@ describe('test HTML parser', function () {
 
   it('#parseTag', function () {
     var i = 0;
-    var html = parseTag('hello<A href="#">www</A>ccc<b>', function (originPosition, position, tag, html, isClosing) {
+    var html = parseTag('hello<A href="#">www</A>ccc<b><br/>', function (originPosition, position, tag, html, isClosing) {
       i++;
       console.log(arguments);
       if (i === 1) {
@@ -50,12 +50,20 @@ describe('test HTML parser', function () {
         assert.equal(html, '<b>');
         assert.equal(isClosing, false);
         return '[B]';
+      } else if (i === 4) {
+        // 第4个标签
+        assert.equal(originPosition, 30);
+        assert.equal(position, 27);
+        assert.equal(tag, 'br');
+        assert.equal(html, '<br/>');
+        assert.equal(isClosing, false);
+        return '[BR]';
       } else {
         throw new Error();
       }
     }, escapeHtml);
     console.log(html);
-    assert.equal(html, 'hello[link]www[/link]ccc[B]');
+    assert.equal(html, 'hello[link]www[/link]ccc[B][BR]');
   });
 
   it('#parseAttr', function () {
