@@ -8,6 +8,84 @@ var xss = require('../');
 
 describe('test custom XSS method', function () {
 
+  it('#onTag - match tag', function () {
+    var source = 'dd<a href="#"><b><c>haha</c></b></a><br>ff';
+    var i = 0;
+    var html = xss(source, {
+      onTag: function (tag, html, options) {
+        console.log(arguments);
+        i++;
+        if (i === 1) {
+          assert.equal(tag, 'a');
+          assert.equal(html, '<a href="#">');
+          assert.equal(options.isClosing, false);
+          assert.equal(options.position, 2);
+          assert.equal(options.originPosition, 2);
+          assert.equal(options.isWhite, true);
+        } else if (i === 2) {
+          assert.equal(tag, 'b');
+          assert.equal(html, '<b>');
+          assert.equal(options.isClosing, false);
+          assert.equal(options.position, 14);
+          assert.equal(options.originPosition, 14);
+          assert.equal(options.isWhite, true);
+        } else if (i === 3) {
+          assert.equal(tag, 'c');
+          assert.equal(html, '<c>');
+          assert.equal(options.isClosing, false);
+          assert.equal(options.position, 17);
+          assert.equal(options.originPosition, 17);
+          assert.equal(options.isWhite, false);
+        } else if (i === 4) {
+          assert.equal(tag, 'c');
+          assert.equal(html, '</c>');
+          assert.equal(options.isClosing, true);
+          assert.equal(options.position, 30);
+          assert.equal(options.originPosition, 24);
+          assert.equal(options.isWhite, false);
+        } else if (i === 5) {
+          assert.equal(tag, 'b');
+          assert.equal(html, '</b>');
+          assert.equal(options.isClosing, true);
+          assert.equal(options.position, 40);
+          assert.equal(options.originPosition, 28);
+          assert.equal(options.isWhite, true);
+        } else if (i === 6) {
+          assert.equal(tag, 'a');
+          assert.equal(html, '</a>');
+          assert.equal(options.isClosing, true);
+          assert.equal(options.position, 44);
+          assert.equal(options.originPosition, 32);
+          assert.equal(options.isWhite, true);
+        } else if (i === 7) {
+          assert.equal(tag, 'br');
+          assert.equal(html, '<br>');
+          assert.equal(options.isClosing, false);
+          assert.equal(options.position, 48);
+          assert.equal(options.originPosition, 36);
+          assert.equal(options.isWhite, true);
+        } else {
+          throw new Error();
+        }
+      }
+    });
+    console.log(html);
+    assert.equal(html, 'dd<a href="#"><b>&lt;c&gt;haha&lt;/c&gt;</b></a><br>ff');
+
+  });
+
+  it('#onTag - return new html', function () {
+    var source = 'dd<a href="#"><b><c>haha</c></b></a><br>ff';
+    var i = 0;
+    var html = xss(source, {
+      onTag: function (tag, html, options) {
+        console.log(html);
+        return html;
+      }
+    });
+    console.log(html);
+    assert.equal(html, source);
+  });
 
 /*
   // 自定义过滤属性函数
@@ -43,18 +121,18 @@ describe('test custom XSS method', function () {
     // 检验附加属性
     var isClosing = [];
     var position = [];
-    var originalPosition = [];
+    var originPosition = [];
     var html = xss('TTG:<ooxx href="ooy" >ds</ooxx>--ds  d<yy hh uu>', {
       onIgnoreTag: function (tag, html, options) {
         isClosing.push(options.isClosing);
         position.push(options.position);
-        originalPosition.push(options.originalPosition);
+        originPosition.push(options.originPosition);
       }
     });
     //console.log(html);
     assert.deepEqual(isClosing, [false, true, false]);
     assert.deepEqual(position, [4, 30, 50]);
-    assert.deepEqual(originalPosition, [4, 24, 38]);
+    assert.deepEqual(originPosition, [4, 24, 38]);
 
     // 替换检验 utils.tagFilter()
     var filter = xss.utils.tagFilter(['script']);
