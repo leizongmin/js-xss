@@ -56,7 +56,7 @@ describe('test XSS', function () {
     assert.equal(xss('<br />'), '<br />');
 
   });
-return;
+
   // 自定义白名单
   it('#white list', function () {
 
@@ -67,7 +67,7 @@ return;
     assert.equal(xss('<ooxx yy="ok" cc="no">uu</ooxx>', {whiteList: {ooxx: ['yy']}}), '<ooxx yy="ok">uu</ooxx>');
 
   });
-
+/*
   // 自定义过滤属性函数
   it('#process attribute value', function () {
 
@@ -128,7 +128,7 @@ return;
     assert.equal(filter.filter(html), '&lt;x1&gt;</b>&lt;x3&gt;fd&lt;/x3&gt;');
 
   });
-
+*/
 
   // XSS攻击测试：https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
   it('#XSS_Filter_Evasion_Cheat_Sheet', function () {
