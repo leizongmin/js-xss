@@ -87,6 +87,49 @@ describe('test custom XSS method', function () {
     assert.equal(html, source);
   });
 
+  it('#onIgnoreTag - match tag', function () {
+    var source = 'dd<a href="#"><b><c>haha</c></b></a><br>ff';
+    var i = 0;
+    var html = xss(source, {
+      onIgnoreTag: function (tag, html, options) {
+        console.log(arguments);
+        i++;
+        if (i === 1) {
+          assert.equal(tag, 'c');
+          assert.equal(html, '<c>');
+          assert.equal(options.isClosing, false);
+          assert.equal(options.position, 17);
+          assert.equal(options.originPosition, 17);
+          assert.equal(options.isWhite, false);
+        } else if (i === 2) {
+          assert.equal(tag, 'c');
+          assert.equal(html, '</c>');
+          assert.equal(options.isClosing, true);
+          assert.equal(options.position, 30);
+          assert.equal(options.originPosition, 24);
+          assert.equal(options.isWhite, false);
+        } else {
+          throw new Error();
+        }
+      }
+    });
+    console.log(html);
+    assert.equal(html, 'dd<a href="#"><b>&lt;c&gt;haha&lt;/c&gt;</b></a><br>ff');
+  });
+
+  it('#onIgnoreTag - return new html', function () {
+    var source = 'dd<a href="#"><b><c>haha</c></b></a><br>ff';
+    var i = 0;
+    var html = xss(source, {
+      onIgnoreTag: function (tag, html, options) {
+        console.log(html);
+        return '[' + (options.isClosing ? '/' : '') + 'removed]';
+      }
+    });
+    console.log(html);
+    assert.equal(html, 'dd<a href="#"><b>[removed]haha[/removed]</b></a><br>ff');
+  });
+
 /*
   // 自定义过滤属性函数
   it('#process attribute value', function () {
