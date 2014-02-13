@@ -209,16 +209,53 @@ convert to:
 <div data-a="3" data-b="4">hello</div>
 ```
 
-### 允许名称以x开头的标签
+### 允许名称以x-开头的标签
 
 ```JavaScript
-// 待续
+var source = '<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>';
+var html = xss(source, {
+  onIgnoreTag: function (tag, html, options) {
+    if (tag.substr(0, 2) === 'x-') {
+      // 不对其属性列表进行过滤
+      return html;
+    }
+  }
+});
+
+console.log('%s\nconvert to:\n%s', source, html);
+```
+
+运行结果：
+
+```
+<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>
+convert to:
+&lt;x&gt;<x-1>he<x-2 checked></x-2>wwww</x-1><a>
 ```
 
 ### 分析HTML代码中的图片列表
 
 ```JavaScript
-// 待续
+var source = '<img src="img1">a<img src="img2">b<img src="img3">c<img src="img4">d';
+var list = [];
+var html = xss(source, {
+  onTagAttr: function (tag, name, value, isWhiteAttr) {
+    if (tag === 'img' && name === 'src') {
+      // 使用内置的friendlyAttrValue函数来对属性值进行转义，可将&lt;这类的实体标记转换成打印字符<
+      list.push(xss.friendlyAttrValue(value));
+    }
+    // 不返回任何值，表示还是按照默认的方法处理
+  }
+});
+
+console.log('image list:\n%s', list.join(', '));
+```
+
+运行结果：
+
+```
+image list:
+img1, img2, img3, img4
 ```
 
 
