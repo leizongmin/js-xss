@@ -24,7 +24,7 @@ XSS代码过滤
 + [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
 
 
-## 使用
+## 使用方法
 
 ### 在Node.js中使用
 
@@ -117,7 +117,7 @@ function onTagAttr (tag, name, value, isWhiteAttr) {
   // isWhiteAttr是否为白名单上的属性
   // 如果返回一个字符串，则当前属性值将被替换为该字符串
   // 如果不返回任何值，则使用默认的处理方法
-  //   在白名单上：  输出该属性
+  //   在白名单上：  调用safeAttrValue来过滤属性值，并输出该属性，详见下文
   //   不在白名单上：通过onIgnoreTagAttr指定，详见下文
 }
 ```
@@ -176,6 +176,20 @@ function safeAttrValue (tag, name, value) {
 + `true`：（默认），去掉不在白名单上的标签
 + `false`：使用配置的`escape`函数对该标签进行转义
 
+示例：
+
+当设置 `stripIgnoreTag = true`时，以下代码
+
+```HTML
+code:<script>alert(/xss/);</script>
+```
+
+过滤后将输出
+
+```HTML
+code:alert(/xss/);
+```
+
 #### 去掉不在白名单上的标签及标签体
 
 通过 `stripIgnoreTagBody` 来设置：
@@ -183,6 +197,20 @@ function safeAttrValue (tag, name, value) {
 + `false|null|undefined`：（默认），不特殊处理
 + `'*'|true`：去掉所有不在白名单上的标签
 + `['tag1', 'tag2']`：仅去掉指定的不在白名单上的标签
+
+示例：
+
+当设置 `stripIgnoreTagBody = ['script']`时，以下代码
+
+```HTML
+code:<script>alert(/xss/);</script>
+```
+
+过滤后将输出
+
+```HTML
+code:
+```
 
 
 ## 应用实例
