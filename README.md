@@ -289,6 +289,24 @@ img1, img2, img3, img4
 ```
 
 
+## 性能
+
++ xss模块：6.01 MB/s
++ validator@0.3.7模块的xss()函数：4.62 MB/s
+
+测试代码参考 benchmark 目录
+
+
+## 单元测试
+
+在源码目录执行命令： `npm test`
+
+
+## 在线测试
+
+在源码目录执行命令： `node lib/cli.js` ，可在命令行中输入HTML代码，并看到过滤后的代码
+
+
 ## MIT协议
 
 ```
