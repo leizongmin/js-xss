@@ -30,25 +30,26 @@ describe('test XSS', function () {
     assert.equal(xss('<<<a>>b</a><x>'), '&lt;&lt;<a>&gt;b</a>&lt;x&gt;');
 
     // 过滤不在白名单中的属性
-    assert.equal(xss('<a oo="1" xx="2" href="3">yy</a>'), '<a href="3">yy</a>');
-    assert.equal(xss('<a href xx oo>pp</a>'), '<a href>pp</a>');
-    assert.equal(xss('<a href "">pp</a>'), '<a href>pp</a>');
+    assert.equal(xss('<a oo="1" xx="2" title="3">yy</a>'), '<a title="3">yy</a>');
+    assert.equal(xss('<a title xx oo>pp</a>'), '<a title>pp</a>');
+    assert.equal(xss('<a title "">pp</a>'), '<a title>pp</a>');
     assert.equal(xss('<a t="">'), '<a>');
 
     // 属性内的特殊字符
-    assert.equal(xss('<a href="\'<<>>">'), '<a href="\'&lt;&lt;&gt;&gt;">');
-    assert.equal(xss('<a href=""">'), '&lt;a href=\"\"\"&gt;');
-    assert.equal(xss('<a h=href="oo">'), '<a>');
-    assert.equal(xss('<a h= href="oo">'), '<a href="oo">');
+    assert.equal(xss('<a title="\'<<>>">'), '<a title="\'&lt;&lt;&gt;&gt;">');
+    assert.equal(xss('<a title=""">'), '&lt;a title=\"\"\"&gt;');
+    assert.equal(xss('<a h=title="oo">'), '<a>');
+    assert.equal(xss('<a h= title="oo">'), '<a title="oo">');
+    assert.equal(xss('<a title="javascript&colonalert(/xss/)">'), '<a title="javascript:alert(/xss/)">');
 
     // 自动将属性值的单引号转为双引号
-    assert.equal(xss('<a href=\'abcd\'>'), '<a href="abcd">');
-    assert.equal(xss('<a href=\'"\'>'), '<a href="&quote;">');
+    assert.equal(xss('<a title=\'abcd\'>'), '<a title="abcd">');
+    assert.equal(xss('<a title=\'"\'>'), '<a title="&quote;">');
 
     // 没有双引号括起来的属性值
-    assert.equal(xss('<a href=home>'), '<a href="home">');
-    assert.equal(xss('<a href=abc("d")>'), '<a href="abc(&quote;d&quote;)">');
-    assert.equal(xss('<a href=abc(\'d\')>'), '<a href="abc(\'d\')">');
+    assert.equal(xss('<a title=home>'), '<a title="home">');
+    assert.equal(xss('<a title=abc("d")>'), '<a title="abc(&quote;d&quote;)">');
+    assert.equal(xss('<a title=abc(\'d\')>'), '<a title="abc(\'d\')">');
 
     // 单个闭合标签
     assert.equal(xss('<img src="#"/>'), '<img src="#" />');
@@ -63,7 +64,7 @@ describe('test XSS', function () {
   it('#white list', function () {
 
     // 过滤所有标签
-    assert.equal(xss('<a href="xx">bb</a>', {whiteList: {}}), '&lt;a href="xx"&gt;bb&lt;/a&gt;');
+    assert.equal(xss('<a title="xx">bb</a>', {whiteList: {}}), '&lt;a title="xx"&gt;bb&lt;/a&gt;');
     assert.equal(xss('<hr>', {whiteList: {}}), '&lt;hr&gt;');
     // 增加白名单标签及属性
     assert.equal(xss('<ooxx yy="ok" cc="no">uu</ooxx>', {whiteList: {ooxx: ['yy']}}), '<ooxx yy="ok">uu</ooxx>');
@@ -143,8 +144,11 @@ describe('test XSS', function () {
 
     assert.equal(xss('<a href="javas/**/cript:alert(\'XSS\');">'), '<a href="#">');
 
-    assert.equal(xss('<a href="javascript">'), '<a href="javascript">');
+    assert.equal(xss('<a href="javascript">'), '<a href="#">');
     assert.equal(xss('<a href="/javascript/a">'), '<a href="/javascript/a">');
+    assert.equal(xss('<a href="/javascript/a">'), '<a href="/javascript/a">');
+    assert.equal(xss('<a href="http://aa.com">'), '<a href="http://aa.com">');
+    assert.equal(xss('<a href="https://aa.com">'), '<a href="https://aa.com">');
 
     // 这个暂时不知道怎么处理
     //assert.equal(xss('¼script¾alert(¢XSS¢)¼/script¾'), '');
@@ -155,19 +159,19 @@ describe('test XSS', function () {
     // HTML5新增实体编码 冒号&colon; 换行&NewLine;
     assert.equal(xss('<a href="javascript&colon;alert(/xss/)">'), '<a href="#">');
     assert.equal(xss('<a href="javascript&colonalert(/xss/)">'), '<a href="#">');
-    assert.equal(xss('<a href="a&NewLine;b">'), '<a href="a b">');
-    assert.equal(xss('<a href="a&NewLineb">'), '<a href="a b">');
+    assert.equal(xss('<a href="a&NewLine;b">'), '<a href="#">');
+    assert.equal(xss('<a href="a&NewLineb">'), '<a href="#">');
     assert.equal(xss('<a href="javasc&NewLine;ript&colon;alert(1)">'), '<a href="#">');
 
-    // data URI 协议过滤，只允许 data: image/*
+    // data URI 协议过滤
     assert.equal(xss('<a href="data:">'), '<a href="#">');
     assert.equal(xss('<a href="d a t a : ">'), '<a href="#">');
     assert.equal(xss('<a href="data: html/text;">'), '<a href="#">');
     assert.equal(xss('<a href="data:html/text;">'), '<a href="#">');
     assert.equal(xss('<a href="data:html /text;">'), '<a href="#">');
-    assert.equal(xss('<a href="data: image/text;">'), '<a href="data: image/text;">');
+    assert.equal(xss('<a href="data: image/text;">'), '<a href="#">');
     assert.equal(xss('<img src="data: aaa/text;">'), '<img src="#">');
-    assert.equal(xss('<img src="data:image/png; base64; ofdkofiodiofl">'), '<img src="data:image/png; base64; ofdkofiodiofl">');
+    assert.equal(xss('<img src="data:image/png; base64; ofdkofiodiofl">'), '<img src="#">');
 
   });
 
