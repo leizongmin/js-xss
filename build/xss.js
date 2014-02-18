@@ -118,31 +118,18 @@ function safeAttrValue (tag, name, value) {
 
   if (name === 'href' || name === 'src') {
     // 过滤 href 和 src 属性
-    // javascript:
-    REGEXP_DEFAULT_ON_TAG_ATTR_1.lastIndex = 0;
-    if (REGEXP_DEFAULT_ON_TAG_ATTR_1.test(value)) {
-      return '#';
-    }
-    // /*注释*/
-    REGEXP_DEFAULT_ON_TAG_ATTR_2.lastIndex = 0;
-    if (REGEXP_DEFAULT_ON_TAG_ATTR_2.test(value)) {
-      return '#';
-    }
-    // data:
-    REGEXP_DEFAULT_ON_TAG_ATTR_5.lastIndex = 0;
-    if (REGEXP_DEFAULT_ON_TAG_ATTR_5.test(value)) {
-      // 允许 data: image/* 类型
-      REGEXP_DEFAULT_ON_TAG_ATTR_6.lastIndex = 0;
-      if (!REGEXP_DEFAULT_ON_TAG_ATTR_6.test(value)) {
-        return '#';
-      }
+    // 仅允许 http:// | https:// | / 开头的地址
+    value = value.trim();
+    if (value === '#') return '#';
+    if (value && !REGEXP_DEFAULT_ON_TAG_ATTR_1.test(value)) {
+      return '';
     }
   } else if (name === 'style') {
     // 过滤 style 属性 （这个xss漏洞较老了，可能已经不适用）
     // javascript:
     REGEXP_DEFAULT_ON_TAG_ATTR_3.lastIndex = 0;
     if (REGEXP_DEFAULT_ON_TAG_ATTR_3.test(value)) {
-      return '#';
+      return '';
     }
     // /*注释*/
     REGEXP_DEFAULT_ON_TAG_ATTR_4.lastIndex = 0;
@@ -164,8 +151,7 @@ var REGEXP_QUOTE_2 = /&quot;/g;
 var REGEXP_ATTR_VALUE_1 = /&#([a-zA-Z0-9]*);?/img;
 var REGEXP_ATTR_VALUE_COLON = /&colon;?/img;
 var REGEXP_ATTR_VALUE_NEWLINE = /&newline;?/img;
-var REGEXP_DEFAULT_ON_TAG_ATTR_1 = /\/\*|\*\//mg;
-var REGEXP_DEFAULT_ON_TAG_ATTR_2 = /^[\s"'`]*((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a)\:/ig;
+var REGEXP_DEFAULT_ON_TAG_ATTR_1 = /^((https?:\/)?\/)/;
 var REGEXP_DEFAULT_ON_TAG_ATTR_3 = /\/\*|\*\//mg;
 var REGEXP_DEFAULT_ON_TAG_ATTR_4 = /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a)\:/ig;
 var REGEXP_DEFAULT_ON_TAG_ATTR_5 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:/ig;
@@ -703,7 +689,7 @@ FilterXSS.prototype.process = function (html) {
 
         // 默认的属性处理方法
         if (isWhiteAttr) {
-          // 白名单属性，调用onIgnoreTagAttr过滤属性值
+          // 白名单属性，调用safeAttrValue过滤属性值
           value = safeAttrValue(tag, name, value);
           if (value) {
             return name + '="' + value + '"';
