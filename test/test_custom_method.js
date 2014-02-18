@@ -238,7 +238,7 @@ describe('test custom XSS method', function () {
     var source = '<a href="javascript:alert(/xss/)" title="hi">link</a>';
     var html = xss(source);
     console.log(html);
-    assert.equal(html, '<a href="#" title="hi">link</a>');
+    assert.equal(html, '<a href title="hi">link</a>');
   });
 
   it('#safeAttrValue - return new value', function () {
