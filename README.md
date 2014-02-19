@@ -73,7 +73,16 @@ options = {};  // 自定义规则
 html = xss('<script>alert("xss");</script>', options);
 ```
 
-具体用法详见下文。
+如果不想每次都传入一个 `options` 参数，可以创建一个 `FilterXSS` 对象：
+
+```
+options = {};  // 自定义规则
+myxss = new xss.FilterXSS(options);
+// 以后直接调用 myxss.process() 来处理即可
+html = myxss.process('<script>alert("xss");</script>');
+```
+
+`options` 参数的详细说明见下文。
 
 ### 白名单
 
