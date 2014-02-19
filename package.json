@@ -16,5 +16,18 @@
   },
   "scripts": {
     "test":         "mocha -t 5000"
-  }
+  },
+  "homepage": "https://github.com/leizongmin/js-xss",
+  "keywords": [
+    "sanitization",
+    "xss",
+    "sanitize",
+    "sanitisation",
+    "input",
+    "security",
+    "escape",
+    "encode",
+    "filter",
+    "validator"
+  ]
 }
