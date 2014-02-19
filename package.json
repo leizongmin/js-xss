@@ -1,21 +1,42 @@
 {
-  "name":           "xss",
-  "main":           "./lib/index.js",
-  "version":        "0.1.2",
-  "description":    "XSS攻击代码过滤 Remove XSS attack vectors from user-supplied HTML",
-  "author":         "leizongmin <leizongmin@gmail.com> (http://ucdok.com)",
+  "name": "xss",
+  "main": "./lib/index.js",
+  "version": "0.1.2",
+  "description": "XSS攻击代码过滤 Remove XSS attack vectors from user-supplied HTML",
+  "author": "leizongmin <leizongmin@gmail.com> (http://ucdok.com)",
+  "contributors": [
+    {
+      "name": "Zongmin Lei",
+      "email": "leizongmin@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url":  "git://github.com/leizongmin/js-xss.git"
+    "url": "git://github.com/leizongmin/js-xss.git"
   },
   "engines": {
-    "node":         ">= 0.6.0"
+    "node": ">= 0.6.0"
   },
   "devDependencies": {
-    "mocha":        ">= 1.2"
+    "mocha": "1.8.2",
+    "blanket": "1.1.5",
+    "browserify": "*",
+    "uglify-js": "*"
   },
   "scripts": {
-    "test":         "mocha -t 5000"
+    "blanket": {
+      "pattern": "xss/lib"
+    },
+    "test": "mocha --require blanket -R html-cov > coverage.html -t 5000"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/leizongmin/js-xss/master/MIT-License"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/leizongmin/js-xss/issues"
   },
   "homepage": "https://github.com/leizongmin/js-xss",
   "keywords": [

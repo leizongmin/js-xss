@@ -15,3 +15,5 @@ node_modules
 npm-debug.log
 
 benchmark/result*.html
+
+coverage.html
