@@ -124,17 +124,31 @@ function safeAttrValue (tag, name, value) {
     if (value && !REGEXP_DEFAULT_ON_TAG_ATTR_1.test(value)) {
       return '';
     }
-  } else if (name === 'style') {
-    // 过滤 style 属性 （这个xss漏洞较老了，可能已经不适用）
+  } else if (name === 'background') {
+    // 过滤 background 属性 （这个xss漏洞较老了，可能已经不适用）
     // javascript:
+    REGEXP_DEFAULT_ON_TAG_ATTR_4.lastIndex = 0;
+    if (REGEXP_DEFAULT_ON_TAG_ATTR_4.test(value)) {
+      return '';
+    }
+  } else if (name === 'style') {
+    // /*注释*/
     REGEXP_DEFAULT_ON_TAG_ATTR_3.lastIndex = 0;
     if (REGEXP_DEFAULT_ON_TAG_ATTR_3.test(value)) {
       return '';
     }
-    // /*注释*/
-    REGEXP_DEFAULT_ON_TAG_ATTR_4.lastIndex = 0;
-    if (REGEXP_DEFAULT_ON_TAG_ATTR_4.test(value)) {
+    // expression()
+    REGEXP_DEFAULT_ON_TAG_ATTR_7.lastIndex = 0;
+    if (REGEXP_DEFAULT_ON_TAG_ATTR_7.test(value)) {
       return '';
+    }
+    // url()
+    REGEXP_DEFAULT_ON_TAG_ATTR_8.lastIndex = 0;
+    if (REGEXP_DEFAULT_ON_TAG_ATTR_8.test(value)) {
+      REGEXP_DEFAULT_ON_TAG_ATTR_4.lastIndex = 0;
+      if (REGEXP_DEFAULT_ON_TAG_ATTR_4.test(value)) {
+        return '';
+      }
     }
   }
 
@@ -156,6 +170,8 @@ var REGEXP_DEFAULT_ON_TAG_ATTR_3 = /\/\*|\*\//mg;
 var REGEXP_DEFAULT_ON_TAG_ATTR_4 = /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a)\:/ig;
 var REGEXP_DEFAULT_ON_TAG_ATTR_5 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:/ig;
 var REGEXP_DEFAULT_ON_TAG_ATTR_6 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:\s*image\//ig;
+var REGEXP_DEFAULT_ON_TAG_ATTR_7 = /e\s*x\s*p\s*r\s*e\s*s\s*s\s*i\s*o\s*n\s*\(.*/ig;
+var REGEXP_DEFAULT_ON_TAG_ATTR_8 = /u\s*r\s*l\s*\(.*/ig;
 
 /**
  * 对双引号进行转义
