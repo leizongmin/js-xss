@@ -135,6 +135,7 @@ describe('test XSS', function () {
         '&lt;iframe src=http://ha.ckers.org/scriptlet.html &lt;');
 
     assert.equal(xss('<a style="url(\'javascript:alert(1)\')">', {whiteList: {a: ['style']}}), '<a style>');
+    assert.equal(xss('<td background="url(\'javascript:alert(1)\')">', {whiteList: {td: ['background']}}), '<td background>');
 
     assert.equal(xss('<IMG SRC=\'vbscript:msgbox("XSS")\'>'), '<img src>');
 
