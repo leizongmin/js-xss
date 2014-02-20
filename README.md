@@ -73,7 +73,8 @@ options = {};  // 自定义规则
 html = xss('<script>alert("xss");</script>', options);
 ```
 
-如果不想每次都传入一个 `options` 参数，可以创建一个 `FilterXSS` 对象：
+如果不想每次都传入一个 `options` 参数，可以创建一个 `FilterXSS` 实例
+（使用这种方法速度更快）：
 
 ```
 options = {};  // 自定义规则
@@ -327,10 +328,10 @@ text: helloend
 ```
 
 
-## 性能
+## 性能（仅作参考）
 
-+ xss模块：6.01 MB/s
-+ validator@0.3.7模块的xss()函数：4.62 MB/s
++ xss模块：8.2 MB/s
++ validator@0.3.7模块的xss()函数：4.4 MB/s
 
 测试代码参考 benchmark 目录
 
