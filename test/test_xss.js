@@ -134,8 +134,17 @@ describe('test XSS', function () {
     assert.equal(xss('<iframe src=http://ha.ckers.org/scriptlet.html <'),
         '&lt;iframe src=http://ha.ckers.org/scriptlet.html &lt;');
 
+    // 过滤 javascript:
     assert.equal(xss('<a style="url(\'javascript:alert(1)\')">', {whiteList: {a: ['style']}}), '<a style>');
     assert.equal(xss('<td background="url(\'javascript:alert(1)\')">', {whiteList: {td: ['background']}}), '<td background>');
+
+    // 过滤 style
+    assert.equal(xss('<DIV STYLE="width: \nexpression(alert(1));">', {whiteList: {div: ['style']}}), '<div style>');
+    // 不正常的url
+    assert.equal(xss('<DIV STYLE="background:\n url (javascript:ooxx);">', {whiteList: {div: ['style']}}), '<div style>');
+    assert.equal(xss('<DIV STYLE="background:url (javascript:ooxx);">', {whiteList: {div: ['style']}}), '<div style>');
+    // 正常的url
+    assert.equal(xss('<DIV STYLE="background: url (ooxx);">', {whiteList: {div: ['style']}}), '<div style="background: url (ooxx);">');
 
     assert.equal(xss('<IMG SRC=\'vbscript:msgbox("XSS")\'>'), '<img src>');
 
