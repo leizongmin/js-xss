@@ -1,6 +1,6 @@
 [![Build Status](https://secure.travis-ci.org/leizongmin/js-xss.png?branch=master)](http://travis-ci.org/leizongmin/js-xss)
 
-XSS代码过滤
+根据白名单过滤HTML(防止XSS攻击)
 ======
 
 ![xss](https://nodei.co/npm/xss.png?downloads=true&stars=true)
