@@ -1,9 +1,13 @@
+[![NPM version](https://badge.fury.io/js/xss.png)](http://badge.fury.io/js/xss)
 [![Build Status](https://secure.travis-ci.org/leizongmin/js-xss.png?branch=master)](http://travis-ci.org/leizongmin/js-xss)
+[![Dependencies Status](https://david-dm.org/leizongmin/js-xss.png)](https://david-dm.org/leizongmin/js-xss)
 
 根据白名单过滤HTML(防止XSS攻击)
 ======
 
 ![xss](https://nodei.co/npm/xss.png?downloads=true&stars=true)
+
+--------------
 
 **注意：0.1.x版本与0.0.x版本在自定义配置（除白名单配置外）格式上有较大改动，如果
 要使用新版本，请详细阅读下文的使用说明**
@@ -32,6 +36,24 @@
 + [XSS Filter Evasion Cheat Sheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
 + [Data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)
 + [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
+
+
+## 性能（仅作参考）
+
++ xss模块：8.2 MB/s
++ validator@0.3.7模块的xss()函数：4.4 MB/s
+
+测试代码参考 benchmark 目录
+
+
+## 单元测试
+
+在源码目录执行命令： `npm test`
+
+
+## 在线测试
+
+在源码目录执行命令： `node lib/cli.js` ，可在命令行中输入HTML代码，并看到过滤后的代码
 
 
 ## 使用方法
@@ -328,48 +350,13 @@ text: helloend
 ```
 
 
-## 性能（仅作参考）
-
-+ xss模块：8.2 MB/s
-+ validator@0.3.7模块的xss()函数：4.4 MB/s
-
-测试代码参考 benchmark 目录
-
-
-## 单元测试
-
-在源码目录执行命令： `npm test`
-
-
-## 在线测试
-
-在源码目录执行命令： `node lib/cli.js` ，可在命令行中输入HTML代码，并看到过滤后的代码
-
-
-## MIT协议
-
-```
-Copyright (c) 2012-2014 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
-http://ucdok.com
+## License
 
 The MIT License
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+## 捐赠
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```
+如果您觉得xss模块对您有帮助，欢迎请作者一杯咖啡
+
+[![捐赠wechat](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)
