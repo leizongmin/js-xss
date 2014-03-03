@@ -223,8 +223,8 @@ function safeAttrValue (tag, name, value) {
 
 By using `stripIgnoreTag` parameter:
 
-+ `true` by default: filter out tags not in the whitelist
-+ `false`: escape the tag using configured `escape` function
++ `true` filter out tags not in the whitelist
++ `false`: by default: escape the tag using configured `escape` function
 
 Example:
 

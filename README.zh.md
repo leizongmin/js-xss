@@ -215,8 +215,8 @@ function safeAttrValue (tag, name, value) {
 
 通过 `stripIgnoreTag` 来设置：
 
-+ `true`：（默认），去掉不在白名单上的标签
-+ `false`：使用配置的`escape`函数对该标签进行转义
++ `true`：去掉不在白名单上的标签
++ `false`：（默认），使用配置的`escape`函数对该标签进行转义
 
 示例：
 
