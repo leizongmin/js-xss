@@ -265,7 +265,7 @@ code:
 
 ## Examples
 
-### Allow tags start with `data-`
+### Allow attributes of whitelist tags start with `data-`
 
 ```JavaScript
 var source = '<div a="1" b="2" data-a="3" data-b="4">hello</div>';
