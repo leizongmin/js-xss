@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+/**
+ * 命令行工具
+ *
+ * @author 老雷<leizongmin@gmail.com>
+ */
+
+var program = require('commander');
+var xss = require('../');
+var packageInfo = require('../package.json');
+
+program
+  .version(packageInfo.version)
+  .option('-t, --test', 'Active test')
+  .option('-i, --input <input_file>', 'Input file name')
+  .option('-o, --output <output_file>', 'Output filename')
+  .option('-c, --config <config_file>', 'Load custom config')
+  .parse(process.argv);
+
+console.log(program);
+
+if (program.test) {
+  require('../lib/cli');
+}
