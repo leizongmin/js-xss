@@ -370,4 +370,4 @@ The MIT License
 
 If you love the xss module, please send me a cup of coffee :)
 
-[![捐赠wechat](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)
+[![Donate xss package](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)

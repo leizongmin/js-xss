@@ -359,4 +359,4 @@ The MIT License
 
 如果您觉得xss模块对您有帮助，欢迎请作者一杯咖啡
 
-[![捐赠wechat](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)
+[![捐赠xss模块](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)
