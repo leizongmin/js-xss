@@ -71,7 +71,9 @@ $ xss -t
 
 You can use the xss command line tool to process a file. Usage:
 
-**xss -i <input_file> -o <output_file>**
+```bash
+xss -i <input_file> -o <output_file>
+```
 
 Example:
 
