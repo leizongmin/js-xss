@@ -58,8 +58,26 @@ Run `npm test` command in the source directary.
 
 ## Active Test
 
-Run `node lib/cli.js` command in the source directary, them you can type HTML
-code in the command-line, and check the filtered output.
+Run the following command, them you can type HTML
+code in the command-line, and check the filtered output:
+
+```bash
+$ xss -t
+```
+
+### Use the xss command line tool
+
+You can use the xss command line tool to process a file. Usage:
+
+**xss -i <input_file> -o <output_file>**
+
+Example:
+
+```bash
+$ xss -i origin.html -o target.html
+```
+
+For more details, please run `$ xss -h` to see it.
 
 
 ## Usages
