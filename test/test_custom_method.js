@@ -302,5 +302,24 @@ describe('test custom XSS method', function () {
     assert.equal(html, '<a>link</a>$y$a$y$$y$b$y$k');
   });
 
+  it('#stripIgnoreTag & stripIgnoreTagBody', function () {
+    var source = '<script>alert(/xss/);</script>';
+    var html = xss(source, {
+      stripIgnoreTag:     true,
+      stripIgnoreTagBody: ['script']
+    });
+    console.log(html);
+    assert.equal(html, '');
+  });
+
+  it('#stripIgnoreTag & stripIgnoreTagBody - 2', function () {
+    var source = 'ooxx<script>alert(/xss/);</script>';
+    var html = xss(source, {
+      stripIgnoreTag:     true,
+      stripIgnoreTagBody: ['script']
+    });
+    console.log(html);
+    assert.equal(html, 'ooxx');
+  });
 
 });
