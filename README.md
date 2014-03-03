@@ -13,6 +13,8 @@ Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whi
 0.0.X was changed a lot since version 0.1.X. To use a newer version, it's
 suggested to read the following guidelines carefully.**
 
+**[中文版文档](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)**
+
 `xss` is a module used to filter input from users to prevent XSS attacks.
 ([What is XSS attack?](http://en.wikipedia.org/wiki/Cross-site_scripting))
 
@@ -65,7 +67,7 @@ code in the command-line, and check the filtered output:
 $ xss -t
 ```
 
-### Use the xss command line tool
+## Command Line Tool
 
 You can use the xss command line tool to process a file. Usage:
 
