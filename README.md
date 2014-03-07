@@ -390,6 +390,11 @@ The MIT License
 
 ## Donate
 
-If you love the xss module, please send me a cup of coffee :)
+We made xss in our spare time because it's fun to build things. We hope you find it useful.
 
-[![Donate xss package](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)
+If you like this package and want to support future development—or just say thank you, **please consider making a donation of $5, $10 or $20** (or whatever you can afford) to help us continue to improve it.
+
+[![Donate xss package by PayPal](https://raw.github.com/deweyapp/deweyapp/master/docs/images/donate.png)]
+(https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=leizongmin%40qq%2ecom&lc=US&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
+
+[![Donate xss package by Alipay](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)
