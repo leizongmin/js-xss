@@ -138,7 +138,7 @@ Details of parameters in `options` would be described below.
 
 ### Whitelist
 
-By specefing a `whiteList`, e.g. `{ 'tagName': [ 'attr-1', 'attr-2' ] }`. Tags
+By specifying a `whiteList`, e.g. `{ 'tagName': [ 'attr-1', 'attr-2' ] }`. Tags
 and attributes not in the whitelist would be filter out. For example:
 
 ```JavaScript
@@ -158,7 +158,7 @@ For the default whitelist, please refer `xss.whiteList`.
 
 ### Customize the handler function for matched tags
 
-By specefing the handler function with `onTag`:
+By specifying the handler function with `onTag`:
 
 ```JavaScript
 function onTag (tag, html, options) {
@@ -178,7 +178,7 @@ function onTag (tag, html, options) {
 
 ### Customize the handler function for attributes of matched tags
 
-By specefing the handler function with `onTagAttr`:
+By specifying the handler function with `onTagAttr`:
 
 ```JavaScript
 function onTagAttr (tag, name, value, isWhiteAttr) {
@@ -194,7 +194,7 @@ function onTagAttr (tag, name, value, isWhiteAttr) {
 
 ### Customize the handler function for tags not in the whitelist
 
-By specefing the handler function with `onIgnoreTag`:
+By specifying the handler function with `onIgnoreTag`:
 
 ```JavaScript
 function onIgnoreTag (tag, html, options) {
@@ -207,7 +207,7 @@ function onIgnoreTag (tag, html, options) {
 
 ### Customize the handler function for attributes not in the whitelist
 
-By specefing the handler function with `onIgnoreTagAttr`:
+By specifying the handler function with `onIgnoreTagAttr`:
 
 ```JavaScript
 function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
@@ -219,7 +219,7 @@ function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
 
 ### Customize escaping function for HTML
 
-By specefing the handler function with `escapeHtml`. Following is the default
+By specifying the handler function with `escapeHtml`. Following is the default
 function **(Modification is not recommended)**:
 
 ```JavaScript
@@ -230,7 +230,7 @@ function escapeHtml (html) {
 
 ### Customize escaping function for value of attributes
 
-By specefing the handler function with `safeAttrValue`:
+By specifying the handler function with `safeAttrValue`:
 
 ```JavaScript
 function safeAttrValue (tag, name, value) {
