@@ -1,2 +1,2 @@
 @echo off
-browserify lib/index.js > build/xss.js
+browserify lib/index.js > dist/xss.js

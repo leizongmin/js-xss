@@ -8,42 +8,66 @@
 
 // 默认白名单
 var whiteList = {
+  a:      ['target', 'href', 'title'],
+  abbr:   ['title'],
+  address: [],
+  area:   ['shape', 'coords', 'href', 'alt'],
+  article: [],
+  aside:  [],
+  audio:  ['autoplay', 'controls', 'loop', 'preload', 'src'],
+  b:      [],
+  bdi:    ['dir'],
+  bdo:    ['dir'],
+  big:    [],
+  blockquote: ['cite'],
+  br:     [],
+  caption: [],
+  center: [],
+  cite:   [],
+  code:   [],
+  col:    ['align', 'valign', 'span', 'width'],
+  colgroup: ['align', 'valign', 'span', 'width'],
+  dd:     [],
+  del:    ['datetime'],
+  details: ['open'],
+  div:    [],
+  dl:     [],
+  dt:     [],
+  em:     [],
+  font:   ['color', 'size', 'face'],
+  footer: [],
   h1:     [],
   h2:     [],
   h3:     [],
   h4:     [],
   h5:     [],
   h6:     [],
+  header: [],
   hr:     [],
-  span:   [],
-  strong: [],
-  b:      [],
   i:      [],
-  br:     [],
+  img:    ['src', 'alt', 'title', 'width', 'height'],
+  ins:    ['datetime'],
+  li:     [],
+  mark:   [],
+  nav:    [],
+  ol:     [],
   p:      [],
   pre:    [],
-  code:   [],
-  a:      ['target', 'href', 'title'],
-  img:    ['src', 'alt', 'title', 'width', 'height'],
-  div:    [],
-  table:  ['width', 'border'],
-  tr:     ['rowspan'],
-  td:     ['width', 'colspan'],
-  th:     ['width', 'colspan'],
-  tbody:  [],
-  thead:  [],
-  ul:     [],
-  li:     [],
-  ol:     [],
-  dl:     [],
-  dt:     [],
-  em:     [],
-  cite:   [],
+  s:      [],
   section:[],
-  header: [],
-  footer: [],
-  blockquote: [],
-  audio:  ['autoplay', 'controls', 'loop', 'preload', 'src'],
+  small:  [],
+  span:   [],
+  strong: [],
+  table:  ['width', 'border', 'align', 'valign'],
+  tbody:  ['align', 'valign'],
+  td:     ['width', 'colspan', 'align', 'valign'],
+  tfoot:  ['align', 'valign'],
+  th:     ['width', 'colspan', 'align', 'valign'],
+  thead:  ['align', 'valign'],
+  tr:     ['rowspan', 'align', 'valign'],
+  tt:     [],
+  u:      [],
+  ul:     [],
   video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width']
 };
 
@@ -279,7 +303,7 @@ function StripTagBody (tags, next) {
   var isRemoveAllTag = !Array.isArray(tags);
   function isRemoveTag (tag) {
     if (isRemoveAllTag) return true;
-    return tags.indexOf(tag) !== -1;
+    return (tags.indexOf(tag) !== -1);
   }
 
   var removeList = [];   // 要删除的位置范围列表
@@ -291,7 +315,7 @@ function StripTagBody (tags, next) {
         if (options.isClosing) {
           var ret = '[/removed]';
           var end = options.position + ret.length;
-          removeList.push([posStart || options.position, end]);
+          removeList.push([posStart !== false ? posStart : options.position, end]);
           posStart = false;
           return ret;
         } else {
