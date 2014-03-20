@@ -113,6 +113,12 @@ alert(html);
 </script>
 ```
 
+### Bower
+
+```bash
+$ bower install xss
+```
+
 
 ## Custom filter rules
 
