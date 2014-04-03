@@ -163,8 +163,9 @@ describe('test XSS', function () {
     // 这个暂时不知道怎么处理
     //assert.equal(xss('¼script¾alert(¢XSS¢)¼/script¾'), '');
 
-    assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]-->'),
-        '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt;');
+    assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]--> END', {allowCommentTag: true}),
+        '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt; END');
+    assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]--> END'), ' END');
 
     // HTML5新增实体编码 冒号&colon; 换行&NewLine;
     assert.equal(xss('<a href="javascript&colon;alert(/xss/)">'), '<a href>');
