@@ -339,7 +339,18 @@ function StripTagBody (tags, next) {
       return rethtml;
     }
   };
-};
+}
+
+/**
+ * 去除备注标签
+ *
+ * @param {String} html
+ * @return {String}
+ */
+function stripCommentTag (html) {
+  return html.replace(STRIP_COMMENT_TAG_REGEXP, '');
+}
+var STRIP_COMMENT_TAG_REGEXP = /<!--(.|\s)*?-->/gm;
 
 
 exports.whiteList = whiteList;
@@ -358,6 +369,7 @@ exports.friendlyAttrValue = friendlyAttrValue;
 exports.escapeAttrValue = escapeAttrValue;
 exports.onIgnoreTagStripAll = onIgnoreTagStripAll;
 exports.StripTagBody = StripTagBody;
+exports.stripCommentTag = stripCommentTag;
 
 },{}],2:[function(require,module,exports){
 /**
@@ -651,7 +663,7 @@ function getAttrs (html) {
  *
  * @param {Object} options 选项：whiteList, onTag, onTagAttr, onIgnoreTag,
  *                               onIgnoreTagAttr, safeAttrValue, escapeHtml
- *                               stripIgnoreTagBody
+ *                               stripIgnoreTagBody, allowCommentTag
  */
 function FilterXSS (options) {
   options = options || {};
@@ -689,6 +701,11 @@ FilterXSS.prototype.process = function (html) {
   var onIgnoreTagAttr = options.onIgnoreTagAttr;
   var safeAttrValue = options.safeAttrValue;
   var escapeHtml = options.escapeHtml
+
+  // 是否禁止备注标签
+  if (!options.allowCommentTag) {
+    html = DEFAULT.stripCommentTag(html);
+  }
 
   // 如果开启了stripIgnoreTagBody
   if (options.stripIgnoreTagBody) {
