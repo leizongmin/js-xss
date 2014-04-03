@@ -282,6 +282,27 @@ code:<script>alert(/xss/);</script>
 code:
 ```
 
+#### 去掉HTML备注
+
+通过 `allowCommentTag` 来设置：
+
++ `true`：不处理
++ `false`：（默认），自动去掉HTML中的备注
+
+示例：
+
+当设置 `allowCommentTag = false` 时，以下代码
+
+```HTML
+code:<!-- something --> END
+```
+
+过滤后将输出
+
+```HTML
+code: END
+```
+
 
 ## 应用实例
 

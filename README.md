@@ -291,6 +291,27 @@ would output filtered:
 code:
 ```
 
+#### Filter out HTML comments
+
+By using `allowCommentTag` parameter:
+
++ `true`: do nothing
++ `false` by default: filter out HTML comments
+
+Example:
+
+If `allowCommentTag = false` is set, the following code:
+
+```HTML
+code:<!-- something --> END
+```
+
+would output filtered:
+
+```HTML
+code: END
+```
+
 
 ## Examples
 
