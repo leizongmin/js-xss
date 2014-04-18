@@ -1,4 +1,4 @@
-;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
  * 默认配置
  *
@@ -406,7 +406,7 @@ for (var i in parser) exports[i] = parser[i];
 // 在浏览器端使用
 if (typeof window !== 'undefined') {
   // 低版本浏览器支持
-  if (!Array.indexOf) {
+  if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (item) {
       for(var i=0;i<this.length;i++){
         if(this[i] == item) return i;
@@ -414,12 +414,12 @@ if (typeof window !== 'undefined') {
       return -1;
     };
   }
-  if (!Array.forEach) {
-    Array.prototype.forEach = function (fn) {
-      for (var i = 0; i < this.length; i++) fn(this[i], i, this);
+  if (!Array.prototype.forEach) {
+    Array.prototype.forEach = function (fn, scope) {
+      for (var i = 0; i < this.length; i++) fn.call(scope, this[i], i, this);
     };
   }
-  if(!String.trim){
+  if(!String.prototype.trim){
     String.prototype.trim = function () {
       return this.replace(/(^\s*)|(\s*$)/g, '');
     };
@@ -788,4 +788,3 @@ FilterXSS.prototype.process = function (html) {
 
 module.exports = FilterXSS;
 },{"./default":1,"./parser":3}]},{},[2])
-;
