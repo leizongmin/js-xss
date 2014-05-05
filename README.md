@@ -106,7 +106,7 @@ console.log(html);
 ### In browsers
 
 ```HTML
-<script src="https://raw.github.com/leizongmin/js-xss/master/build/xss.js"></script>
+<script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
 // apply function filterXSS in the same way
 var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');

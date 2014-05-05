@@ -82,7 +82,7 @@ console.log(html);
 ### 在浏览器端使用
 
 ```HTML
-<script src="https://raw.github.com/leizongmin/js-xss/master/build/xss.js"></script>
+<script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
 // 使用函数名 filterXSS，用法一样
 var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
