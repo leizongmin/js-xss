@@ -20,6 +20,8 @@
 
 **项目主页：** https://github.com/leizongmin/js-xss
 
+**在线测试：** http://ucdok.com/project/xss/
+
 ---------------
 
 
@@ -402,13 +404,3 @@ text: helloend
 ## License
 
 The MIT License
-
-
-## 捐赠
-
-如果您觉得xss模块对您有帮助，欢迎请作者一杯咖啡
-
-[![捐赠xss模块](https://img.alipay.com/sys/personalprod/style/mc/btn-index.png)](https://me.alipay.com/leizongmin)
-
-[![Donate xss package by PayPal](https://raw.github.com/deweyapp/deweyapp/master/docs/images/donate.png)]
-(https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=leizongmin%40qq%2ecom&lc=US&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
