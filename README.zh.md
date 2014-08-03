@@ -241,7 +241,7 @@ function safeAttrValue (tag, name, value) {
 
 ### 快捷配置
 
-#### 去掉不在白名单只的标签
+#### 去掉不在白名单上的标签
 
 通过 `stripIgnoreTag` 来设置：
 
