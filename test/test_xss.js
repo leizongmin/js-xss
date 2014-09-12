@@ -184,6 +184,12 @@ describe('test XSS', function () {
     assert.equal(xss('<img src="data: aaa/text;">'), '<img src>');
     assert.equal(xss('<img src="data:image/png; base64; ofdkofiodiofl">'), '<img src>');
 
+    // HTML备注处理
+    assert.equal(xss('<!--                               -->', {allowCommentTag: false}), '');
+    assert.equal(xss('<!--      a           -->', {allowCommentTag: false}), '');
+    assert.equal(xss('<!--sa       -->ss', {allowCommentTag: false}), 'ss');
+    assert.equal(xss('<!--                               ', {allowCommentTag: false}), '&lt;!--                               ');
+
   });
 
 });
