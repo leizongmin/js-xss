@@ -144,10 +144,13 @@ function safeAttrValue (tag, name, value) {
 
   if (name === 'href' || name === 'src') {
     // 过滤 href 和 src 属性
-    // 仅允许 http:// | https:// | / 开头的地址
+    // 仅允许 http:// | https:// | mailto: | / 开头的地址
     value = value.trim();
     if (value === '#') return '#';
-    if (value && !REGEXP_DEFAULT_ON_TAG_ATTR_1.test(value)) {
+    if (!(value.substr(0, 7) === 'http://' ||
+         value.substr(0, 8) === 'https://' ||
+         value.substr(0, 7) === 'mailto:' ||
+         value[0] === '/')) {
       return '';
     }
   } else if (name === 'background') {
@@ -191,7 +194,6 @@ var REGEXP_QUOTE_2 = /&quot;/g;
 var REGEXP_ATTR_VALUE_1 = /&#([a-zA-Z0-9]*);?/img;
 var REGEXP_ATTR_VALUE_COLON = /&colon;?/img;
 var REGEXP_ATTR_VALUE_NEWLINE = /&newline;?/img;
-var REGEXP_DEFAULT_ON_TAG_ATTR_1 = /^((https?:\/)?\/)/;
 var REGEXP_DEFAULT_ON_TAG_ATTR_3 = /\/\*|\*\//mg;
 var REGEXP_DEFAULT_ON_TAG_ATTR_4 = /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a)\:/ig;
 var REGEXP_DEFAULT_ON_TAG_ATTR_5 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:/ig;
