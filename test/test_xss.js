@@ -44,11 +44,11 @@ describe('test XSS', function () {
 
     // 自动将属性值的单引号转为双引号
     assert.equal(xss('<a title=\'abcd\'>'), '<a title="abcd">');
-    assert.equal(xss('<a title=\'"\'>'), '<a title="&quote;">');
+    assert.equal(xss('<a title=\'"\'>'), '<a title="&quot;">');
 
     // 没有双引号括起来的属性值
     assert.equal(xss('<a title=home>'), '<a title="home">');
-    assert.equal(xss('<a title=abc("d")>'), '<a title="abc(&quote;d&quote;)">');
+    assert.equal(xss('<a title=abc("d")>'), '<a title="abc(&quot;d&quot;)">');
     assert.equal(xss('<a title=abc(\'d\')>'), '<a title="abc(\'d\')">');
 
     // 单个闭合标签
