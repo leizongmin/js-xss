@@ -12,6 +12,12 @@ describe('test XSS', function () {
 
   it('#normal', function () {
 
+    // 兼容各种奇葩输入
+    assert.equal(xss(), '');
+    assert.equal(xss(null), '');
+    assert.equal(xss(123), '123');
+    assert.equal(xss({a: 1111}), '[object Object]');
+
     // 过滤不在白名单的标签
     assert.equal(xss('<b>abcd</b>'), '<b>abcd</b>');
     assert.equal(xss('<o>abcd</o>'), '&lt;o&gt;abcd&lt;/o&gt;');
