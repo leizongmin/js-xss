@@ -208,7 +208,7 @@ var REGEXP_DEFAULT_ON_TAG_ATTR_8 = /u\s*r\s*l\s*\(.*/ig;
  * @return {String} str
  */
 function escapeQuote (str) {
-  return str.replace(REGEXP_QUOTE, '&quote;');
+  return str.replace(REGEXP_QUOTE, '&quot;');
 }
 
 /**
@@ -696,6 +696,11 @@ function FilterXSS (options) {
  * @return {String}
  */
 FilterXSS.prototype.process = function (html) {
+  // 兼容各种奇葩输入
+  html = html || '';
+  html = html.toString();
+  if (!html) return '';
+
   var me = this;
   var options = me.options;
   var whiteList = options.whiteList;
