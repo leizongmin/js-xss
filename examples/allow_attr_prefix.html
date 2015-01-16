@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Allow attributes of whitelist tags start with `data-` - js-xss module</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+
+  <!-- Main Style -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+  <!-- Responsive Style -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/responsive.css">
+
+  <!--Icon Fonts-->
+  <link rel="stylesheet" media="screen" href="/assets/fonts/font-awesome/font-awesome.min.css" />
+
+  <!-- Extras -->
+  <link rel="stylesheet" type="text/css" href="/assets/extras/animate.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+
+<body>
+  <section id="header">
+    <!-- Nav Start -->
+    <div class="menu">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">js-xss</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav pull-right">
+              <li><a href="/">Home</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Getting Started <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/starter/install.html">Installing</a></li>
+                  <li><a href="/starter/quickstart.html">Quick Start</a></li>
+                  <li><a href="/starter/customize.html">Customize Filter Rules</a></li>
+                  <li><a href="/starter/cli.html">Command Line Tool</a></li>
+                  <li><a href="/starter/faq.html">FAQ</a></li>
+                </ul>
+              </li>
+              <li><a href="/options.html">Options</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Examples <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/examples/allow_attr_prefix.html">Allow attributes of whitelist tags start with `data-`</a></li>
+                  <li><a href="/examples/allow_tag_prefix.html">Allow tags start with `x-`</a></li>
+                  <li><a href="/examples/html_parser.html">Parse images in HTML</a></li>
+                  <li><a href="/examples/no_tag.html">Filter out HTML tags (keeps only plain text)</a></li>
+                </ul>
+              </li>
+              <li><a href="/try.html">Try Online</a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Resources <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/resources/community.html">Community</a></li>
+                  <li><a href="/resources/reference.html">Reference</a></li>
+                  <li><a href="/resources/blogs.html">Blogs</a></li>
+                  <li><a href="/resources/applications.html">Applications</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- Nav End -->
+  </section>
+  <div id="page" class="page">
+    <div class="container">
+      <div class="row">
+        <h1 class="page-title">Allow attributes of whitelist tags start with `data-`</h1>
+        <hr>
+        <div class="page-content"><pre><code class="lang-JavaScript">var source = &#39;&lt;div a=&quot;1&quot; b=&quot;2&quot; data-a=&quot;3&quot; data-b=&quot;4&quot;&gt;hello&lt;/div&gt;&#39;;
+var html = xss(source, {
+  onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
+    if (name.substr(0, 5) === &#39;data-&#39;) {
+      // escape its value using built-in escapeAttrValue function
+      return name + &#39;=&quot;&#39; + xss.escapeAttrValue(value) + &#39;&quot;&#39;;
+    }
+  }
+});
+
+console.log(&#39;%s\nconvert to:\n%s&#39;, source, html);
+</code></pre>
+<p>Result:</p>
+<pre><code>&lt;div a=&quot;1&quot; b=&quot;2&quot; data-a=&quot;3&quot; data-b=&quot;4&quot;&gt;hello&lt;/div&gt;
+convert to:
+&lt;div data-a=&quot;3&quot; data-b=&quot;4&quot;&gt;hello&lt;/div&gt;
+</code></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <footer id="footer" class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="text-center">
+          
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- jQuery Load -->
+  <script src="/assets/js/jquery-min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="/assets/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+<link rel="stylesheet" href="/assets/highlight/styles/github.css">
+<script src="/assets/highlight/highlight.pack.js"></script>
+<script>
+$('pre code').each(function () {
+  $(this).addClass('javascript');
+  $(this).closest('pre').addClass('highlight');
+});
+hljs.initHighlightingOnLoad();
+</script>
