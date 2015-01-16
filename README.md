@@ -1,4 +1,4 @@
 js-xss
 ======
 
-过滤XSS攻击
+Website: http://jsxss.com
