@@ -118,7 +118,7 @@ require(['xss'], function (xss) {
 
 ## Command Line Tool
 
-### Process file
+### Process File
 
 You can use the xss command line tool to process a file. Usage:
 
