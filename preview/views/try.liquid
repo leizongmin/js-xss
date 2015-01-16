@@ -1,0 +1,80 @@
+{% include "inc/header" %}
+
+<style>
+#btn-xss {
+  font-size: 20px;
+  padding: 4px 30px;
+}
+.box {
+  width: 50%;
+  float: left;
+}
+#ipt-html {
+  width: 90%;
+  height: 500px;
+  font-size: 13px;
+  line-height: 1.6em;
+  padding: 8px 20px;
+}
+#out-html {
+  background-color: #EEE;
+  padding: 0 40px;
+  word-break: break-all;
+  margin: 0;
+  font-size: 13px;
+  height: 500px;
+  overflow: scroll;
+}
+#preview {
+
+}
+</style>
+
+  <div class="container">
+    <h1>XSS module online demo <button id="btn-xss" class="btn btn-primary">XSS!</button></h1>
+    <hr>
+    <div class="box">
+      <h2>Type any HTML here</h2>
+      <textarea id="ipt-html"></textarea>
+    </div>
+    <div class="box">
+      <h2>Output <small>spent <span id="spent">0</span>ms</small></h2>
+      <pre id="out-html"></pre>
+    </div>
+    <div style="clear:both;">
+    <h2 style="padding-top: 30px;">Preview</h2>
+    <div id="preview"></div>
+  </div>
+
+{% include "inc/footer" %}
+
+<script src="/assets/xss.js"></script>
+<script>
+
+$('#btn-xss').click(function () {
+  var html = $('#ipt-html').val();
+  var s = Date.now();
+  var out = filterXSS(html);
+  var e = Date.now();
+  $('#out-html').text(out);
+  $('#preview').html(out);
+  $('#spent').text(e - s);
+});
+
+var lastType = Date.now();
+var lastHTML = $('#ipt-html').val().trim();
+$('#ipt-html').keypress(function () {
+  lastType = Date.now();
+});
+setInterval(function () {
+  var now = Date.now();
+  if (now - lastType > 500) {
+    var html = $('#ipt-html').val().trim();
+    if (html !== lastHTML) {
+      lastHTML = html;
+      $('#btn-xss').click();
+    }
+  }
+}, 500);
+
+</script>

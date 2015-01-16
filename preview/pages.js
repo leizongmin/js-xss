@@ -1,16 +1,24 @@
-module.exports = function (register) {
+module.exports = function (registerMarkdown, registerHtml) {
 
-  register('/starter/install', 'starter/install');
-  register('/starter/quickstart', 'starter/quickstart');
-  register('/starter/cli', 'starter/cli');
-  register('/starter/faq', 'starter/faq');
-  register('/starter/customize', 'starter/customize');
+  registerMarkdown('/starter/install', 'starter/install');
+  registerMarkdown('/starter/quickstart', 'starter/quickstart');
+  registerMarkdown('/starter/cli', 'starter/cli');
+  registerMarkdown('/starter/faq', 'starter/faq');
+  registerMarkdown('/starter/customize', 'starter/customize');
 
-  register('/options', 'options');
+  registerMarkdown('/options', 'options');
 
-  register('/examples/allow_attr_prefix', 'examples/allow_attr_prefix');
-  register('/examples/allow_tag_prefix', 'examples/allow_tag_prefix');
-  register('/examples/html_parser', 'examples/html_parser');
-  register('/examples/no_tag', 'examples/no_tag');
+  registerMarkdown('/examples/allow_attr_prefix', 'examples/allow_attr_prefix');
+  registerMarkdown('/examples/allow_tag_prefix', 'examples/allow_tag_prefix');
+  registerMarkdown('/examples/html_parser', 'examples/html_parser');
+  registerMarkdown('/examples/no_tag', 'examples/no_tag');
+
+  registerMarkdown('/resources/community', 'resources/community');
+  registerMarkdown('/resources/reference', 'resources/reference');
+  registerMarkdown('/resources/blogs', 'resources/blogs');
+  registerMarkdown('/resources/applications', 'resources/applications');
+
+  registerHtml('/', 'index');
+  registerHtml('/try', 'try');
 
 };

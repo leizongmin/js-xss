@@ -32,7 +32,7 @@ function loadPage (filename) {
   };
 }
 
-function registerPage (path, filename) {
+function registerMarkdown (path, filename) {
   if (path.slice(-1) !== '/') path = path + '.html';
   filename = filename + '.md';
 
@@ -44,10 +44,15 @@ function registerPage (path, filename) {
   });
 }
 
-require('./pages')(registerPage);
-app.get('/', function (req, res, next) {
+function registerHtml (path, filename) {
+  if (path.slice(-1) !== '/') path = path + '.html';
 
-});
+  app.get(path, function (req, res, next) {
+    res.render(filename);
+  });
+}
+
+require('./pages')(registerMarkdown, registerHtml);
 
 
 var port = process.env.PORT || 3100;
