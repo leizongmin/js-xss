@@ -1,0 +1,43 @@
+@media (min-width: 768px) and (max-width: 1024px) {
+  #work figure{
+  	padding-top:24px;
+  }
+  .form{
+    padding: 12px 18px;
+  }
+}
+@media (max-width: 568px) {
+ 	#billboard .main-text{
+		padding: 0px;
+	}
+  	#billboard .main-text h1{
+  	font-size: 24px;
+  }
+  #work figure{
+  	margin-left: 24px;
+  }
+  .form{
+    padding: 12px 18px;
+  }
+}
+@media (min-width: 480px) and (max-width: 640px){
+	#work figure{
+  	margin-left: 44px;
+  	margin-top: 24px;
+  }
+}
+@media (min-width: 320px) and (max-width: 480px) {
+	#billboard .main-text{
+		padding: 0px;
+	}
+  	#billboard .main-text h1{
+  	font-size: 24px;
+  }
+  #work figure{
+  	margin-left: 22px;
+  	margin-top: 24px;
+  }
+  .form{
+    padding: 12px 18px;
+  }
+}
