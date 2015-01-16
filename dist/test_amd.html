@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+  <title>测试</title>
+  <meta charset="utf8">
+</head>
+<body>
+  <pre id="result"></pre>
+</body>
+</html>
+<script type="text/javascript" src='http://cdn.staticfile.org/require.js/2.1.10/require.min.js'></script>
+<script>
+require.config({
+  baseUrl: './'
+})
+require(['xss'], function (xss) {
+  var code = '<script>alert("xss");</' + 'script>';
+  document.querySelector('#result').innerText = code + '\n被转换成了\n' + xss(code);
+});
+</script>

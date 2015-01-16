@@ -9,10 +9,6 @@ Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whi
 
 --------------
 
-**NOTE: The format of custom configuration (except Whitelist) from version
-0.0.X was changed a lot since version 0.1.X. To use a newer version, it's
-suggested to read the following guidelines carefully.**
-
 **[中文版文档](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)**
 
 `xss` is a module used to filter input from users to prevent XSS attacks.
@@ -61,16 +57,68 @@ For test code please refer to `benchmark` directory.
 Run `npm test` command in the source directary.
 
 
-## Active Test
+## Install
 
-Run the following command, them you can type HTML
-code in the command-line, and check the filtered output:
+### NPM
 
 ```bash
-$ xss -t
+$ npm install xss
 ```
 
+### Bower
+
+```bash
+$ bower install xss
+```
+
+Or
+
+```bash
+$ bower install https://github.com/leizongmin/js-xss.git
+```
+
+
+## Usages
+
+### On Node.js
+
+```JavaScript
+var xss = require('xss');
+var html = xss('<script>alert("xss");</script>');
+console.log(html);
+```
+
+### On Browser
+
+Shim mode (reference file `test/test.html`):
+
+```HTML
+<script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
+<script>
+// apply function filterXSS in the same way
+var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
+alert(html);
+</script>
+```
+
+AMD mode (reference file `test/test_amd.html`):
+
+```HTML
+<script>
+require.config({
+  baseUrl: './'
+})
+require(['xss'], function (xss) {
+  var html = xss('<script>alert("xss");</scr' + 'ipt>');
+  alert(html);
+});
+</script>
+```
+
+
 ## Command Line Tool
+
+### Process file
 
 You can use the xss command line tool to process a file. Usage:
 
@@ -84,43 +132,16 @@ Example:
 $ xss -i origin.html -o target.html
 ```
 
+### Active Test
+
+Run the following command, them you can type HTML
+code in the command-line, and check the filtered output:
+
+```bash
+$ xss -t
+```
+
 For more details, please run `$ xss -h` to see it.
-
-
-## Usages
-
-### In Node.js
-
-To install:
-
-```bash
-$ npm install xss
-```
-
-Simple usage:
-
-```JavaScript
-var xss = require('xss');
-var html = xss('<script>alert("xss");</script>');
-console.log(html);
-```
-
-### In browsers
-
-```HTML
-<script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
-<script>
-// apply function filterXSS in the same way
-var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
-alert(html);
-</script>
-```
-
-### Bower
-
-```bash
-$ bower install xss
-```
 
 
 ## Custom filter rules

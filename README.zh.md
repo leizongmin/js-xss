@@ -9,10 +9,6 @@
 
 --------------
 
-**注意：0.1.x版本与0.0.x版本在自定义配置（除白名单配置外）格式上有较大改动，如果
-要使用新版本，请详细阅读下文的使用说明**
-
-
 `xss`是一个用于对用户输入的内容进行过滤，以避免遭受XSS攻击的模块
 （[什么是XSS攻击？](http://baike.baidu.com/view/2161269.htm)）。主要用于论坛、博客、网上商店等等一些可允许用户录入页面排版、
 格式控制相关的HTML的场景，`xss`模块通过白名单来控制允许的标签及相关的标签属性，
@@ -54,26 +50,30 @@
 在源码目录执行命令： `npm test`
 
 
-## 在线测试
+## 安装
 
-执行以下命令，可在命令行中输入HTML代码，并看到过滤后的代码：
+### NPM
 
 ```bash
-$ xss -t
+$ npm install xss
+```
+
+### Bower
+
+```bash
+$ bower install xss
+```
+
+或者
+
+```bash
+$ bower install https://github.com/leizongmin/js-xss.git
 ```
 
 
 ## 使用方法
 
 ### 在Node.js中使用
-
-安装：
-
-```bash
-$ npm install xss
-```
-
-简单使用方法：
 
 ```JavaScript
 var xss = require('xss');
@@ -82,6 +82,8 @@ console.log(html);
 ```
 
 ### 在浏览器端使用
+
+Shim模式（参考文件 `test/test.html`）:
 
 ```HTML
 <script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
@@ -92,14 +94,24 @@ alert(html);
 </script>
 ```
 
-### Bower
+AMD模式（参考文件 `test/test_amd.html`）:
 
-```bash
-$ bower install xss
+```HTML
+<script>
+require.config({
+  baseUrl: './'
+})
+require(['xss'], function (xss) {
+  var html = xss('<script>alert("xss");</scr' + 'ipt>');
+  alert(html);
+});
+</script>
 ```
 
 
 ### 使用命令行工具来对文件进行XSS处理
+
+### 处理文件
 
 可通过内置的 `xss` 命令来对输入的文件进行XSS处理。使用方法：
 
@@ -111,6 +123,14 @@ xss -i <源文件> -o <目标文件>
 
 ```bash
 $ xss -i origin.html -o target.html
+```
+
+### 在线测试
+
+执行以下命令，可在命令行中输入HTML代码，并看到过滤后的代码：
+
+```bash
+$ xss -t
 ```
 
 详细命令行参数说明，请输入 `$ xss -h` 来查看。
