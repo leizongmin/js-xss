@@ -1,0 +1,105 @@
+<style>
+#btn-xss {
+  font-size: 20px;
+  padding: 4px 30px;
+}
+#ipt-html {
+  width: 90%;
+  height: 500px;
+  font-size: 13px;
+  line-height: 1.6em;
+  padding: 8px 20px;
+}
+#out-html {
+  background-color: #EEE;
+  padding: 0 40px;
+  word-break: break-all;
+  margin: 0;
+  font-size: 13px;
+  height: 500px;
+  overflow: scroll;
+}
+#preview {}
+</style>
+
+<div class="container">
+  <h1>XSS module online demo <button id="btn-xss" class="btn btn-primary">XSS!</button></h1>
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Type any HTML here</h2>
+      <textarea id="ipt-html">
+&lt;h1 id="title"&gt;XSS Demo&lt;/h1&gt;
+
+&lt;p class="text-center"&gt;
+Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist.
+&lt;/p&gt;
+
+&lt;form&gt;
+  &lt;input type="text" name="q" value="test"&gt;
+  &lt;button id="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;pre&gt;hello&lt;/pre&gt;
+
+&lt;p&gt;
+  &lt;a href="http://jsxss.com"&gt;http&lt;/a&gt;
+  &lt;a href="https://jsxss.com"&gt;https&lt;/a&gt;
+  &lt;a href="ftp://jsxss.com"&gt;ftp&lt;/a&gt;
+  &lt;a href="other1"&gt;other1&lt;/a&gt;
+  &lt;a href="/other2"&gt;other2&lt;/a&gt;
+  &lt;a href="#"&gt;other3&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;h3&gt;Features:&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Specifies HTML tags and their attributes allowed with whitelist&lt;/li&gt;
+  &lt;li&gt;Handle any tags or attributes using custom function&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type="text/javascript"&gt;
+alert(/xss/);
+&lt;/script&gt;
+      </textarea>
+    </div>
+    <div class="col-md-6">
+      <h2>Output <small>spent <span id="spent">0</span>ms</small></h2>
+      <pre id="out-html"></pre>
+    </div>
+    <div class="col-md-12">
+      <h2 style="padding-top: 30px;">Preview</h2>
+      <div id="preview"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/xss.js"></script>
+<script>
+$('#btn-xss').click(function() {
+  var html = $('#ipt-html').val();
+  var s = Date.now();
+  var out = filterXSS(html);
+  var e = Date.now();
+  $('#out-html').text(out);
+  $('#preview').html(out);
+  $('#spent').text(e - s);
+});
+
+$('#btn-xss').click();
+
+var lastType = Date.now();
+var lastHTML = $('#ipt-html').val().trim();
+$('#ipt-html').keypress(function() {
+  lastType = Date.now();
+});
+setInterval(function() {
+  var now = Date.now();
+  if (now - lastType > 500) {
+    var html = $('#ipt-html').val().trim();
+    if (html !== lastHTML) {
+      lastHTML = html;
+      $('#btn-xss').click();
+    }
+  }
+}, 500);
+</script>

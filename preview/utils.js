@@ -4,6 +4,8 @@ var marked = require('marked');
 var expressLiquid = require('express-liquid');
 
 
+exports.lang = ['en', 'zh'];
+
 exports.loadPage = function (filename) {
   var data = fs.readFileSync(path.resolve(__dirname, '../sources', filename)).toString();
   var lines = data.split(/\n/);
@@ -16,7 +18,7 @@ exports.loadPage = function (filename) {
 };
 
 exports.loadHtml = function (filename) {
-  var data = fs.readFileSync(path.resolve(__dirname, '../sources/html', filename)).toString();
+  var data = fs.readFileSync(path.resolve(__dirname, '../sources', filename)).toString();
   return data;
 };
 
@@ -28,7 +30,26 @@ var options = {
 };
 var renderLiquid = expressLiquid(options);
 
-context.setLocals('nav_list', require('../sources/nav'));
+var navList = {};
+exports.lang.forEach(function (lang) {
+  navList[lang] = require('../sources/' + lang + '/nav');
+});
+context.setLocals('nav_list', navList);
 
 exports.context = context;
 exports.renderLiquid = renderLiquid;
+
+exports.parseLangFromUrl = function (url) {
+  return url.split('/')[1];
+};
+
+exports.merge = function (a, b) {
+  var c = {};
+  for (var i in a) {
+    c[i] = a[i];
+  }
+  for (var i in b) {
+    c[i] = b[i];
+  }
+  return c;
+};

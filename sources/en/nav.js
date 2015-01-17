@@ -1,5 +1,5 @@
 module.exports = [
-  {title: 'Home', url: '/'},
+  {title: 'Home', url: '/index.html'},
   {title: 'Getting Started', list: [
     {title: 'Installing', url: '/starter/install.html'},
     {title: 'Quick Start', url: '/starter/quickstart.html'},
@@ -9,8 +9,8 @@ module.exports = [
   ]},
   {title: 'Options', url: '/options.html'},
   {title: 'Examples', list: [
-    {title: 'Allow attributes of whitelist tags start with `data-`', url: '/examples/allow_attr_prefix.html'},
-    {title: 'Allow tags start with `x-`', url: '/examples/allow_tag_prefix.html'},
+    {title: 'Allow attributes of whitelist tags start with data-', url: '/examples/allow_attr_prefix.html'},
+    {title: 'Allow tags start with x-', url: '/examples/allow_tag_prefix.html'},
     {title: 'Parse images in HTML', url: '/examples/html_parser.html'},
     {title: 'Filter out HTML tags (keeps only plain text)', url: '/examples/no_tag.html'}
   ]},

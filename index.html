@@ -1,0 +1,9 @@
+<script>
+var lang = 'en';
+try {
+  lang = navigator.language.split('-')[0];
+} catch (err) {
+  alert(err);
+}
+location.replace('/' + lang + '/index.html');
+</script>

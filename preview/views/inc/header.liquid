@@ -56,20 +56,28 @@
 
           <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav pull-right">
-            {% for item in nav_list %}
+            {% assign current_nav_list = nav_list|get:lang %}
+            {% for item in current_nav_list %}
               {% if item.list.length > 0 %}
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{item.title|escape}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                 {% for item2 in item.list %}
-                  <li><a href="{{item2.url|escape}}">{{item2.title|escape}}</a></li>
+                  <li><a href="/{{lang|escape}}{{item2.url|escape}}">{{item2.title|escape}}</a></li>
                 {% endfor %}
                 </ul>
               </li>
               {% else %}
-              <li><a href="{{item.url|escape}}">{{item.title|escape}}</a></li>
+              <li><a href="/{{lang|escape}}{{item.url|escape}}">{{item.title|escape}}</a></li>
               {% endif %}
             {% endfor %}
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Language <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/en/index.html">English</a>
+                  <li><a href="/zh/index.html">简体中文</a>
+                </ul>
+              </li>
             </ul>
           </div>
         </div>
