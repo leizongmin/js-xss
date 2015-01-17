@@ -1,12 +1,12 @@
-Allow attributes of whitelist tags start with `data-`
-=====
+允许标签以data-开头的属性
+====
 
 ```JavaScript
 var source = '<div a="1" b="2" data-a="3" data-b="4">hello</div>';
 var html = xss(source, {
   onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
     if (name.substr(0, 5) === 'data-') {
-      // escape its value using built-in escapeAttrValue function
+      // 通过内置的escapeAttrValue函数来对属性值进行转义
       return name + '="' + xss.escapeAttrValue(value) + '"';
     }
   }
@@ -15,7 +15,7 @@ var html = xss(source, {
 console.log('%s\nconvert to:\n%s', source, html);
 ```
 
-Result:
+运行结果：
 
 ```
 <div a="1" b="2" data-a="3" data-b="4">hello</div>

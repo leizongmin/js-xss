@@ -1,22 +1,21 @@
-Customize Filter Rules
-========
+自定义过滤规则
+=====
 
-When using the `xss()` function, the second parameter could be used to specify
-custom rules:
+在调用 `xss()` 函数进行过滤时，可通过第二个参数来设置自定义规则：
 
 ```JavaScript
-options = {};  // Custom rules
+options = {};  // 自定义规则
 html = xss('<script>alert("xss");</script>', options);
 ```
 
-To avoid passing `options` every time, you can also do it in a faster way by
-creating a `FilterXSS` instance:
+如果不想每次都传入一个 `options` 参数，可以创建一个 `FilterXSS` 实例
+（使用这种方法速度更快）：
 
-```JavaScript
-options = {};  // Custom rules
+```
+options = {};  // 自定义规则
 myxss = new xss.FilterXSS(options);
-// then apply myxss.process()
+// 以后直接调用 myxss.process() 来处理即可
 html = myxss.process('<script>alert("xss");</script>');
 ```
 
-Details of parameters in `options` would be described below.
+`options` 参数的详细说明见下文。

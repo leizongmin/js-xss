@@ -1,65 +1,65 @@
-Quick Start
+快捷配置
 =====
 
-## Filter out tags not in the whitelist
+#### 去掉不在白名单上的标签
 
-By using `stripIgnoreTag` parameter:
+通过 `stripIgnoreTag` 来设置：
 
-+ `true` filter out tags not in the whitelist
-+ `false`: by default: escape the tag using configured `escape` function
++ `true`：去掉不在白名单上的标签
++ `false`：（默认），使用配置的`escapehtmlape`函数对该标签进行转义
 
-Example:
+示例：
 
-If `stripIgnoreTag = true` is set, the following code:
+当设置 `stripIgnoreTag = true`时，以下代码
 
 ```HTML
 code:<script>alert(/xss/);</script>
 ```
 
-would output filtered:
+过滤后将输出
 
 ```HTML
 code:alert(/xss/);
 ```
 
-## Filter out tags and tag bodies not in the whitelist
+#### 去掉不在白名单上的标签及标签体
 
-By using `stripIgnoreTagBody` parameter:
+通过 `stripIgnoreTagBody` 来设置：
 
-+ `false|null|undefined` by default: do nothing
-+ `'*'|true`: filter out all tags not in the whitelist
-+ `['tag1', 'tag2']`: filter out only specified tags not in the whitelist
++ `false|null|undefined`：（默认），不特殊处理
++ `'*'|true`：去掉所有不在白名单上的标签
++ `['tag1', 'tag2']`：仅去掉指定的不在白名单上的标签
 
-Example:
+示例：
 
-If `stripIgnoreTagBody = ['script']` is set, the following code:
+当设置 `stripIgnoreTagBody = ['script']`时，以下代码
 
 ```HTML
 code:<script>alert(/xss/);</script>
 ```
 
-would output filtered:
+过滤后将输出
 
 ```HTML
 code:
 ```
 
-## Filter out HTML comments
+#### 去掉HTML备注
 
-By using `allowCommentTag` parameter:
+通过 `allowCommentTag` 来设置：
 
-+ `true`: do nothing
-+ `false` by default: filter out HTML comments
++ `true`：不处理
++ `false`：（默认），自动去掉HTML中的备注
 
-Example:
+示例：
 
-If `allowCommentTag = false` is set, the following code:
+当设置 `allowCommentTag = false` 时，以下代码
 
 ```HTML
 code:<!-- something --> END
 ```
 
-would output filtered:
+过滤后将输出
 
 ```HTML
 code: END

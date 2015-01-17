@@ -1,3 +1,3 @@
-Applications
+应用
 =======
 

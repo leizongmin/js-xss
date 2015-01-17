@@ -7,12 +7,12 @@ module.exports = [
     {title: '命令行工具', url: '/starter/cli.html'},
     {title: '常见问题', url: '/starter/faq.html'}
   ]},
-  {title: '配置选项', url: '/options.html'},
+  {title: '自定义配置', url: '/options.html'},
   {title: '应用示例', list: [
     {title: '允许标签以data-开头的属性', url: '/examples/allow_attr_prefix.html'},
-    {title: '允许以x-开头的标签', url: '/examples/allow_tag_prefix.html'},
-    {title: '获取HTML中的图片', url: '/examples/html_parser.html'},
-    {title: '删除HTML标签（仅保留文本内容）', url: '/examples/no_tag.html'}
+    {title: '允许名称以x-开头的标签', url: '/examples/allow_tag_prefix.html'},
+    {title: '分析HTML代码中的图片列表', url: '/examples/html_parser.html'},
+    {title: '去除HTML标签（只保留文本内容）', url: '/examples/no_tag.html'}
   ]},
   {title: '在线测试', url: '/try.html'},
   {title: '资源', list: [
@@ -20,5 +20,6 @@ module.exports = [
     {title: '参考', url: '/resources/reference.html'},
     {title: '博客文章', url: '/resources/blogs.html'},
     {title: '应用', url: '/resources/applications.html'}
-  ]}
+  ]},
+  {title: 'English', url: '/../en/index.html'}
 ];

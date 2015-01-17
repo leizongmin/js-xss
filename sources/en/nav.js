@@ -20,5 +20,6 @@ module.exports = [
     {title: 'Reference', url: '/resources/reference.html'},
     {title: 'Blogs', url: '/resources/blogs.html'},
     {title: 'Applications', url: '/resources/applications.html'}
-  ]}
+  ]},
+  {title: '简体中文', url: '/../zh/index.html'}
 ];

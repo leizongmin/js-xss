@@ -1,7 +1,5 @@
-Installing
-======
-
-## Install
+安装
+=====
 
 ### NPM
 
@@ -15,16 +13,16 @@ $ npm install xss
 $ bower install xss
 ```
 
-Or
+或者
 
 ```bash
 $ bower install https://github.com/leizongmin/js-xss.git
 ```
 
 
-## Usages
+## 使用方法
 
-### On Node.js
+### 在Node.js中使用
 
 ```JavaScript
 var xss = require('xss');
@@ -32,20 +30,20 @@ var html = xss('<script>alert("xss");</script>');
 console.log(html);
 ```
 
-### On Browser
+### 在浏览器端使用
 
-Shim mode (reference file `test/test.html`):
+Shim模式（参考文件 `test/test.html`）:
 
 ```HTML
 <script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
-// apply function filterXSS in the same way
+// 使用函数名 filterXSS，用法一样
 var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
 alert(html);
 </script>
 ```
 
-AMD mode (reference file `test/test_amd.html`):
+AMD模式（参考文件 `test/test_amd.html`）:
 
 ```HTML
 <script>

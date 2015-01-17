@@ -1,91 +1,90 @@
-Options
-======
+自定义配置
+=====
 
-### Whitelist
+### 白名单
 
-By specifying a `whiteList`, e.g. `{ 'tagName': [ 'attr-1', 'attr-2' ] }`. Tags
-and attributes not in the whitelist would be filter out. For example:
+通过 `whiteList` 来指定，格式为：`{'标签名': ['属性1', '属性2']}`。不在白名单上
+的标签将被过滤，不在白名单上的属性也会被过滤。以下是示例：
 
 ```JavaScript
-// only tag a and its attributes href, title, target are allowed
+// 只允许a标签，该标签只允许href, title, target这三个属性
 var options = {
   whiteList: {
     a: ['href', 'title', 'target']
   }
 };
-// With the configuration specified above, the following HTML:
-// <a href="#" onclick="hello()"><i>Hello</i></a>
-// would become:
-// <a href="#">Hello</a>
+// 使用以上配置后，下面的HTML
+// <a href="#" onclick="hello()"><i>大家好</i></a>
+// 将被过滤为
+// <a href="#">大家好</a>
 ```
 
-For the default whitelist, please refer `xss.whiteList`.
+默认白名单参考 `xss.whiteList`。
 
-### Customize the handler function for matched tags
+### 自定义匹配到标签时的处理方法
 
-By specifying the handler function with `onTag`:
+通过 `onTag` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
 function onTag (tag, html, options) {
-  // tag is the name of current tag, e.g. 'a' for tag <a>
-  // html is the HTML of this tag, e.g. '<a>' for tag <a>
-  // options is some addition informations:
-  //   isWhite    boolean, whether the tag is in whitelist
-  //   isClosing  boolean, whether the tag is a closing tag, e.g. true for </a>
-  //   position        integer, the position of the tag in output result
-  //   sourcePosition  integer, the position of the tag in input HTML source
-  // If a string is returned, the current tag would be replaced with the string
-  // If return nothing, the default measure would be taken:
-  //   If in whitelist: filter attributes using onTagAttr, as described below
-  //   If not in whitelist: handle by onIgnoreTag, as described below
+  // tag是当前的标签名称，比如<a>标签，则tag的值是'a'
+  // html是该标签的HTML，比如<a>标签，则html的值是'<a>'
+  // options是一些附加的信息，具体如下：
+  //   isWhite    boolean类型，表示该标签是否在白名单上
+  //   isClosing  boolean类型，表示该标签是否为闭合标签，比如</a>时为true
+  //   position        integer类型，表示当前标签在输出的结果中的起始位置
+  //   sourcePosition  integer类型，表示当前标签在原HTML中的起始位置
+  // 如果返回一个字符串，则当前标签将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法：
+  //   在白名单上：  通过onTagAttr来过滤属性，详见下文
+  //   不在白名单上：通过onIgnoreTag指定，详见下文
 }
 ```
 
-### Customize the handler function for attributes of matched tags
+### 自定义匹配到标签的属性时的处理方法
 
-By specifying the handler function with `onTagAttr`:
+通过 `onTagAttr` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
 function onTagAttr (tag, name, value, isWhiteAttr) {
-  // tag is the name of current tag, e.g. 'a' for tag <a>
-  // name is the name of current attribute, e.g. 'href' for href="#"
-  // isWhiteAttr whether the tag is in whitelist
-  // If a string is returned, the attribute would be replaced with the string
-  // If return nothing, the default measure would be taken:
-  //   If in whitelist: filter the value using safeAttrValue as described below
-  //   If not in whitelist: handle by onIgnoreTagAttr, as described below
+  // tag是当前的标签名称，比如<a>标签，则tag的值是'a'
+  // name是当前属性的名称，比如href="#"，则name的值是'href'
+  // value是当前属性的值，比如href="#"，则value的值是'#'
+  // isWhiteAttr是否为白名单上的属性
+  // 如果返回一个字符串，则当前属性值将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法
+  //   在白名单上：  调用safeAttrValue来过滤属性值，并输出该属性，详见下文
+  //   不在白名单上：通过onIgnoreTagAttr指定，详见下文
 }
 ```
 
-### Customize the handler function for tags not in the whitelist
+### 自定义匹配到不在白名单上的标签时的处理方法
 
-By specifying the handler function with `onIgnoreTag`:
+通过 `onIgnoreTag` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
 function onIgnoreTag (tag, html, options) {
-  // Parameters are the same with onTag
-  // If a string is returned, the tag would be replaced with the string
-  // If return nothing, the default measure would be taken (specifies using
-  // escape, as described below)
+  // 参数说明与onTag相同
+  // 如果返回一个字符串，则当前标签将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法（通过escape指定，详见下文）
 }
 ```
 
-### Customize the handler function for attributes not in the whitelist
+### 自定义匹配到不在白名单上的属性时的处理方法
 
-By specifying the handler function with `onIgnoreTagAttr`:
+通过 `onIgnoreTagAttr` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
 function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
-  // Parameters are the same with onTagAttr
-  // If a string is returned, the value would be replaced with this string
-  // If return nothing, then keep default (remove the attribute)
+  // 参数说明与onTagAttr相同
+  // 如果返回一个字符串，则当前属性值将被替换为该字符串
+  // 如果不返回任何值，则使用默认的处理方法（删除该属）
 }
 ```
 
-### Customize escaping function for HTML
+### 自定义HTML转义函数
 
-By specifying the handler function with `escapeHtml`. Following is the default
-function **(Modification is not recommended)**:
+通过 `escapeHtml` 来指定相应的处理函数。以下是默认代码 **（不建议修改）** ：
 
 ```JavaScript
 function escapeHtml (html) {
@@ -93,13 +92,13 @@ function escapeHtml (html) {
 }
 ```
 
-### Customize escaping function for value of attributes
+### 自定义标签属性值的转义函数
 
-By specifying the handler function with `safeAttrValue`:
+通过 `safeAttrValue` 来指定相应的处理函数。以下是详细说明：
 
 ```JavaScript
 function safeAttrValue (tag, name, value) {
-  // Parameters are the same with onTagAttr (without options)
-  // Return the value as a string
+  // 参数说明与onTagAttr相同（没有options参数）
+  // 返回一个字符串表示该属性值
 }
 ```
