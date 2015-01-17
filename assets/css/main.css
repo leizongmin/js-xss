@@ -10,6 +10,28 @@ body {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   margin-top: 80px;
+  background: url(/assets/img/bg.jpg);
+}
+
+.xss-logo {
+  font: 25px "Helvetica Neue", "Open Sans", sans-serif;
+  font-weight: 100;
+  color: #444;
+  margin-right: 20px;
+}
+
+.jumbotron {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+.jumbotron .xss-logo {
+  font-size: 50px;
+}
+.jumbotron .headline {
+  font: 25px "Helvetica Neue", "Open Sans", sans-serif;
+  font-weight: 100;
+  color: #444;
+  margin-right: 20px;
 }
 
 #page {
