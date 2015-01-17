@@ -1,27 +1,16 @@
-Command Line Tool
+使用命令行工具来对文件进行XSS处理
 ======
 
-### Process File
-
-You can use the xss command line tool to process a file. Usage:
+可通过内置的 `xss` 命令来对输入的文件进行XSS处理。使用方法：
 
 ```bash
-xss -i <input_file> -o <output_file>
+xss -i <源文件> -o <目标文件>
 ```
 
-Example:
+例：
 
 ```bash
 $ xss -i origin.html -o target.html
 ```
 
-### Active Test
-
-Run the following command, them you can type HTML
-code in the command-line, and check the filtered output:
-
-```bash
-$ xss -t
-```
-
-For more details, please run `$ xss -h` to see it.
+详细命令行参数说明，请输入 `$ xss -h` 来查看。

@@ -14,6 +14,7 @@ module.exports = [
     {title: 'Parse images in HTML', url: '/examples/html_parser.html'},
     {title: 'Filter out HTML tags (keeps only plain text)', url: '/examples/no_tag.html'}
   ]},
+  {title: 'Try Online', url: '/try.html'},
   {title: 'Resources', list: [
     {title: 'Community', url: '/resources/community.html'},
     {title: 'Reference', url: '/resources/reference.html'},

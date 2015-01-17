@@ -23,11 +23,11 @@
 </style>
 
 <div class="container">
-  <h1>XSS module online demo <button id="btn-xss" class="btn btn-primary">XSS!</button></h1>
+  <h1>XSS过滤在线测试<button id="btn-xss" class="btn btn-primary">XSS!</button></h1>
   <hr>
   <div class="row">
     <div class="col-md-6">
-      <h2>Type any HTML here</h2>
+      <h2>在下面文本框输入任意HTML</h2>
       <textarea id="ipt-html">
 &lt;h1 id="title"&gt;XSS Demo&lt;/h1&gt;
 
@@ -63,11 +63,11 @@ alert(/xss/);
       </textarea>
     </div>
     <div class="col-md-6">
-      <h2>Output <small>spent <span id="spent">0</span>ms</small></h2>
+      <h2>输出 <small>用时 <span id="spent">0</span>毫秒</small></h2>
       <pre id="out-html"></pre>
     </div>
     <div class="col-md-12">
-      <h2 style="padding-top: 30px;">Preview</h2>
+      <h2 style="padding-top: 30px;">预览</h2>
       <div id="preview"></div>
     </div>
   </div>

@@ -14,6 +14,7 @@ module.exports = [
     {title: '获取HTML中的图片', url: '/examples/html_parser.html'},
     {title: '删除HTML标签（仅保留文本内容）', url: '/examples/no_tag.html'}
   ]},
+  {title: '在线测试', url: '/try.html'},
   {title: '资源', list: [
     {title: '社区', url: '/resources/community.html'},
     {title: '参考', url: '/resources/reference.html'},
