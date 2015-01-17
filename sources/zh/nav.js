@@ -21,5 +21,5 @@ module.exports = [
     {title: '博客文章', url: '/resources/blogs.html'},
     {title: '应用', url: '/resources/applications.html'}
   ]},
-  {title: 'English', url: '/../en/index.html'}
+  {title: 'English', change_lang: 'en'}
 ];

@@ -21,5 +21,5 @@ module.exports = [
     {title: 'Blogs', url: '/resources/blogs.html'},
     {title: 'Applications', url: '/resources/applications.html'}
   ]},
-  {title: '简体中文', url: '/../zh/index.html'}
+  {title: '简体中文', change_lang: 'zh'}
 ];

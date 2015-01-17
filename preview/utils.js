@@ -39,6 +39,10 @@ exports.lang.forEach(function (lang) {
 context.setLocals('nav_list', navList);
 context.setLocals('config_list', configList);
 
+context.setFilter('remove_url_lang', function (url) {
+  return '/' + url.split('/').slice(2).join('/');
+});
+
 exports.context = context;
 exports.renderLiquid = renderLiquid;
 

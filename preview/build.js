@@ -32,7 +32,8 @@ function _registerMarkdown (path, filename) {
   console.log('register: %s (%s) \t %s', path, filename, page.title);
 
   render('page', utils.merge(utils.loadPage(filename), {
-    lang: utils.parseLangFromUrl(path)
+    lang: utils.parseLangFromUrl(path),
+    url: path
   }), function (err, html) {
     if (err) throw err;
     saveFile(path, html);
@@ -52,7 +53,8 @@ function _registerHtml (path, filename, title) {
   render('html', {
     title: title,
     html: utils.loadHtml(filename),
-    lang: utils.parseLangFromUrl(path)
+    lang: utils.parseLangFromUrl(path),
+    url: path
   }, function (err, html) {
     if (err) throw err;
     saveFile(path, html);

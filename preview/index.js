@@ -24,7 +24,8 @@ function _registerMarkdown (path, filename) {
 
   app.get(path, function (req, res, next) {
     res.render('page', utils.merge(utils.loadPage(filename), {
-      lang: utils.parseLangFromUrl(req.url)
+      lang: utils.parseLangFromUrl(req.url),
+      url: path
     }));
   });
 }
@@ -43,7 +44,8 @@ function _registerHtml (path, filename, title) {
     res.render('html', {
       title: title,
       html: utils.loadHtml(filename),
-      lang: utils.parseLangFromUrl(req.url)
+      lang: utils.parseLangFromUrl(req.url),
+      url: path
     });
   });
 }

@@ -68,7 +68,11 @@
                 </ul>
               </li>
               {% else %}
+                {% if item.change_lang %}
+              <li><a href="/{{item.change_lang|escape}}{{url|remove_url_lang|escape}}">{{item.title|escape}}</a></li>
+                {% else %}
               <li><a href="/{{lang|escape}}{{item.url|escape}}">{{item.title|escape}}</a></li>
+                {% endif %}
               {% endif %}
             {% endfor %}
             </ul>
