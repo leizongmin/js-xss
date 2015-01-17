@@ -30,8 +30,32 @@
   </div>
 </div>
 
-<div class="container">
-  <p>
-    xss是一个用于对用户输入的内容进行过滤，以避免遭受XSS攻击的模块 （<a href="http://baike.baidu.com/view/2161269.htm" target="_blank">什么是XSS攻击？</a>）。主要用于论坛、博客、网上商店等等一些可允许用户录入页面排版、 格式控制相关的HTML的场景，xss模块通过白名单来控制允许的标签及相关的标签属性， 另外还提供了一系列的接口以便用户扩展，比其他同类模块更为灵活。
-  </p>
+<div class="no-jumbotron">
+  <div class="container">
+    <p>
+      <strong>XSS</strong>是一个用于对用户输入的内容进行过滤，以避免遭受XSS攻击的模块 （<a href="http://baike.baidu.com/view/2161269.htm" target="_blank">什么是XSS攻击？</a>）。主要用于论坛、博客、网上商店等等一些可允许用户录入页面排版、 格式控制相关的HTML的场景，xss模块通过白名单来控制允许的标签及相关的标签属性， 另外还提供了一系列的接口以便用户扩展，比其他同类模块更为灵活。
+    </p>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>在Node.js上使用</h3>
+        <h4>安装</h4>
+        <pre><code>$ npm install xss --save</code></pre>
+        <h4>使用</h4>
+        <pre><code class="lang-JavaScript">var xss = require('xss');
+console.log(xss('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
+      </div>
+      <div class="col-md-6">
+        <h3>在浏览器上使用</h3>
+        <h4>引入文件</h4>
+        <pre><code>https://raw.github.com/leizongmin/js-xss/master/dist/xss.js</code></pre>
+        <h4>使用</h4>
+        <pre><code class="lang-JavaScript">console.log(filterXSS('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
+      </div>
+    </div>
+  </div>
 </div>

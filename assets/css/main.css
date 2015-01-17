@@ -20,6 +20,9 @@ body {
   margin-right: 20px;
 }
 
+.no-jumbotron {
+  padding: 48px 30px;
+}
 .jumbotron {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
@@ -71,4 +74,8 @@ pre.highlight code {
   font-size: 16px;
   background-color: #EEE;
   padding: 10px 20px;
+}
+.jumbotron pre.highlight code {
+  background-color: #FFF;
+  border: 1px solid #DDD;
 }

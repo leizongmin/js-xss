@@ -30,14 +30,38 @@
   </div>
 </div>
 
-<div class="container">
-  <p>
-    xss is a module used to filter input from users to prevent XSS attacks. (<a href="http://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank">What is XSS attack?</a>)
-  </p>
-  <p>
-    This module is needed for situations that allows users to input HTML for typesetting or formatting, including fourms, blogs, e-shops, etc.
-  </p>
-  <p>
-    The xss module controls the usage of tags and their attributes, according to the whitelist. It is also extendable with a series of APIs privided, which make it become more flexible, compares with other modules.
-  </p>
+<div class="no-jumbotron">
+  <div class="container">
+    <p>
+      xss is a module used to filter input from users to prevent XSS attacks. (<a href="http://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank">What is XSS attack?</a>)
+    </p>
+    <p>
+      This module is needed for situations that allows users to input HTML for typesetting or formatting, including fourms, blogs, e-shops, etc.
+    </p>
+    <p>
+      The xss module controls the usage of tags and their attributes, according to the whitelist. It is also extendable with a series of APIs privided, which make it become more flexible, compares with other modules.
+    </p>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Node.js</h3>
+        <h4>Install:</h4>
+        <pre><code>$ npm install xss --save</code></pre>
+        <h4>Usage:</h4>
+        <pre><code class="lang-JavaScript">var xss = require('xss');
+console.log(xss('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
+      </div>
+      <div class="col-md-6">
+        <h3>Browser</h3>
+        <h4>Require Script File:</h4>
+        <pre><code>https://raw.github.com/leizongmin/js-xss/master/dist/xss.js</code></pre>
+        <h4>Usage:</h4>
+        <pre><code class="lang-JavaScript">console.log(filterXSS('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
+      </div>
+    </div>
+  </div>
 </div>
