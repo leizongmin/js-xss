@@ -21,7 +21,7 @@ html = myxss.process('<script>alert("xss");</script>');
 
 Details of parameters in `options` would be described below.
 
-### Customize Whitelist
+## Customize Whitelist
 
 By specifying a `whiteList`, e.g. `{ 'tagName': [ 'attr-1', 'attr-2' ] }`. Tags
 and attributes not in the whitelist would be filter out. For example:
@@ -41,7 +41,71 @@ var options = {
 
 For the default whitelist, please refer `xss.whiteList`.
 
-### Customize the handler function for matched tags
+## Filter out tags not in the whitelist
+
+By using `stripIgnoreTag` parameter:
+
++ `true` filter out tags not in the whitelist
++ `false`: by default: escape the tag using configured `escape` function
+
+Example:
+
+If `stripIgnoreTag = true` is set, the following code:
+
+```HTML
+code:<script>alert(/xss/);</script>
+```
+
+would output filtered:
+
+```HTML
+code:alert(/xss/);
+```
+
+## Filter out tags and tag bodies not in the whitelist
+
+By using `stripIgnoreTagBody` parameter:
+
++ `false|null|undefined` by default: do nothing
++ `'*'|true`: filter out all tags not in the whitelist
++ `['tag1', 'tag2']`: filter out only specified tags not in the whitelist
+
+Example:
+
+If `stripIgnoreTagBody = ['script']` is set, the following code:
+
+```HTML
+code:<script>alert(/xss/);</script>
+```
+
+would output filtered:
+
+```HTML
+code:
+```
+
+## Filter out HTML comments
+
+By using `allowCommentTag` parameter:
+
++ `true`: do nothing
++ `false` by default: filter out HTML comments
+
+Example:
+
+If `allowCommentTag = false` is set, the following code:
+
+```HTML
+code:<!-- something --> END
+```
+
+would output filtered:
+
+```HTML
+code: END
+```
+
+## Customize the handler function for matched tags
 
 By specifying the handler function with `onTag`:
 
@@ -61,7 +125,7 @@ function onTag (tag, html, options) {
 }
 ```
 
-### Customize the handler function for attributes of matched tags
+## Customize the handler function for attributes of matched tags
 
 By specifying the handler function with `onTagAttr`:
 
@@ -77,7 +141,7 @@ function onTagAttr (tag, name, value, isWhiteAttr) {
 }
 ```
 
-### Customize the handler function for tags not in the whitelist
+## Customize the handler function for tags not in the whitelist
 
 By specifying the handler function with `onIgnoreTag`:
 
@@ -90,7 +154,7 @@ function onIgnoreTag (tag, html, options) {
 }
 ```
 
-### Customize the handler function for attributes not in the whitelist
+## Customize the handler function for attributes not in the whitelist
 
 By specifying the handler function with `onIgnoreTagAttr`:
 
@@ -102,7 +166,7 @@ function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
 }
 ```
 
-### Customize escaping function for HTML
+## Customize escaping function for HTML
 
 By specifying the handler function with `escapeHtml`. Following is the default
 function **(Modification is not recommended)**:
@@ -113,7 +177,7 @@ function escapeHtml (html) {
 }
 ```
 
-### Customize escaping function for value of attributes
+## Customize escaping function for value of attributes
 
 By specifying the handler function with `safeAttrValue`:
 
