@@ -11,6 +11,7 @@ body {
   backface-visibility: hidden;
   margin-top: 60px;
   background: url(/assets/img/bg.jpg);
+  line-height: 1.8;
 }
 
 .xss-logo {
