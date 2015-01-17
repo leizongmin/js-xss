@@ -21,7 +21,7 @@
 
   <!-- Extras -->
   <link rel="stylesheet" type="text/css" href="/assets/extras/animate.css">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,17 +59,14 @@
             <ul class="nav navbar-nav pull-right">
                                                         <li><a href="/zh/index.html">首页</a></li>
                                                       <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">如何开始 <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">开始使用 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/zh/starter/install.html">安装</a></li>
-                  <li><a href="/zh/starter/quickstart.html">简单使用</a></li>
-                  <li><a href="/zh/starter/customize.html">自定义配置</a></li>
+                  <li><a href="/zh/starter/quickstart.html">安装与使用</a></li>
+                  <li><a href="/zh/options.html">自定义过滤规则</a></li>
                   <li><a href="/zh/starter/cli.html">命令行工具</a></li>
-                  <li><a href="/zh/starter/faq.html">常见问题</a></li>
                 </ul>
               </li>
-                                                        <li><a href="/zh/options.html">自定义配置</a></li>
-                                                      <li class="dropdown">
+                                        <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">应用示例 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="/zh/examples/allow_attr_prefix.html">允许标签以data-开头的属性</a></li>
@@ -85,7 +82,7 @@
                   <li><a href="/zh/resources/community.html">社区</a></li>
                   <li><a href="/zh/resources/reference.html">参考</a></li>
                   <li><a href="/zh/resources/blogs.html">博客文章</a></li>
-                  <li><a href="/zh/resources/applications.html">应用</a></li>
+                  <li><a href="/zh/resources/applications.html">谁在使用XSS模块</a></li>
                 </ul>
               </li>
                                                         <li><a href="/en/resources/blogs.html">English</a></li>
@@ -130,4 +127,6 @@ $('pre code').each(function () {
   $(this).closest('pre').addClass('highlight');
 });
 hljs.initHighlightingOnLoad();
+
+$('#page a').prop('target', '_blank');
 </script>

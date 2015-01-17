@@ -1,10 +1,8 @@
 module.exports = function (registerMarkdown, registerHtml) {
 
-  registerMarkdown('/starter/install', 'starter/install');
   registerMarkdown('/starter/quickstart', 'starter/quickstart');
   registerMarkdown('/starter/cli', 'starter/cli');
   registerMarkdown('/starter/faq', 'starter/faq');
-  registerMarkdown('/starter/customize', 'starter/customize');
 
   registerMarkdown('/options', 'options');
 

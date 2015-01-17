@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Options - Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist.</title>
+  <title>Customize Filter Rules - Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist.</title>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
@@ -21,7 +21,7 @@
 
   <!-- Extras -->
   <link rel="stylesheet" type="text/css" href="/assets/extras/animate.css">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -61,15 +61,12 @@
                                                       <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Getting Started <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/en/starter/install.html">Installing</a></li>
                   <li><a href="/en/starter/quickstart.html">Quick Start</a></li>
-                  <li><a href="/en/starter/customize.html">Customize Filter Rules</a></li>
+                  <li><a href="/en/options.html">Customize Filter Rules</a></li>
                   <li><a href="/en/starter/cli.html">Command Line Tool</a></li>
-                  <li><a href="/en/starter/faq.html">FAQ</a></li>
                 </ul>
               </li>
-                                                        <li><a href="/en/options.html">Options</a></li>
-                                                      <li class="dropdown">
+                                        <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Examples <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="/en/examples/allow_attr_prefix.html">Allow attributes of whitelist tags start with data-</a></li>
@@ -85,7 +82,7 @@
                   <li><a href="/en/resources/community.html">Community</a></li>
                   <li><a href="/en/resources/reference.html">Reference</a></li>
                   <li><a href="/en/resources/blogs.html">Blogs</a></li>
-                  <li><a href="/en/resources/applications.html">Applications</a></li>
+                  <li><a href="/en/resources/applications.html">Who's using XSS module</a></li>
                 </ul>
               </li>
                                                         <li><a href="/zh/options.html">简体中文</a></li>
@@ -99,9 +96,22 @@
   <div id="page" class="page">
     <div class="container">
       <div class="row">
-        <h1 class="page-title">Options</h1>
+        <h1 class="page-title">Customize Filter Rules</h1>
         <hr>
-        <div class="page-content"><h3 id="whitelist">Whitelist</h3>
+        <div class="page-content"><p>When using the <code>xss()</code> function, the second parameter could be used to specify
+custom rules:</p>
+<pre><code class="lang-JavaScript">options = {};  // Custom rules
+html = xss(&#39;&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;&#39;, options);
+</code></pre>
+<p>To avoid passing <code>options</code> every time, you can also do it in a faster way by
+creating a <code>FilterXSS</code> instance:</p>
+<pre><code class="lang-JavaScript">options = {};  // Custom rules
+myxss = new xss.FilterXSS(options);
+// then apply myxss.process()
+html = myxss.process(&#39;&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;&#39;);
+</code></pre>
+<p>Details of parameters in <code>options</code> would be described below.</p>
+<h3 id="customize-whitelist">Customize Whitelist</h3>
 <p>By specifying a <code>whiteList</code>, e.g. <code>{ &#39;tagName&#39;: [ &#39;attr-1&#39;, &#39;attr-2&#39; ] }</code>. Tags
 and attributes not in the whitelist would be filter out. For example:</p>
 <pre><code class="lang-JavaScript">// only tag a and its attributes href, title, target are allowed
@@ -204,4 +214,6 @@ $('pre code').each(function () {
   $(this).closest('pre').addClass('highlight');
 });
 hljs.initHighlightingOnLoad();
+
+$('#page a').prop('target', '_blank');
 </script>

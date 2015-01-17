@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>应用 - 根据白名单过滤HTML(防止XSS攻击)</title>
+  <title>谁在使用XSS模块 - 根据白名单过滤HTML(防止XSS攻击)</title>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
@@ -21,7 +21,7 @@
 
   <!-- Extras -->
   <link rel="stylesheet" type="text/css" href="/assets/extras/animate.css">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,17 +59,14 @@
             <ul class="nav navbar-nav pull-right">
                                                         <li><a href="/zh/index.html">首页</a></li>
                                                       <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">如何开始 <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">开始使用 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/zh/starter/install.html">安装</a></li>
-                  <li><a href="/zh/starter/quickstart.html">简单使用</a></li>
-                  <li><a href="/zh/starter/customize.html">自定义配置</a></li>
+                  <li><a href="/zh/starter/quickstart.html">安装与使用</a></li>
+                  <li><a href="/zh/options.html">自定义过滤规则</a></li>
                   <li><a href="/zh/starter/cli.html">命令行工具</a></li>
-                  <li><a href="/zh/starter/faq.html">常见问题</a></li>
                 </ul>
               </li>
-                                                        <li><a href="/zh/options.html">自定义配置</a></li>
-                                                      <li class="dropdown">
+                                        <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">应用示例 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="/zh/examples/allow_attr_prefix.html">允许标签以data-开头的属性</a></li>
@@ -85,7 +82,7 @@
                   <li><a href="/zh/resources/community.html">社区</a></li>
                   <li><a href="/zh/resources/reference.html">参考</a></li>
                   <li><a href="/zh/resources/blogs.html">博客文章</a></li>
-                  <li><a href="/zh/resources/applications.html">应用</a></li>
+                  <li><a href="/zh/resources/applications.html">谁在使用XSS模块</a></li>
                 </ul>
               </li>
                                                         <li><a href="/en/resources/applications.html">English</a></li>
@@ -99,9 +96,32 @@
   <div id="page" class="page">
     <div class="container">
       <div class="row">
-        <h1 class="page-title">应用</h1>
+        <h1 class="page-title">谁在使用XSS模块</h1>
         <hr>
-        <div class="page-content"></div>
+        <div class="page-content"><h3 id="cnode-">CNode中文社区</h3>
+<p>Nodeclub 是使用 Node.js 和 MongoDB 开发的社区系统，界面优雅，功能丰富，小巧迅速， 已在Node.js 中文技术社区 CNode(<a href="http://cnodejs.org">http://cnodejs.org</a>) 得到应用，但你完全可以用它搭建自己的社区。</p>
+<p>访问 <a href="https://cnodejs.org">CNode中文社区</a></p>
+<hr>
+<h3 id="angularjs-">AngularJS中文社区</h3>
+<p>JsGen是用纯JavaScript编写的新一代开源社区网站系统，主要用于搭建SNS类型的专业社区，对客户端AngularJS应用稍作修改也可变成多用户博客系统、论坛或者CMS内容管理系统。</p>
+<p>访问 <a href="http://www.angularjs.cn">AngularJS中文社区</a></p>
+<hr>
+<h3 id="teambition">teambition</h3>
+<p>Teambition是一个简单，高效的项目协作工具，你可以在这里管理项目，跟踪任务进度，存储项目文件，让你的团队协作更高效。</p>
+<p>访问 <a href="https://www.teambition.com">teambition</a></p>
+<hr>
+<h3 id="-">简聊</h3>
+<p>简聊是一个团队协作即时通讯工具，为不同的目标创建不同话题，让团队的沟通更有效率。</p>
+<p>访问 <a href="https://talk.ai">简聊</a></p>
+<hr>
+<h3 id="around-node">Around Node</h3>
+<p>通过NPM模块重新组织Node.js知识，记录学习心得，引领您走进Node.js的世界。</p>
+<p>访问 <a href="http://aroundnode.org">Around Node</a></p>
+<hr>
+<h3 id="-">添加您的网站或应用</h3>
+<p><a href="https://github.com/leizongmin/js-xss/blob/gh-pages/sources/zh/resources/applications.md">编辑此Markdown文件</a>，
+按照以上的格式添加您的网站或应用的链接，并提交 Pull Request （需要拥有GitHub账号）。</p>
+</div>
       </div>
     </div>
   </div>
@@ -130,4 +150,6 @@ $('pre code').each(function () {
   $(this).closest('pre').addClass('highlight');
 });
 hljs.initHighlightingOnLoad();
+
+$('#page a').prop('target', '_blank');
 </script>

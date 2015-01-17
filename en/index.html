@@ -21,7 +21,7 @@
 
   <!-- Extras -->
   <link rel="stylesheet" type="text/css" href="/assets/extras/animate.css">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -61,15 +61,12 @@
                                                       <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Getting Started <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/en/starter/install.html">Installing</a></li>
                   <li><a href="/en/starter/quickstart.html">Quick Start</a></li>
-                  <li><a href="/en/starter/customize.html">Customize Filter Rules</a></li>
+                  <li><a href="/en/options.html">Customize Filter Rules</a></li>
                   <li><a href="/en/starter/cli.html">Command Line Tool</a></li>
-                  <li><a href="/en/starter/faq.html">FAQ</a></li>
                 </ul>
               </li>
-                                                        <li><a href="/en/options.html">Options</a></li>
-                                                      <li class="dropdown">
+                                        <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Examples <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="/en/examples/allow_attr_prefix.html">Allow attributes of whitelist tags start with data-</a></li>
@@ -85,7 +82,7 @@
                   <li><a href="/en/resources/community.html">Community</a></li>
                   <li><a href="/en/resources/reference.html">Reference</a></li>
                   <li><a href="/en/resources/blogs.html">Blogs</a></li>
-                  <li><a href="/en/resources/applications.html">Applications</a></li>
+                  <li><a href="/en/resources/applications.html">Who's using XSS module</a></li>
                 </ul>
               </li>
                                                         <li><a href="/zh/index.html">简体中文</a></li>
@@ -108,6 +105,7 @@
         <li>Handle any tags or attributes using custom function</li>
       </ul>
     </p>
+    <p>&nbsp;</p>
     <p>
       <a href="http://badge.fury.io/js/xss"><img src="https://camo.githubusercontent.com/85aef286327691ac72ecdcb7094f49f15d87a80c/68747470733a2f2f62616467652e667572792e696f2f6a732f7873732e706e67" alt="NPM version" data-canonical-src="https://badge.fury.io/js/xss.png" style="max-width:100%;">
       </a>
@@ -121,23 +119,47 @@
     </p>
     <p>&nbsp;</p>
     <p class="text-center">
-      <a class="btn btn-primary btn-lg" href="/en/starter/install.html" role="button">Installing</a>
+      <a class="btn btn-primary btn-lg" href="/en/starter/quickstart.html" role="button">Getting Started</a>
       <a class="btn btn-primary btn-lg" href="/en/try.html" role="button">Try Online</a>
       <a class="btn btn-primary btn-lg" href="https://github.com/leizongmin/js-xss" role="button">Fork me on GitHub</a>
     </p>
   </div>
 </div>
 
-<div class="container">
-  <p>
-    xss is a module used to filter input from users to prevent XSS attacks. (<a href="http://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank">What is XSS attack?</a>)
-  </p>
-  <p>
-    This module is needed for situations that allows users to input HTML for typesetting or formatting, including fourms, blogs, e-shops, etc.
-  </p>
-  <p>
-    The xss module controls the usage of tags and their attributes, according to the whitelist. It is also extendable with a series of APIs privided, which make it become more flexible, compares with other modules.
-  </p>
+<div class="no-jumbotron">
+  <div class="container">
+    <p>
+      <strong>XSS</strong> is a module used to filter input from users to prevent XSS attacks. (<a href="http://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank">What is XSS attack?</a>)
+    </p>
+    <p>
+      This module is needed for situations that allows users to input HTML for typesetting or formatting, including fourms, blogs, e-shops, etc.
+    </p>
+    <p>
+      The xss module controls the usage of tags and their attributes, according to the whitelist. It is also extendable with a series of APIs privided, which make it become more flexible, compares with other modules.
+    </p>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Node.js</h3>
+        <h4>Install:</h4>
+        <pre><code>$ npm install xss --save</code></pre>
+        <h4>Usage:</h4>
+        <pre><code class="lang-JavaScript">var xss = require('xss');
+console.log(xss('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
+      </div>
+      <div class="col-md-6">
+        <h3>Browser</h3>
+        <h4>Require Script File:</h4>
+        <pre><code>https://raw.github.com/leizongmin/js-xss/master/dist/xss.js</code></pre>
+        <h4>Usage:</h4>
+        <pre><code class="lang-JavaScript">console.log(filterXSS('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -165,4 +187,6 @@ $('pre code').each(function () {
   $(this).closest('pre').addClass('highlight');
 });
 hljs.initHighlightingOnLoad();
+
+$('#page a').prop('target', '_blank');
 </script>

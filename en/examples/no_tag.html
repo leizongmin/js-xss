@@ -21,7 +21,7 @@
 
   <!-- Extras -->
   <link rel="stylesheet" type="text/css" href="/assets/extras/animate.css">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,700,600' rel='stylesheet' type='text/css'>
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -61,15 +61,12 @@
                                                       <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Getting Started <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/en/starter/install.html">Installing</a></li>
                   <li><a href="/en/starter/quickstart.html">Quick Start</a></li>
-                  <li><a href="/en/starter/customize.html">Customize Filter Rules</a></li>
+                  <li><a href="/en/options.html">Customize Filter Rules</a></li>
                   <li><a href="/en/starter/cli.html">Command Line Tool</a></li>
-                  <li><a href="/en/starter/faq.html">FAQ</a></li>
                 </ul>
               </li>
-                                                        <li><a href="/en/options.html">Options</a></li>
-                                                      <li class="dropdown">
+                                        <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Examples <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="/en/examples/allow_attr_prefix.html">Allow attributes of whitelist tags start with data-</a></li>
@@ -85,7 +82,7 @@
                   <li><a href="/en/resources/community.html">Community</a></li>
                   <li><a href="/en/resources/reference.html">Reference</a></li>
                   <li><a href="/en/resources/blogs.html">Blogs</a></li>
-                  <li><a href="/en/resources/applications.html">Applications</a></li>
+                  <li><a href="/en/resources/applications.html">Who's using XSS module</a></li>
                 </ul>
               </li>
                                                         <li><a href="/zh/examples/no_tag.html">简体中文</a></li>
@@ -142,4 +139,6 @@ $('pre code').each(function () {
   $(this).closest('pre').addClass('highlight');
 });
 hljs.initHighlightingOnLoad();
+
+$('#page a').prop('target', '_blank');
 </script>
