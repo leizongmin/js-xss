@@ -1,8 +1,7 @@
 module.exports = [
   {title: '首页', url: '/index.html'},
   {title: '如何开始', list: [
-    {title: '安装', url: '/starter/install.html'},
-    {title: '简单使用', url: '/starter/quickstart.html'},
+    {title: '安装与使用', url: '/starter/quickstart.html'},
     {title: '命令行工具', url: '/starter/cli.html'},
     {title: '常见问题', url: '/starter/faq.html'}
   ]},

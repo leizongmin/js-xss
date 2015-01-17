@@ -1,7 +1,6 @@
 module.exports = [
   {title: 'Home', url: '/index.html'},
   {title: 'Getting Started', list: [
-    {title: 'Installing', url: '/starter/install.html'},
     {title: 'Quick Start', url: '/starter/quickstart.html'},
     {title: 'Command Line Tool', url: '/starter/cli.html'},
     {title: 'FAQ', url: '/starter/faq.html'}
