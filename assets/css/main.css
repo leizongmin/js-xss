@@ -57,6 +57,7 @@ body {
   overflow: hidden;
   margin: 0;
   padding: 0;
+  margin-bottom: -4px;
 }
 #footer #copyright, #footer #fork {
   display: inline-block;
