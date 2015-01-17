@@ -1,0 +1,25 @@
+#btn-xss {
+  font-size: 20px;
+  padding: 4px 30px;
+}
+#ipt-html {
+  width: 90%;
+  height: 500px;
+  font-size: 13px;
+  line-height: 1.6em;
+  padding: 8px 20px;
+}
+#out-html {
+  background-color: #EEE;
+  padding: 0 40px;
+  word-break: break-all;
+  margin: 0;
+  font-size: 13px;
+  height: 500px;
+  overflow: scroll;
+  border-radius: 0;
+}
+#preview {
+  border: 1px solid #CCC;
+  padding: 4px 20px;
+}
