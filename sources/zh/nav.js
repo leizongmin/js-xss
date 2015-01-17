@@ -1,11 +1,11 @@
 module.exports = [
   {title: '首页', url: '/index.html'},
-  {title: '如何开始', list: [
+  {title: '开始使用', list: [
     {title: '安装与使用', url: '/starter/quickstart.html'},
+    {title: '自定义过滤规则', url: '/options.html'},
     {title: '命令行工具', url: '/starter/cli.html'},
     {title: '常见问题', url: '/starter/faq.html'}
   ]},
-  {title: '自定义过滤规则', url: '/options.html'},
   {title: '应用示例', list: [
     {title: '允许标签以data-开头的属性', url: '/examples/allow_attr_prefix.html'},
     {title: '允许名称以x-开头的标签', url: '/examples/allow_tag_prefix.html'},

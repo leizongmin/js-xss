@@ -2,10 +2,10 @@ module.exports = [
   {title: 'Home', url: '/index.html'},
   {title: 'Getting Started', list: [
     {title: 'Quick Start', url: '/starter/quickstart.html'},
+    {title: 'Customize Filter Rules', url: '/options.html'},
     {title: 'Command Line Tool', url: '/starter/cli.html'},
     {title: 'FAQ', url: '/starter/faq.html'}
   ]},
-  {title: 'Customize Filter Rules', url: '/options.html'},
   {title: 'Examples', list: [
     {title: 'Allow attributes of whitelist tags start with data-', url: '/examples/allow_attr_prefix.html'},
     {title: 'Allow tags start with x-', url: '/examples/allow_tag_prefix.html'},

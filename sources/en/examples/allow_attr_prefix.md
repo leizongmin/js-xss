@@ -1,4 +1,4 @@
-Allow attributes of whitelist tags start with `data-`
+Allow attributes of whitelist tags start with data-
 =====
 
 ```JavaScript

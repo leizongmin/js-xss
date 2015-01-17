@@ -1,4 +1,4 @@
-Allow tags start with `x-`
+Allow tags start with x-
 =====
 
 ```JavaScript
