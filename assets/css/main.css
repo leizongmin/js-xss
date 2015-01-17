@@ -77,6 +77,12 @@ body {
   color: #444;
   margin-right: 20px;
 }
+.bg-people {
+  background-image: url("/assets/img/people.png");
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: 30%;
+}
 
 #page {
   min-height: 500px;
