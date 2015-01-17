@@ -23,6 +23,7 @@ body {
 #footer {
   margin-top: 80px;
   padding-top: 10px;
+  margin-bottom: 30px;
 }
 #footer #github {
   display: inline-block;
