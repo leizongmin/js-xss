@@ -134,46 +134,6 @@ require([&#39;xss&#39;], function (xss) {
 });
 &lt;/script&gt;
 </code></pre>
-<h2 id="-">去掉不在白名单上的标签</h2>
-<p>通过 <code>stripIgnoreTag</code> 来设置：</p>
-<ul>
-<li><code>true</code>：去掉不在白名单上的标签</li>
-<li><code>false</code>：（默认），使用配置的<code>escapehtmlape</code>函数对该标签进行转义</li>
-</ul>
-<p>示例：</p>
-<p>当设置 <code>stripIgnoreTag = true</code>时，以下代码</p>
-<pre><code class="lang-HTML">code:&lt;script&gt;alert(/xss/);&lt;/script&gt;
-</code></pre>
-<p>过滤后将输出</p>
-<pre><code class="lang-HTML">code:alert(/xss/);
-</code></pre>
-<h2 id="-">去掉不在白名单上的标签及标签体</h2>
-<p>通过 <code>stripIgnoreTagBody</code> 来设置：</p>
-<ul>
-<li><code>false|null|undefined</code>：（默认），不特殊处理</li>
-<li><code>&#39;*&#39;|true</code>：去掉所有不在白名单上的标签</li>
-<li><code>[&#39;tag1&#39;, &#39;tag2&#39;]</code>：仅去掉指定的不在白名单上的标签</li>
-</ul>
-<p>示例：</p>
-<p>当设置 <code>stripIgnoreTagBody = [&#39;script&#39;]</code>时，以下代码</p>
-<pre><code class="lang-HTML">code:&lt;script&gt;alert(/xss/);&lt;/script&gt;
-</code></pre>
-<p>过滤后将输出</p>
-<pre><code class="lang-HTML">code:
-</code></pre>
-<h2 id="-html-">去掉HTML备注</h2>
-<p>通过 <code>allowCommentTag</code> 来设置：</p>
-<ul>
-<li><code>true</code>：不处理</li>
-<li><code>false</code>：（默认），自动去掉HTML中的备注</li>
-</ul>
-<p>示例：</p>
-<p>当设置 <code>allowCommentTag = false</code> 时，以下代码</p>
-<pre><code class="lang-HTML">code:&lt;!-- something --&gt; END
-</code></pre>
-<p>过滤后将输出</p>
-<pre><code class="lang-HTML">code: END
-</code></pre>
 </div>
       </div>
     </div>
@@ -187,7 +147,7 @@ require([&#39;xss&#39;], function (xss) {
           <div id="copyright">Powered by <a href="http://ucdok.com">ucdok.com</a></div>
           <div id="fork">
             <a href="https://github.com/leizongmin/js-xss/tree/gh-pages">在GitHub上修改此网站</a>
-            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-17 22:54:00</span>
+            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-18 01:06:20</span>
           </div>
         </div>
       </div>

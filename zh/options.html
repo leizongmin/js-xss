@@ -109,7 +109,7 @@ myxss = new xss.FilterXSS(options);
 // 以后直接调用 myxss.process() 来处理即可
 html = myxss.process(&#39;&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;&#39;);
 </code></pre><p><code>options</code> 参数的详细说明见下文。</p>
-<h3 id="-">自定义白名单</h3>
+<h2 id="-">自定义白名单</h2>
 <p>通过 <code>whiteList</code> 来指定，格式为：<code>{&#39;标签名&#39;: [&#39;属性1&#39;, &#39;属性2&#39;]}</code>。不在白名单上
 的标签将被过滤，不在白名单上的属性也会被过滤。以下是示例：</p>
 <pre><code class="lang-JavaScript">// 只允许a标签，该标签只允许href, title, target这三个属性
@@ -124,7 +124,47 @@ var options = {
 // &lt;a href=&quot;#&quot;&gt;大家好&lt;/a&gt;
 </code></pre>
 <p>默认白名单参考 <code>xss.whiteList</code>。</p>
-<h3 id="-">自定义匹配到标签时的处理方法</h3>
+<h2 id="-">去掉不在白名单上的标签</h2>
+<p>通过 <code>stripIgnoreTag</code> 来设置：</p>
+<ul>
+<li><code>true</code>：去掉不在白名单上的标签</li>
+<li><code>false</code>：（默认），使用配置的<code>escapehtmlape</code>函数对该标签进行转义</li>
+</ul>
+<p>示例：</p>
+<p>当设置 <code>stripIgnoreTag = true</code>时，以下代码</p>
+<pre><code class="lang-HTML">code:&lt;script&gt;alert(/xss/);&lt;/script&gt;
+</code></pre>
+<p>过滤后将输出</p>
+<pre><code class="lang-HTML">code:alert(/xss/);
+</code></pre>
+<h2 id="-">去掉不在白名单上的标签及标签体</h2>
+<p>通过 <code>stripIgnoreTagBody</code> 来设置：</p>
+<ul>
+<li><code>false|null|undefined</code>：（默认），不特殊处理</li>
+<li><code>&#39;*&#39;|true</code>：去掉所有不在白名单上的标签</li>
+<li><code>[&#39;tag1&#39;, &#39;tag2&#39;]</code>：仅去掉指定的不在白名单上的标签</li>
+</ul>
+<p>示例：</p>
+<p>当设置 <code>stripIgnoreTagBody = [&#39;script&#39;]</code>时，以下代码</p>
+<pre><code class="lang-HTML">code:&lt;script&gt;alert(/xss/);&lt;/script&gt;
+</code></pre>
+<p>过滤后将输出</p>
+<pre><code class="lang-HTML">code:
+</code></pre>
+<h2 id="-html-">去掉HTML备注</h2>
+<p>通过 <code>allowCommentTag</code> 来设置：</p>
+<ul>
+<li><code>true</code>：不处理</li>
+<li><code>false</code>：（默认），自动去掉HTML中的备注</li>
+</ul>
+<p>示例：</p>
+<p>当设置 <code>allowCommentTag = false</code> 时，以下代码</p>
+<pre><code class="lang-HTML">code:&lt;!-- something --&gt; END
+</code></pre>
+<p>过滤后将输出</p>
+<pre><code class="lang-HTML">code: END
+</code></pre>
+<h2 id="-">自定义匹配到标签时的处理方法</h2>
 <p>通过 <code>onTag</code> 来指定相应的处理函数。以下是详细说明：</p>
 <pre><code class="lang-JavaScript">function onTag (tag, html, options) {
   // tag是当前的标签名称，比如&lt;a&gt;标签，则tag的值是&#39;a&#39;
@@ -140,7 +180,7 @@ var options = {
   //   不在白名单上：通过onIgnoreTag指定，详见下文
 }
 </code></pre>
-<h3 id="-">自定义匹配到标签的属性时的处理方法</h3>
+<h2 id="-">自定义匹配到标签的属性时的处理方法</h2>
 <p>通过 <code>onTagAttr</code> 来指定相应的处理函数。以下是详细说明：</p>
 <pre><code class="lang-JavaScript">function onTagAttr (tag, name, value, isWhiteAttr) {
   // tag是当前的标签名称，比如&lt;a&gt;标签，则tag的值是&#39;a&#39;
@@ -153,7 +193,7 @@ var options = {
   //   不在白名单上：通过onIgnoreTagAttr指定，详见下文
 }
 </code></pre>
-<h3 id="-">自定义匹配到不在白名单上的标签时的处理方法</h3>
+<h2 id="-">自定义匹配到不在白名单上的标签时的处理方法</h2>
 <p>通过 <code>onIgnoreTag</code> 来指定相应的处理函数。以下是详细说明：</p>
 <pre><code class="lang-JavaScript">function onIgnoreTag (tag, html, options) {
   // 参数说明与onTag相同
@@ -161,7 +201,7 @@ var options = {
   // 如果不返回任何值，则使用默认的处理方法（通过escape指定，详见下文）
 }
 </code></pre>
-<h3 id="-">自定义匹配到不在白名单上的属性时的处理方法</h3>
+<h2 id="-">自定义匹配到不在白名单上的属性时的处理方法</h2>
 <p>通过 <code>onIgnoreTagAttr</code> 来指定相应的处理函数。以下是详细说明：</p>
 <pre><code class="lang-JavaScript">function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
   // 参数说明与onTagAttr相同
@@ -169,13 +209,13 @@ var options = {
   // 如果不返回任何值，则使用默认的处理方法（删除该属）
 }
 </code></pre>
-<h3 id="-html-">自定义HTML转义函数</h3>
+<h2 id="-html-">自定义HTML转义函数</h2>
 <p>通过 <code>escapeHtml</code> 来指定相应的处理函数。以下是默认代码 <strong>（不建议修改）</strong> ：</p>
 <pre><code class="lang-JavaScript">function escapeHtml (html) {
   return html.replace(/&lt;/g, &#39;&amp;lt;&#39;).replace(/&gt;/g, &#39;&amp;gt;&#39;);
 }
 </code></pre>
-<h3 id="-">自定义标签属性值的转义函数</h3>
+<h2 id="-">自定义标签属性值的转义函数</h2>
 <p>通过 <code>safeAttrValue</code> 来指定相应的处理函数。以下是详细说明：</p>
 <pre><code class="lang-JavaScript">function safeAttrValue (tag, name, value) {
   // 参数说明与onTagAttr相同（没有options参数）
@@ -195,7 +235,7 @@ var options = {
           <div id="copyright">Powered by <a href="http://ucdok.com">ucdok.com</a></div>
           <div id="fork">
             <a href="https://github.com/leizongmin/js-xss/tree/gh-pages">在GitHub上修改此网站</a>
-            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-17 22:54:00</span>
+            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-18 01:06:20</span>
           </div>
         </div>
       </div>
