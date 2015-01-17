@@ -31,10 +31,13 @@ var options = {
 var renderLiquid = expressLiquid(options);
 
 var navList = {};
+var configList = {};
 exports.lang.forEach(function (lang) {
   navList[lang] = require('../sources/' + lang + '/nav');
+  configList[lang] = require('../sources/' + lang + '/config');
 });
 context.setLocals('nav_list', navList);
+context.setLocals('config_list', configList);
 
 exports.context = context;
 exports.renderLiquid = renderLiquid;

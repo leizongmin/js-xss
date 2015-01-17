@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if title %}{{title|escape}} - {% endif %}js-xss module</title>
+  <title>{% if title %}{{title|escape}} - {% endif %}{{config.headline|escape}}</title>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">

@@ -22,8 +22,22 @@ body {
 
 #footer {
   margin-top: 80px;
-  border-top: 1px solid #DDD;
   padding-top: 10px;
+}
+#footer #github {
+  display: inline-block;
+  height: 20px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+#footer #copyright, #footer #fork {
+  display: inline-block;
+  height: 20px;
+  font-size: 14px;
+  overflow: hidden;
+  margin: 0 20px;
+  padding: 0;
 }
 
 pre.highlight {
