@@ -19,7 +19,7 @@ module.exports = [
     {title: '社区', url: '/resources/community.html'},
     {title: '参考', url: '/resources/reference.html'},
     {title: '博客文章', url: '/resources/blogs.html'},
-    {title: '应用', url: '/resources/applications.html'}
+    {title: '谁在使用XSS模块', url: '/resources/applications.html'}
   ]},
   {title: 'English', change_lang: 'en'}
 ];
