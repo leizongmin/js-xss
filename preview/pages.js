@@ -18,7 +18,7 @@ module.exports = function (registerMarkdown, registerHtml) {
   registerMarkdown('/resources/blogs', 'resources/blogs');
   registerMarkdown('/resources/applications', 'resources/applications');
 
-  registerHtml('/index', 'index', 'Welcome');
+  registerHtml('/index', 'index', '');
   registerHtml('/try', 'try', 'Try Online');
 
 };
