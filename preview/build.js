@@ -10,7 +10,7 @@ var VIEWS_DIR = path.resolve(__dirname, 'views');
 
 
 function render (tpl, data, callback) {
-  var context = expressLiquid.newContext();
+  var context = utils.newContext();
   data = data || {};
   Object.keys(data).forEach(function (k) {
     context.setLocals(k, data[k]);

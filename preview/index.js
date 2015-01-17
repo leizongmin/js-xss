@@ -12,8 +12,15 @@ app.use('/assets', serveStatic(path.resolve(__dirname, '../assets')));
 app.set('view engine', 'liquid');
 app.set('views', path.resolve(__dirname, 'views'));
 app.engine('liquid', utils.renderLiquid);
-app.use(expressLiquid.middleware);
 
+
+function renderLiquid (res, tpl, data, callback) {
+  var context = utils.newContext();
+  Object.keys(data).forEach(function (k) {
+    context.setLocals(k, data[k]);
+  });
+  res.render(tpl, {context: context}, callback);
+}
 
 function _registerMarkdown (path, filename) {
   if (path.slice(-1) !== '/') path = path + '.html';
@@ -23,7 +30,7 @@ function _registerMarkdown (path, filename) {
   console.log('register: %s (%s) \t %s', path, filename, page.title);
 
   app.get(path, function (req, res, next) {
-    res.render('page', utils.merge(utils.loadPage(filename), {
+    renderLiquid(res, 'page', utils.merge(utils.loadPage(filename), {
       lang: utils.parseLangFromUrl(req.url),
       url: path
     }));
@@ -41,7 +48,7 @@ function _registerHtml (path, filename, title) {
   filename = filename + '.html';
 
   app.get(path, function (req, res, next) {
-    res.render('html', {
+    renderLiquid(res, 'html', {
       title: title,
       html: utils.loadHtml(filename),
       lang: utils.parseLangFromUrl(req.url),

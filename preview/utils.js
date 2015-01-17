@@ -30,14 +30,29 @@ var options = {
 };
 var renderLiquid = expressLiquid(options);
 
-var navList = {};
-var configList = {};
-exports.lang.forEach(function (lang) {
-  navList[lang] = require('../sources/' + lang + '/nav');
-  configList[lang] = require('../sources/' + lang + '/config');
-});
-context.setLocals('nav_list', navList);
-context.setLocals('config_list', configList);
+function requireFile (filename) {
+  filename = path.resolve(filename);
+  var exports = require(filename);
+  delete require.cache[filename];
+  return exports;
+}
+
+function contextLocalConfig (context) {
+  var navList = {};
+  var configList = {};
+  exports.lang.forEach(function (lang) {
+    navList[lang] = requireFile(path.resolve(__dirname, '../sources/' + lang + '/nav.js'));
+    configList[lang] = requireFile(path.resolve(__dirname, '../sources/' + lang + '/config.js'));
+  });
+  context.setLocals('nav_list', navList);
+  context.setLocals('config_list', configList);
+}
+
+exports.newContext = function (context) {
+  context = context || expressLiquid.newContext();
+  contextLocalConfig(context);
+  return context;
+};
 
 context.setFilter('remove_url_lang', function (url) {
   return '/' + url.split('/').slice(2).join('/');
