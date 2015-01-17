@@ -4,7 +4,7 @@ module.exports = [
     {title: 'Quick Start', url: '/starter/quickstart.html'},
     {title: 'Customize Filter Rules', url: '/options.html'},
     {title: 'Command Line Tool', url: '/starter/cli.html'},
-    {title: 'FAQ', url: '/starter/faq.html'}
+    /*{title: 'FAQ', url: '/starter/faq.html'}*/
   ]},
   {title: 'Examples', list: [
     {title: 'Allow attributes of whitelist tags start with data-', url: '/examples/allow_attr_prefix.html'},
