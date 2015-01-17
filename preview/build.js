@@ -5,14 +5,8 @@ var mkdirp = require('mkdirp');
 var utils = require('./utils');
 
 
-var context = expressLiquid.newContext();
-var options = {
-  context: context,
-  customTags: {},
-  traceError: true
-};
+
 var VIEWS_DIR = path.resolve(__dirname, 'views');
-var renderLiquid = expressLiquid(options);
 
 
 function render (tpl, data, callback) {
@@ -21,7 +15,7 @@ function render (tpl, data, callback) {
   Object.keys(data).forEach(function (k) {
     context.setLocals(k, data[k]);
   });
-  renderLiquid(tpl, {
+  utils.renderLiquid(tpl, {
     context: context,
     settings: {
       views: VIEWS_DIR

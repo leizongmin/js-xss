@@ -9,15 +9,9 @@ var app = express();
 app.use('/assets', serveStatic(path.resolve(__dirname, '../assets')));
 
 
-var context = expressLiquid.newContext();
-var options = {
-  context: context,
-  customTags: {},
-  traceError: true
-};
 app.set('view engine', 'liquid');
 app.set('views', path.resolve(__dirname, 'views'));
-app.engine('liquid', expressLiquid(options));
+app.engine('liquid', utils.renderLiquid);
 app.use(expressLiquid.middleware);
 
 

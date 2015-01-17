@@ -56,37 +56,20 @@
 
           <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav pull-right">
-              <li><a href="/">Home</a></li>
+            {% for item in nav_list %}
+              {% if item.list.length > 0 %}
               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Getting Started <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{item.title|escape}} <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/starter/install.html">Installing</a></li>
-                  <li><a href="/starter/quickstart.html">Quick Start</a></li>
-                  <li><a href="/starter/customize.html">Customize Filter Rules</a></li>
-                  <li><a href="/starter/cli.html">Command Line Tool</a></li>
-                  <li><a href="/starter/faq.html">FAQ</a></li>
+                {% for item2 in item.list %}
+                  <li><a href="{{item2.url|escape}}">{{item2.title|escape}}</a></li>
+                {% endfor %}
                 </ul>
               </li>
-              <li><a href="/options.html">Options</a></li>
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Examples <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="/examples/allow_attr_prefix.html">Allow attributes of whitelist tags start with `data-`</a></li>
-                  <li><a href="/examples/allow_tag_prefix.html">Allow tags start with `x-`</a></li>
-                  <li><a href="/examples/html_parser.html">Parse images in HTML</a></li>
-                  <li><a href="/examples/no_tag.html">Filter out HTML tags (keeps only plain text)</a></li>
-                </ul>
-              </li>
-              <li><a href="/try.html">Try Online</a></li>
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Resources <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="/resources/community.html">Community</a></li>
-                  <li><a href="/resources/reference.html">Reference</a></li>
-                  <li><a href="/resources/blogs.html">Blogs</a></li>
-                  <li><a href="/resources/applications.html">Applications</a></li>
-                </ul>
-              </li>
+              {% else %}
+              <li><a href="{{item.url|escape}}">{{item.title|escape}}</a></li>
+              {% endif %}
+            {% endfor %}
             </ul>
           </div>
         </div>
