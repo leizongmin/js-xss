@@ -1,9 +1,9 @@
 var path = require('path');
 var fs = require('fs');
 var express = require('express');
-var marked = require('marked');
 var expressLiquid = require('express-liquid');
 var serveStatic = require('serve-static');
+var utils = require('./utils');
 
 var app = express();
 app.use('/assets', serveStatic(path.resolve(__dirname, '../assets')));
@@ -21,34 +21,27 @@ app.engine('liquid', expressLiquid(options));
 app.use(expressLiquid.middleware);
 
 
-function loadPage (filename) {
-  var data = fs.readFileSync(path.resolve(__dirname, '../sources', filename)).toString();
-  var lines = data.split(/\n/);
-  var title = lines[0].replace(/^#+/, '').trim();
-  var content = marked(lines.slice(2).join('\n'));
-  return {
-    title: title,
-    content: content
-  };
-}
-
 function registerMarkdown (path, filename) {
   if (path.slice(-1) !== '/') path = path + '.html';
   filename = filename + '.md';
 
-  var page = loadPage(filename);
+  var page = utils.loadPage(filename);
   console.log('register: %s (%s) \t %s', path, filename, page.title);
 
   app.get(path, function (req, res, next) {
-    res.render('page', loadPage(filename));
+    res.render('page', utils.loadPage(filename));
   });
 }
 
 function registerHtml (path, filename, title) {
   if (path.slice(-1) !== '/') path = path + '.html';
+  filename = filename + '.html';
 
   app.get(path, function (req, res, next) {
-    res.render(filename, {title: title});
+    res.render('html', {
+      title: title,
+      html: utils.loadHtml(filename)
+    });
   });
 }
 

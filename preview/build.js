@@ -1,8 +1,8 @@
 var path = require('path');
 var fs = require('fs');
-var marked = require('marked');
 var expressLiquid = require('express-liquid');
 var mkdirp = require('mkdirp');
+var utils = require('./utils');
 
 
 var context = expressLiquid.newContext();
@@ -29,25 +29,15 @@ function render (tpl, data, callback) {
   }, callback);
 }
 
-function loadPage (filename) {
-  var data = fs.readFileSync(path.resolve(__dirname, '../sources', filename)).toString();
-  var lines = data.split(/\n/);
-  var title = lines[0].replace(/^#+/, '').trim();
-  var content = marked(lines.slice(2).join('\n'));
-  return {
-    title: title,
-    content: content
-  };
-}
 
 function registerMarkdown (path, filename) {
   if (path.slice(-1) !== '/') path = path + '.html';
   filename = filename + '.md';
 
-  var page = loadPage(filename);
+  var page = utils.loadPage(filename);
   console.log('register: %s (%s) \t %s', path, filename, page.title);
 
-  render('page', loadPage(filename), function (err, html) {
+  render('page', utils.loadPage(filename), function (err, html) {
     if (err) throw err;
     saveFile(path, html);
   });
@@ -55,8 +45,12 @@ function registerMarkdown (path, filename) {
 
 function registerHtml (path, filename, title) {
   if (path.slice(-1) !== '/') path = path + '.html';
+  filename = filename + '.html';
 
-  render(filename, {title: title}, function (err, html) {
+  render('html', {
+    title: title,
+    html: utils.loadHtml(filename)
+  }, function (err, html) {
     if (err) throw err;
     saveFile(path, html);
   });
