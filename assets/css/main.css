@@ -9,7 +9,7 @@ body {
   box-sizing: border-box;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  margin-top: 80px;
+  margin-top: 60px;
   background: url(/assets/img/bg.jpg);
 }
 
