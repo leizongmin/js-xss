@@ -52,17 +52,17 @@
     <div class="row">
       <div class="col-md-6">
         <h3>Node.js</h3>
-        <h4>Install:</h4>
+        <p>Install:</p>
         <pre><code>$ npm install xss --save</code></pre>
-        <h4>Usage:</h4>
+        <p>Usage:</p>
         <pre><code class="lang-JavaScript">var xss = require('xss');
 console.log(xss('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
       </div>
       <div class="col-md-6">
         <h3>Browser</h3>
-        <h4>Require Script File:</h4>
+        <p>Require Script File:</p>
         <pre><code>https://raw.github.com/leizongmin/js-xss/master/dist/xss.js</code></pre>
-        <h4>Usage:</h4>
+        <p>Usage:</p>
         <pre><code class="lang-JavaScript">console.log(filterXSS('&lt;a href="#" onclick="alert(/xss/)"&gt;click me&lt;/a&gt;'));</code></pre>
       </div>
     </div>
