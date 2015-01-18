@@ -86,6 +86,16 @@ body {
   background-position: bottom right;
   background-size: 30%;
 }
+@media (max-width: 992px) {
+  .bg-people {
+    background-size: 50%;
+  }
+}
+@media (max-width: 640px) {
+  .bg-people {
+    background-size: 80%;
+  }
+}
 
 #page {
   min-height: 500px;
