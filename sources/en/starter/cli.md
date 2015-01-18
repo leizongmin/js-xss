@@ -1,6 +1,14 @@
 Command Line Tool
 ======
 
+### Installing
+
+Run the following command to install `xss` command:
+
+```bash
+$ npm install xss -g
+```
+
 ### Process File
 
 You can use the xss command line tool to process a file. Usage:
