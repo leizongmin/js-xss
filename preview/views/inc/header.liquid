@@ -60,7 +60,7 @@
             {% for item in current_nav_list %}
               {% if item.list.length > 0 %}
               <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{item.title|escape}} <span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{item.title|escape}}</a>
                 <ul class="dropdown-menu">
                 {% for item2 in item.list %}
                   <li><a href="/{{lang|escape}}{{item2.url|escape}}">{{item2.title|escape}}</a></li>

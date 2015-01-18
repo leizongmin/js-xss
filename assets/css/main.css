@@ -1,7 +1,6 @@
 .sidebar-nav {
   padding: 9px 0;
 }
-
 .dropdown-menu .sub-menu {
   left: 100%;
   position: absolute;
@@ -9,19 +8,15 @@
   visibility: hidden;
   margin-top: -1px;
 }
-
 .dropdown-menu li:hover .sub-menu {
   visibility: visible;
 }
-
 .dropdown:hover .dropdown-menu {
   display: block;
 }
-
 .nav-tabs .dropdown-menu, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
   margin-top: 0;
 }
-
 .navbar .sub-menu:before {
   border-bottom: 7px solid transparent;
   border-left: none;
@@ -39,6 +34,10 @@
   top: 11px;
   left: -6px;
 }
+.navbar-default .navbar-nav>li>a:hover {
+  color: #555;
+  background-color: #E7E7E7;
+}
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -49,11 +48,15 @@ body {
   box-sizing: border-box;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  margin-top: 60px;
+  margin-top: 50px;
   background: url(/assets/img/bg.jpg);
   line-height: 1.8;
 }
 
+.navbar-brand {
+  padding-top: 12px;
+  padding-bottom: 0;
+}
 .xss-logo {
   font: 25px "Helvetica Neue", "Open Sans", sans-serif;
   font-weight: 100;
