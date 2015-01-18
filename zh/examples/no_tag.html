@@ -96,9 +96,10 @@
   <div id="page" class="page">
     <div class="container">
       <div class="row">
-        <h1 class="page-title">去除HTML标签（只保留文本内容）</h1>
-        <hr>
-        <div class="page-content"><pre><code class="lang-JavaScript">var source = &#39;&lt;strong&gt;hello&lt;/strong&gt;&lt;script&gt;alert(/xss/);&lt;/script&gt;end&#39;;
+        <div class="col-md-12">
+          <h1 class="page-title">去除HTML标签（只保留文本内容）</h1>
+          <hr>
+          <div class="page-content"><pre><code class="lang-JavaScript">var source = &#39;&lt;strong&gt;hello&lt;/strong&gt;&lt;script&gt;alert(/xss/);&lt;/script&gt;end&#39;;
 var html = xss(source, {
   whiteList:          [],        // 白名单为空，表示过滤所有标签
   stripIgnoreTag:     true,      // 过滤所有非白名单标签的HTML
@@ -110,6 +111,7 @@ console.log(&#39;text: %s&#39;, html);
 <p>运行结果：</p>
 <pre><code>text: helloend
 </code></pre></div>
+        </div>
       </div>
     </div>
   </div>
@@ -122,7 +124,7 @@ console.log(&#39;text: %s&#39;, html);
           <div id="copyright">Powered by <a href="http://ucdok.com">ucdok.com</a></div>
           <div id="fork">
             <a href="https://github.com/leizongmin/js-xss/tree/gh-pages">在GitHub上修改此网站</a>
-            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-18 01:52:45</span>
+            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-18 12:51:46</span>
           </div>
         </div>
       </div>

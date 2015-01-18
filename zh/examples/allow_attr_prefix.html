@@ -96,9 +96,10 @@
   <div id="page" class="page">
     <div class="container">
       <div class="row">
-        <h1 class="page-title">允许标签以data-开头的属性</h1>
-        <hr>
-        <div class="page-content"><pre><code class="lang-JavaScript">var source = &#39;&lt;div a=&quot;1&quot; b=&quot;2&quot; data-a=&quot;3&quot; data-b=&quot;4&quot;&gt;hello&lt;/div&gt;&#39;;
+        <div class="col-md-12">
+          <h1 class="page-title">允许标签以data-开头的属性</h1>
+          <hr>
+          <div class="page-content"><pre><code class="lang-JavaScript">var source = &#39;&lt;div a=&quot;1&quot; b=&quot;2&quot; data-a=&quot;3&quot; data-b=&quot;4&quot;&gt;hello&lt;/div&gt;&#39;;
 var html = xss(source, {
   onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
     if (name.substr(0, 5) === &#39;data-&#39;) {
@@ -115,6 +116,7 @@ console.log(&#39;%s\nconvert to:\n%s&#39;, source, html);
 convert to:
 &lt;div data-a=&quot;3&quot; data-b=&quot;4&quot;&gt;hello&lt;/div&gt;
 </code></pre></div>
+        </div>
       </div>
     </div>
   </div>
@@ -127,7 +129,7 @@ convert to:
           <div id="copyright">Powered by <a href="http://ucdok.com">ucdok.com</a></div>
           <div id="fork">
             <a href="https://github.com/leizongmin/js-xss/tree/gh-pages">在GitHub上修改此网站</a>
-            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-18 01:52:45</span>
+            &nbsp;&nbsp;&nbsp;<span class="text-muted">页面最后更新时间: 2015-01-18 12:51:46</span>
           </div>
         </div>
       </div>
