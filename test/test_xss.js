@@ -18,6 +18,9 @@ describe('test XSS', function () {
     assert.equal(xss(123), '123');
     assert.equal(xss({a: 1111}), '[object Object]');
 
+    // 清除不可见字符
+    assert.equal(xss('a\u0000\u0001\u0002b'), 'ab');
+
     // 过滤不在白名单的标签
     assert.equal(xss('<b>abcd</b>'), '<b>abcd</b>');
     assert.equal(xss('<o>abcd</o>'), '&lt;o&gt;abcd&lt;/o&gt;');
