@@ -356,6 +356,16 @@ function stripCommentTag (html) {
 }
 var STRIP_COMMENT_TAG_REGEXP = /<!--[\s\S]*?-->/g;
 
+/**
+ * 去除不可见字符
+ *
+ * @param {String} html
+ * @return {String}
+ */
+function stripBlankChar (html) {
+  return html.replace(/[\u0000-\u001F]|\u007F/g, '');
+}
+
 
 exports.whiteList = whiteList;
 exports.onTag = onTag;
@@ -374,6 +384,7 @@ exports.escapeAttrValue = escapeAttrValue;
 exports.onIgnoreTagStripAll = onIgnoreTagStripAll;
 exports.StripTagBody = StripTagBody;
 exports.stripCommentTag = stripCommentTag;
+exports.stripBlankChar = stripBlankChar;
 
 },{}],2:[function(require,module,exports){
 /**
@@ -710,6 +721,9 @@ FilterXSS.prototype.process = function (html) {
   html = html || '';
   html = html.toString();
   if (!html) return '';
+
+  // 去除不可见字符
+  html = DEFAULT.stripBlankChar(html);
 
   var me = this;
   var options = me.options;
