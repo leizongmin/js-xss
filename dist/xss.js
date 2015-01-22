@@ -363,7 +363,17 @@ var STRIP_COMMENT_TAG_REGEXP = /<!--[\s\S]*?-->/g;
  * @return {String}
  */
 function stripBlankChar (html) {
-  return html.replace(/[\u0000-\u001F]|\u007F/g, '');
+  var chars = html.split('');
+  chars = chars.filter(function (char) {
+    var c = char.charCodeAt(0);
+    if (c === 127) return false;
+    if (c <= 31) {
+      if (c === 10 || c === 13) return true;
+      return false;
+    }
+    return true;
+  });
+  return chars.join('');
 }
 
 
@@ -688,7 +698,7 @@ function getAttrs (html) {
  *
  * @param {Object} options 选项：whiteList, onTag, onTagAttr, onIgnoreTag,
  *                               onIgnoreTagAttr, safeAttrValue, escapeHtml
- *                               stripIgnoreTagBody, allowCommentTag
+ *                               stripIgnoreTagBody, allowCommentTag, stripBlankChar
  */
 function FilterXSS (options) {
   options = options || {};
@@ -731,6 +741,11 @@ FilterXSS.prototype.process = function (html) {
   var onIgnoreTagAttr = options.onIgnoreTagAttr;
   var safeAttrValue = options.safeAttrValue;
   var escapeHtml = options.escapeHtml
+
+  // 是否清除不可见字符
+  if (options.stripBlankChar) {
+    html = DEFAULT.stripBlankChar(html);
+  }
 
   // 是否禁止备注标签
   if (!options.allowCommentTag) {
