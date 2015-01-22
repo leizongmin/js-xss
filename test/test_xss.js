@@ -5,7 +5,15 @@
  */
 
 var assert = require('assert');
-var xss = require('../');
+var _xss = require('../');
+
+
+function xss (html, options) {
+  console.log(JSON.stringify(html));
+  var ret = _xss(html, options);
+  console.log('\t' + JSON.stringify(ret));
+  return ret;
+}
 
 
 describe('test XSS', function () {
@@ -19,7 +27,8 @@ describe('test XSS', function () {
     assert.equal(xss({a: 1111}), '[object Object]');
 
     // 清除不可见字符
-    // assert.equal(xss('a\u0000\u0001\u0002\u0003\r\n b'), 'a\r\n b');
+    assert.equal(xss('a\u0000\u0001\u0002\u0003\r\n b'), 'a\u0000\u0001\u0002\u0003\r\n b');
+    assert.equal(xss('a\u0000\u0001\u0002\u0003\r\n b', {stripBlankChar: true}), 'a\r\n b');
 
     // 过滤不在白名单的标签
     assert.equal(xss('<b>abcd</b>'), '<b>abcd</b>');
