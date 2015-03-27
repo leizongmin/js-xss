@@ -5,6 +5,7 @@
  * @author 老雷<leizongmin@gmail.com>
  */
 
+var _ = require('./util');
 
 // 默认白名单
 var whiteList = {
@@ -145,7 +146,7 @@ function safeAttrValue (tag, name, value) {
   if (name === 'href' || name === 'src') {
     // 过滤 href 和 src 属性
     // 仅允许 http:// | https:// | mailto: | / 开头的地址
-    value = value.trim();
+    value = _.trim(value);
     if (value === '#') return '#';
     if (!(value.substr(0, 7) === 'http://' ||
          value.substr(0, 8) === 'https://' ||
@@ -257,7 +258,7 @@ function clearNonPrintableCharacter (str) {
   for (var i = 0, len = str.length; i < len; i++) {
     str2 += str.charCodeAt(i) < 32 ? ' ' : str.charAt(i);
   }
-  return str2.trim();
+  return _.trim(str2);
 }
 
 /**
@@ -307,7 +308,7 @@ function StripTagBody (tags, next) {
   var isRemoveAllTag = !Array.isArray(tags);
   function isRemoveTag (tag) {
     if (isRemoveAllTag) return true;
-    return (tags.indexOf(tag) !== -1);
+    return (_.indexOf(tags, tag) !== -1);
   }
 
   var removeList = [];   // 要删除的位置范围列表
@@ -335,7 +336,7 @@ function StripTagBody (tags, next) {
     remove: function (html) {
       var rethtml = '';
       var lastPos = 0;
-      removeList.forEach(function (pos) {
+      _.forEach(removeList, function (pos) {
         rethtml += html.slice(lastPos, pos[0]);
         lastPos = pos[1];
       });
@@ -396,7 +397,7 @@ exports.StripTagBody = StripTagBody;
 exports.stripCommentTag = stripCommentTag;
 exports.stripBlankChar = stripBlankChar;
 
-},{}],2:[function(require,module,exports){
+},{"./util":4}],2:[function(require,module,exports){
 /**
  * 模块入口
  *
@@ -428,28 +429,6 @@ for (var i in DEFAULT) exports[i] = DEFAULT[i];
 for (var i in parser) exports[i] = parser[i];
 
 
-// 低版本浏览器支持
-if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function (item) {
-    for (var i = 0; i < this.length; i++) {
-      if (this[i] === item) return i;
-    }
-    return -1;
-  };
-}
-if (!Array.prototype.forEach) {
-  Array.prototype.forEach = function (fn, scope) {
-    for (var i = 0; i < this.length; i++) {
-      fn.call(scope, this[i], i, this);
-    }
-  };
-}
-if (!String.prototype.trim) {
-  String.prototype.trim = function () {
-    return this.replace(/(^\s*)|(\s*$)/g, '');
-  };
-}
-
 
 // 在AMD下使用
 if (typeof define === 'function' && define.amd) {
@@ -463,13 +442,14 @@ if (typeof window !== 'undefined') {
   window.filterXSS = module.exports;
 }
 
-},{"./default":1,"./parser":3,"./xss":4}],3:[function(require,module,exports){
+},{"./default":1,"./parser":3,"./xss":5}],3:[function(require,module,exports){
 /**
  * 简单 HTML Parser
  *
  * @author 老雷<leizongmin@gmail.com>
  */
 
+var _ = require('./util');
 
 /**
  * 获取标签的名称
@@ -484,7 +464,7 @@ function getTagName (html) {
   } else {
     var tagName = html.slice(1, i + 1);
   }
-  tagName = tagName.trim().toLowerCase();
+  tagName = _.trim(tagName).toLowerCase();
   if (tagName[0] === '/') tagName = tagName.slice(1);
   if (tagName[tagName.length - 1] === '/') tagName = tagName.slice(0, -1);
   return tagName;
@@ -589,7 +569,7 @@ function parseAttr (html, onAttr) {
   var len = html.length;  // HTML代码长度
 
   function addAttr (name, value) {
-    name =  name.trim();
+    name = _.trim(name);
     name = name.replace(REGEXP_ATTR_NAME, '').toLowerCase();
     if (name.length < 1) return;
     retAttrs.push(onAttr(name, value || ''));
@@ -609,7 +589,7 @@ function parseAttr (html, onAttr) {
         if (j === -1) {
           break;
         } else {
-          v = html.slice(lastPos + 1, j).trim();
+          v = _.trim(html.slice(lastPos + 1, j));
           addAttr(tmpName, v);
           tmpName = false;
           i = j;
@@ -619,7 +599,7 @@ function parseAttr (html, onAttr) {
       }
     }
     if (c === ' ') {
-      v = html.slice(lastPos, i).trim();
+      v = _.trim(html.slice(lastPos, i));
       if (tmpName === false) {
         addAttr(v);
       } else {
@@ -639,13 +619,44 @@ function parseAttr (html, onAttr) {
     }
   }
 
-  return retAttrs.join(' ').trim();
+  return _.trim(retAttrs.join(' '));
 }
 
 exports.parseTag = parseTag;
 exports.parseAttr = parseAttr;
 
-},{}],4:[function(require,module,exports){
+},{"./util":4}],4:[function(require,module,exports){
+module.exports = {
+  indexOf: function (arr, item) {
+    var i, j;
+    if (Array.prototype.indexOf) {
+      return arr.indexOf(item);
+    }
+    for (i = 0, j = arr.length; i < j; i++) {
+      if (arr[i] === item) {
+        return i;
+      }
+    }
+    return -1;
+  },
+  forEach: function (arr, fn, scope) {
+    var i, j;
+    if (Array.prototype.forEach) {
+      return arr.forEach(fn, scope);
+    }
+    for (i = 0, j = arr.length; i < j; i++) {
+      fn.call(scope, arr[i], i, arr);
+    }
+  },
+  trim: function (str) {
+    if (String.prototype.forEach) {
+      return str.trim();
+    }
+    return str.replace(/(^\s*)|(\s*$)/g, '');
+  }
+};
+
+},{}],5:[function(require,module,exports){
 /**
  * 过滤XSS
  *
@@ -656,6 +667,7 @@ var DEFAULT = require('./default');
 var parser = require('./parser');
 var parseTag = parser.parseTag;
 var parseAttr = parser.parseAttr;
+var _ = require('./util');
 
 
 /**
@@ -684,9 +696,9 @@ function getAttrs (html) {
       closing: (html[html.length - 2] === '/')
     };
   }
-  html = html.slice(i + 1, -1).trim();
+  html = _.trim(html.slice(i + 1, -1));
   var isClosing = (html[html.length - 1] === '/');
-  if (isClosing) html = html.slice(0, -1).trim();
+  if (isClosing) html = _.trim(html.slice(0, -1));
   return {
     html:    html,
     closing: isClosing
@@ -785,7 +797,7 @@ FilterXSS.prototype.process = function (html) {
       var attrsHtml = parseAttr(attrs.html, function (name, value) {
 
         // 调用onTagAttr处理
-        var isWhiteAttr = (whiteAttrList.indexOf(name) !== -1);
+        var isWhiteAttr = (_.indexOf(whiteAttrList, name) !== -1);
         var ret = onTagAttr(tag, name, value, isWhiteAttr);
         if (!isNull(ret)) return ret;
 
@@ -832,4 +844,5 @@ FilterXSS.prototype.process = function (html) {
 
 
 module.exports = FilterXSS;
-},{"./default":1,"./parser":3}]},{},[2]);
+
+},{"./default":1,"./parser":3,"./util":4}]},{},[2]);
