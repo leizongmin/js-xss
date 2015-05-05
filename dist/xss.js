@@ -651,7 +651,7 @@ module.exports = {
     }
   },
   trim: function (str) {
-    if (String.prototype.forEach) {
+    if (String.prototype.trim) {
       return str.trim();
     }
     return str.replace(/(^\s*)|(\s*$)/g, '');
@@ -1470,14 +1470,14 @@ module.exports = {
     }
   },
   trim: function (str) {
-    if (String.prototype.forEach) {
+    if (String.prototype.trim) {
       return str.trim();
     }
     return str.replace(/(^\s*)|(\s*$)/g, '');
   },
   trimRight: function (str) {
-    if (String.prototype.forEach) {
-      return str.trim();
+    if (String.prototype.trimRight) {
+      return str.trimRight();
     }
     return str.replace(/(\s*$)/g, '');
   }
