@@ -162,7 +162,7 @@ describe('test XSS', function () {
     assert.equal(xss('<DIV STYLE="background:\n url (javascript:ooxx);">', {whiteList: {div: ['style']}}), '<div style>');
     assert.equal(xss('<DIV STYLE="background:url (javascript:ooxx);">', {whiteList: {div: ['style']}}), '<div style>');
     // 正常的url
-    assert.equal(xss('<DIV STYLE="background: url (ooxx);">', {whiteList: {div: ['style']}}), '<div style="background: url (ooxx);">');
+    assert.equal(xss('<DIV STYLE="background: url (ooxx);">', {whiteList: {div: ['style']}}), '<div style="background:url (ooxx);">');
 
     assert.equal(xss('<IMG SRC=\'vbscript:msgbox("XSS")\'>'), '<img src>');
 
