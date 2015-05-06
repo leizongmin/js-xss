@@ -43,7 +43,7 @@ describe('test XSS', function () {
 
     // 过滤不是标签的<>
     assert.equal(xss('<>>'), '&lt;&gt;&gt;');
-    assert.equal(xss('<script>'), '&lt;script&gt;');
+    assert.equal(xss('<scri' + 'pt>'), '&lt;script&gt;');
     assert.equal(xss('<<a>b>'), '&lt;<a>b&gt;');
     assert.equal(xss('<<<a>>b</a><x>'), '&lt;&lt;<a>&gt;b</a>&lt;x&gt;');
 
@@ -92,12 +92,12 @@ describe('test XSS', function () {
   // XSS攻击测试：https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
   it('#XSS_Filter_Evasion_Cheat_Sheet', function () {
 
-    assert.equal(xss('></SCRIPT>">\'><SCRIPT>alert(String.fromCharCode(88,83,83))</SCRIPT>'),
+    assert.equal(xss('></SCRI' + 'PT>">\'><SCRI' + 'PT>alert(String.fromCharCode(88,83,83))</SCRI' + 'PT>'),
         '&gt;&lt;/SCRIPT&gt;"&gt;\'&gt;&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;');
 
     assert.equal(xss(';!--"<XSS>=&{()}'), ';!--"&lt;XSS&gt;=&{()}');
 
-    assert.equal(xss('<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>'),
+    assert.equal(xss('<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRI' + 'PT>'),
         '&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;');
 
     assert.equal(xss('<IMG SRC="javascript:alert(\'XSS\');">'), '<img src>');
@@ -108,7 +108,7 @@ describe('test XSS', function () {
 
     assert.equal(xss('<IMG SRC=`javascript:alert("RSnake says, \'XSS\'")`>'), '<img src>');
 
-    assert.equal(xss('<IMG """><SCRIPT>alert("XSS")</SCRIPT>">'), '<img>');
+    assert.equal(xss('<IMG """><SCRI' + 'PT>alert("XSS")</SCRI' + 'PT>">'), '<img>');
 
     assert.equal(xss('<IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>'), '<img src>');
 
@@ -131,13 +131,13 @@ describe('test XSS', function () {
 
     assert.equal(xss('<IMG SRC=" &#14;  javascript:alert(\'XSS\');">'), '<img src>');
 
-    assert.equal(xss('<SCRIPT/XSS SRC="http://ha.ckers.org/xss.js"></SCRIPT>'),
+    assert.equal(xss('<SCRIPT/XSS SRC="http://ha.ckers.org/xss.js"></SCRI' + 'PT>'),
         '&lt;SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"&gt;&lt;/SCRIPT&gt;');
 
     assert.equal(xss('<BODY onload!#$%&()*~+-_.,:;?@[/|\]^`=alert("XSS")>'),
         '&lt;BODY onload!#$%&()*~+-_.,:;?@[/|]^`=alert(\"XSS\")&gt;');
 
-    assert.equal(xss('<<SCRIPT>alert("XSS");//<</SCRIPT>'),
+    assert.equal(xss('<<SCRI' + 'PT>alert("XSS");//<</SCRI' + 'PT>'),
         '&lt;&lt;SCRIPT&gt;alert(\"XSS\");//&lt;&lt;/SCRIPT&gt;');
 
     assert.equal(xss('<SCRIPT SRC=http://ha.ckers.org/xss.js?< B >'),
@@ -183,9 +183,9 @@ describe('test XSS', function () {
     // 这个暂时不知道怎么处理
     //assert.equal(xss('¼script¾alert(¢XSS¢)¼/script¾'), '');
 
-    assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]--> END', {allowCommentTag: true}),
+    assert.equal(xss('<!--[if gte IE 4]><SCRI' + 'PT>alert(\'XSS\');</SCRI' + 'PT><![endif]--> END', {allowCommentTag: true}),
         '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt; END');
-    assert.equal(xss('<!--[if gte IE 4]><SCRIPT>alert(\'XSS\');</SCRIPT><![endif]--> END'), ' END');
+    assert.equal(xss('<!--[if gte IE 4]><SCRI' + 'PT>alert(\'XSS\');</SCRI' + 'PT><![endif]--> END'), ' END');
 
     // HTML5新增实体编码 冒号&colon; 换行&NewLine;
     assert.equal(xss('<a href="javascript&colon;alert(/xss/)">'), '<a href>');

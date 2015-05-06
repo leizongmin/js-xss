@@ -303,7 +303,7 @@ describe('test custom XSS method', function () {
   });
 
   it('#stripIgnoreTag & stripIgnoreTagBody', function () {
-    var source = '<script>alert(/xss/);</script>';
+    var source = '<scri' + 'pt>alert(/xss/);</scri' + 'pt>';
     var html = xss(source, {
       stripIgnoreTag:     true,
       stripIgnoreTagBody: ['script']
@@ -313,7 +313,7 @@ describe('test custom XSS method', function () {
   });
 
   it('#stripIgnoreTag & stripIgnoreTagBody - 2', function () {
-    var source = 'ooxx<script>alert(/xss/);</script>';
+    var source = 'ooxx<scri' + 'pt>alert(/xss/);</scri' + 'pt>';
     var html = xss(source, {
       stripIgnoreTag:     true,
       stripIgnoreTagBody: ['script']
