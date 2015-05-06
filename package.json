@@ -27,6 +27,15 @@
     "mocha": "1.8.2",
     "uglify-js": "^2.4.19"
   },
+  "testling": {
+    "harness": "mocha-bdd",
+    "files": "test/*.js",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/latest",
+      "firefox/latest"
+    ]
+  },
   "bin": {
     "xss": "./bin/xss"
   },
