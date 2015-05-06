@@ -25,15 +25,20 @@
     "blanket": "1.1.5",
     "browserify": "^9.0.8",
     "mocha": "1.8.2",
+    "testling": "^1.7.1",
     "uglify-js": "^2.4.19"
   },
   "testling": {
+    "preprocess": "./build",
     "harness": "mocha-bdd",
     "files": "test/*.js",
     "browsers": [
       "ie/6..latest",
+      "firefox/latest",
       "chrome/latest",
-      "firefox/latest"
+      "safari/5..latest",
+      "opera/11",
+      "opera/next"
     ]
   },
   "bin": {
