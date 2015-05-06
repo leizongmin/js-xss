@@ -48,7 +48,7 @@
     "blanket": {
       "pattern": "xss/lib"
     },
-    "test": "mocha --require blanket -R html-cov > coverage.html -t 5000 && mocha -t 5000 && testling -x open"
+    "test": "mocha -t 5000"
   },
   "licenses": [
     {
