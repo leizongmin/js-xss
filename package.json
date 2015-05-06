@@ -18,7 +18,7 @@
     "node": ">= 0.6.0"
   },
   "dependencies": {
-    "commander": "2.1.x",
+    "commander": "2.8.x",
     "cssfilter": "0.0.4"
   },
   "devDependencies": {
