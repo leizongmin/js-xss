@@ -854,50 +854,7 @@ FilterXSS.prototype.process = function (html) {
 
 module.exports = FilterXSS;
 
-},{"./default":1,"./parser":3,"./util":4,"cssfilter":6}],6:[function(require,module,exports){
-/**
- * cssfilter
- *
- * @author 老雷<leizongmin@gmail.com>
- */
-
-var DEFAULT = require('./lib/default');
-var FilterCSS = require('./lib/css');
-
-
-/**
- * XSS过滤
- *
- * @param {String} css 要过滤的CSS代码
- * @param {Object} options 选项：whiteList, onAttr, onIgnoreAttr
- * @return {String}
- */
-function filterCSS (html, options) {
-  var xss = new FilterCSS(options);
-  return xss.process(html);
-}
-
-
-// 输出
-exports = module.exports = filterCSS;
-exports.FilterCSS = FilterCSS;
-for (var i in DEFAULT) exports[i] = DEFAULT[i];
-
-
-
-// 在AMD下使用
-if (typeof define === 'function' && define.amd) {
-  define(function () {
-    return module.exports;
-  });
-}
-
-// 在浏览器端使用
-if (typeof window !== 'undefined') {
-  window.filterCSS = module.exports;
-}
-
-},{"./lib/css":7,"./lib/default":8}],7:[function(require,module,exports){
+},{"./default":1,"./parser":3,"./util":4,"cssfilter":8}],6:[function(require,module,exports){
 /**
  * cssfilter
  *
@@ -954,7 +911,7 @@ FilterCSS.prototype.process = function (css) {
     var isWhite = false;
     if (check === true) isWhite = check;
     else if (typeof check === 'function') isWhite = check(value);
-    else if (check instanceof RegExp) isWhite = check.test(val);
+    else if (check instanceof RegExp) isWhite = check.test(value);
     if (isWhite !== true) isWhite = false;
 
     var opts = {
@@ -989,7 +946,7 @@ FilterCSS.prototype.process = function (css) {
 
 module.exports = FilterCSS;
 
-},{"./default":8,"./parser":9,"./util":10}],8:[function(require,module,exports){
+},{"./default":7,"./parser":9,"./util":10}],7:[function(require,module,exports){
 /**
  * cssfilter
  *
@@ -1370,7 +1327,50 @@ exports.whiteList = whiteList;
 exports.onAttr = onAttr;
 exports.onIgnoreAttr = onIgnoreAttr;
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+/**
+ * cssfilter
+ *
+ * @author 老雷<leizongmin@gmail.com>
+ */
+
+var DEFAULT = require('./default');
+var FilterCSS = require('./css');
+
+
+/**
+ * XSS过滤
+ *
+ * @param {String} css 要过滤的CSS代码
+ * @param {Object} options 选项：whiteList, onAttr, onIgnoreAttr
+ * @return {String}
+ */
+function filterCSS (html, options) {
+  var xss = new FilterCSS(options);
+  return xss.process(html);
+}
+
+
+// 输出
+exports = module.exports = filterCSS;
+exports.FilterCSS = FilterCSS;
+for (var i in DEFAULT) exports[i] = DEFAULT[i];
+
+
+
+// 在AMD下使用
+if (typeof define === 'function' && define.amd) {
+  define(function () {
+    return module.exports;
+  });
+}
+
+// 在浏览器端使用
+if (typeof window !== 'undefined') {
+  window.filterCSS = module.exports;
+}
+
+},{"./css":6,"./default":7}],9:[function(require,module,exports){
 /**
  * cssfilter
  *
