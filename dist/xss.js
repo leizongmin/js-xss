@@ -5,6 +5,7 @@
  * @author 老雷<leizongmin@gmail.com>
  */
 
+var FilterCSS = require('cssfilter').FilterCSS;
 var _ = require('./util');
 
 // 默认白名单
@@ -74,6 +75,9 @@ var whiteList = {
   video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width']
 };
 
+// 默认CSS Filter
+var defaultCSSFilter = new FilterCSS();
+
 /**
  * 匹配到标签时的处理方法
  *
@@ -141,6 +145,7 @@ function escapeHtml (html) {
  * @return {String}
  */
 function safeAttrValue (tag, name, value, cssFilter) {
+  cssFilter = cssFilter || defaultCSSFilter;
   // 转换为友好的属性值，再做判断
   value = friendlyAttrValue(value);
 
@@ -398,8 +403,10 @@ exports.onIgnoreTagStripAll = onIgnoreTagStripAll;
 exports.StripTagBody = StripTagBody;
 exports.stripCommentTag = stripCommentTag;
 exports.stripBlankChar = stripBlankChar;
+exports.cssFilter = defaultCSSFilter;
 
-},{"./util":4}],2:[function(require,module,exports){
+
+},{"./util":4,"cssfilter":8}],2:[function(require,module,exports){
 /**
  * 模块入口
  *
