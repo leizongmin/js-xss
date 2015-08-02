@@ -57,7 +57,7 @@ describe('test XSS', function () {
     assert.equal(xss('<a title="\'<<>>">'), '<a title="\'&lt;&lt;&gt;&gt;">');
     assert.equal(xss('<a title=""">'), '&lt;a title=\"\"\"&gt;');
     assert.equal(xss('<a h=title="oo">'), '<a>');
-    assert.equal(xss('<a h= title="oo">'), '<a title="oo">');
+    assert.equal(xss('<a h= title="oo">'), '<a>');
     assert.equal(xss('<a title="javascript&colonalert(/xss/)">'), '<a title="javascript:alert(/xss/)">');
 
     // 自动将属性值的单引号转为双引号
@@ -75,6 +75,26 @@ describe('test XSS', function () {
     assert.equal(xss('<img src//>'), '<img src />');
     assert.equal(xss('<br/>'), '<br />');
     assert.equal(xss('<br />'), '<br />');
+
+    // 畸形属性格式
+    assert.equal(xss('<a target = "_blank" title ="bbb">'), '<a target="_blank" title="bbb">');
+    assert.equal(xss('<a target = "_blank" title =  title =  "bbb">'), '<a target="_blank" title="title">');
+    assert.equal(xss('<img width = 100    height     =200 title="xxx">'),
+                     '<img width="100" height="200" title="xxx">');
+    assert.equal(xss('<img width = 100    height     =200 title=xxx>'),
+                     '<img width="100" height="200" title="xxx">');
+    assert.equal(xss('<img width = 100    height     =200 title= xxx>'),
+                     '<img width="100" height="200" title="xxx">');
+    assert.equal(xss('<img width = 100    height     =200 title= "xxx">'),
+                     '<img width="100" height="200" title="xxx">');
+    assert.equal(xss('<img width = 100    height     =200 title= \'xxx\'>'),
+                     '<img width="100" height="200" title="xxx">');
+    assert.equal(xss('<img width = 100    height     =200 title = \'xxx\'>'),
+                     '<img width="100" height="200" title="xxx">');
+    assert.equal(xss('<img width = 100    height     =200 title= "xxx" no=yes alt="yyy">'),
+                     '<img width="100" height="200" title="xxx" alt="yyy">');
+    assert.equal(xss('<img width = 100    height     =200 title= "xxx" no=yes alt="\'yyy\'">'),
+                     '<img width="100" height="200" title="xxx" alt="\'yyy\'">');
 
   });
 
