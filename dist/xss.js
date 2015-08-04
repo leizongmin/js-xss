@@ -688,11 +688,6 @@ function stripQuoteWrap (text) {
 exports.parseTag = parseTag;
 exports.parseAttr = parseAttr;
 
-
-console.log(parseAttr(' src = "#" alt ="bbb"', function (n, v) {
-  console.log('%s=%s', n, v);
-  return n + '=' + v;
-}));
 },{"./util":4}],4:[function(require,module,exports){
 module.exports = {
   indexOf: function (arr, item) {
