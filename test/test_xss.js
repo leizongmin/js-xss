@@ -55,10 +55,11 @@ describe('test XSS', function () {
 
     // 属性内的特殊字符
     assert.equal(xss('<a title="\'<<>>">'), '<a title="\'&lt;&lt;&gt;&gt;">');
-    assert.equal(xss('<a title=""">'), '&lt;a title=\"\"\"&gt;');
+    assert.equal(xss('<a title=""">'), '<a title>');
     assert.equal(xss('<a h=title="oo">'), '<a>');
     assert.equal(xss('<a h= title="oo">'), '<a>');
     assert.equal(xss('<a title="javascript&colonalert(/xss/)">'), '<a title="javascript:alert(/xss/)">');
+    assert.equal(xss('<a title"hell aa="fdfd title="ok">hello</a>'), '<a>hello</a>');
 
     // 自动将属性值的单引号转为双引号
     assert.equal(xss('<a title=\'abcd\'>'), '<a title="abcd">');
@@ -128,7 +129,7 @@ describe('test XSS', function () {
 
     assert.equal(xss('<IMG SRC=`javascript:alert("RSnake says, \'XSS\'")`>'), '<img src>');
 
-    assert.equal(xss('<IMG """><SCRI' + 'PT>alert("XSS")</SCRI' + 'PT>">'), '<img>');
+    assert.equal(xss('<IMG """><SCRI' + 'PT>alert("XSS")</SCRI' + 'PT>">'), '<img>&lt;SCRIPT&gt;alert("XSS")&lt;/SCRIPT&gt;"&gt;');
 
     assert.equal(xss('<IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>'), '<img src>');
 
