@@ -22,9 +22,9 @@ The `xss` module controls the usage of tags and their attributes, according to
 the whitelist. It is also extendable with a series of APIs privided, which make
 it become more flexible, compares with other modules.
 
-**Project Homepage:** https://github.com/leizongmin/js-xss
+**Project Homepage:** http://jsxss.com
 
-**Try Online:** http://ucdok.com/project/xss/
+**Try Online:** http://jsxss.com/en/try.html
 
 ---------------
 

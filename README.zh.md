@@ -15,9 +15,9 @@
 格式控制相关的HTML的场景，`xss`模块通过白名单来控制允许的标签及相关的标签属性，
 另外还提供了一系列的接口以便用户扩展，比其他同类模块更为灵活。
 
-**项目主页：** https://github.com/leizongmin/js-xss
+**项目主页：** http://jsxss.com
 
-**在线测试：** http://ucdok.com/project/xss/
+**在线测试：** http://jsxss.com/zh/try.html
 
 ---------------
 
