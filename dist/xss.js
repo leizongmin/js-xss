@@ -539,7 +539,8 @@ function parseTag (html, onTag, escapeHtml) {
           tagStart = false;
           continue;
         }
-        if (c === '"' || c === "'") {
+        // HTML标签内的引号仅当前一个字符是等于号时才有效
+        if ((c === '"' || c === "'") && html.charAt(currentPos - 1) === '=') {
           quoteStart = c;
           continue;
         }
@@ -595,7 +596,8 @@ function parseAttr (html, onAttr) {
       continue;
     }
     if (tmpName !== false) {
-      if (i === lastPos && (c === '"' || c === "'")) {
+      // HTML标签内的引号仅当前一个字符是等于号时才有效
+      if (i === lastPos && (c === '"' || c === "'") && html.charAt(i - 1) === '=') {
         j = html.indexOf(c, i + 1);
         if (j === -1) {
           break;
