@@ -1,6 +1,7 @@
 [![NPM version](https://badge.fury.io/js/xss.png)](http://badge.fury.io/js/xss)
 [![Build Status](https://secure.travis-ci.org/leizongmin/js-xss.png?branch=master)](http://travis-ci.org/leizongmin/js-xss)
 [![Dependencies Status](https://david-dm.org/leizongmin/js-xss.png)](https://david-dm.org/leizongmin/js-xss)
+[![Node.js Version](https://img.shields.io/badge/node.js-%3E=_0.6-green.svg?style=flat-square)](https://nodejs.org/download/)
 
 根据白名单过滤HTML(防止XSS攻击)
 ======
