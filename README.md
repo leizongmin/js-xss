@@ -1,7 +1,6 @@
 [![NPM version](https://badge.fury.io/js/xss.png)](http://badge.fury.io/js/xss)
 [![Build Status](https://secure.travis-ci.org/leizongmin/js-xss.png?branch=master)](http://travis-ci.org/leizongmin/js-xss)
 [![Dependencies Status](https://david-dm.org/leizongmin/js-xss.png)](https://david-dm.org/leizongmin/js-xss)
-[![testling badge](https://ci.testling.com/leizongmin/js-xss.png)](https://ci.testling.com/leizongmin/js-xss)
 
 Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist.
 ======
@@ -83,7 +82,7 @@ $ bower install https://github.com/leizongmin/js-xss.git
 
 ### On Node.js
 
-```JavaScript
+```javascript
 var xss = require('xss');
 var html = xss('<script>alert("xss");</script>');
 console.log(html);
@@ -93,7 +92,7 @@ console.log(html);
 
 Shim mode (reference file `test/test.html`):
 
-```HTML
+```html
 <script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
 // apply function filterXSS in the same way
@@ -104,7 +103,7 @@ alert(html);
 
 AMD mode (reference file `test/test_amd.html`):
 
-```HTML
+```html
 <script>
 require.config({
   baseUrl: './'
@@ -150,7 +149,7 @@ For more details, please run `$ xss -h` to see it.
 When using the `xss()` function, the second parameter could be used to specify
 custom rules:
 
-```JavaScript
+```javascript
 options = {};  // Custom rules
 html = xss('<script>alert("xss");</script>', options);
 ```
@@ -158,7 +157,7 @@ html = xss('<script>alert("xss");</script>', options);
 To avoid passing `options` every time, you can also do it in a faster way by
 creating a `FilterXSS` instance:
 
-```JavaScript
+```javascript
 options = {};  // Custom rules
 myxss = new xss.FilterXSS(options);
 // then apply myxss.process()
@@ -172,7 +171,7 @@ Details of parameters in `options` would be described below.
 By specifying a `whiteList`, e.g. `{ 'tagName': [ 'attr-1', 'attr-2' ] }`. Tags
 and attributes not in the whitelist would be filter out. For example:
 
-```JavaScript
+```javascript
 // only tag a and its attributes href, title, target are allowed
 var options = {
   whiteList: {
@@ -191,7 +190,7 @@ For the default whitelist, please refer `xss.whiteList`.
 
 By specifying the handler function with `onTag`:
 
-```JavaScript
+```javascript
 function onTag (tag, html, options) {
   // tag is the name of current tag, e.g. 'a' for tag <a>
   // html is the HTML of this tag, e.g. '<a>' for tag <a>
@@ -211,7 +210,7 @@ function onTag (tag, html, options) {
 
 By specifying the handler function with `onTagAttr`:
 
-```JavaScript
+```javascript
 function onTagAttr (tag, name, value, isWhiteAttr) {
   // tag is the name of current tag, e.g. 'a' for tag <a>
   // name is the name of current attribute, e.g. 'href' for href="#"
@@ -227,7 +226,7 @@ function onTagAttr (tag, name, value, isWhiteAttr) {
 
 By specifying the handler function with `onIgnoreTag`:
 
-```JavaScript
+```javascript
 function onIgnoreTag (tag, html, options) {
   // Parameters are the same with onTag
   // If a string is returned, the tag would be replaced with the string
@@ -240,7 +239,7 @@ function onIgnoreTag (tag, html, options) {
 
 By specifying the handler function with `onIgnoreTagAttr`:
 
-```JavaScript
+```javascript
 function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
   // Parameters are the same with onTagAttr
   // If a string is returned, the value would be replaced with this string
@@ -253,7 +252,7 @@ function onIgnoreTagAttr (tag, name, value, isWhiteAttr) {
 By specifying the handler function with `escapeHtml`. Following is the default
 function **(Modification is not recommended)**:
 
-```JavaScript
+```javascript
 function escapeHtml (html) {
   return html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
@@ -263,7 +262,7 @@ function escapeHtml (html) {
 
 By specifying the handler function with `safeAttrValue`:
 
-```JavaScript
+```javascript
 function safeAttrValue (tag, name, value) {
   // Parameters are the same with onTagAttr (without options)
   // Return the value as a string
@@ -283,13 +282,13 @@ Example:
 
 If `stripIgnoreTag = true` is set, the following code:
 
-```HTML
+```html
 code:<script>alert(/xss/);</script>
 ```
 
 would output filtered:
 
-```HTML
+```html
 code:alert(/xss/);
 ```
 
@@ -305,13 +304,13 @@ Example:
 
 If `stripIgnoreTagBody = ['script']` is set, the following code:
 
-```HTML
+```html
 code:<script>alert(/xss/);</script>
 ```
 
 would output filtered:
 
-```HTML
+```html
 code:
 ```
 
@@ -326,13 +325,13 @@ Example:
 
 If `allowCommentTag = false` is set, the following code:
 
-```HTML
+```html
 code:<!-- something --> END
 ```
 
 would output filtered:
 
-```HTML
+```html
 code: END
 ```
 
@@ -341,7 +340,7 @@ code: END
 
 ### Allow attributes of whitelist tags start with `data-`
 
-```JavaScript
+```javascript
 var source = '<div a="1" b="2" data-a="3" data-b="4">hello</div>';
 var html = xss(source, {
   onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
@@ -365,7 +364,7 @@ convert to:
 
 ### Allow tags start with `x-`
 
-```JavaScript
+```javascript
 var source = '<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>';
 var html = xss(source, {
   onIgnoreTag: function (tag, html, options) {
@@ -389,7 +388,7 @@ convert to:
 
 ### Parse images in HTML
 
-```JavaScript
+```javascript
 var source = '<img src="img1">a<img src="img2">b<img src="img3">c<img src="img4">d';
 var list = [];
 var html = xss(source, {
@@ -416,7 +415,7 @@ img1, img2, img3, img4
 
 ### Filter out HTML tags (keeps only plain text)
 
-```JavaScript
+```javascript
 var source = '<strong>hello</strong><script>alert(/xss/);</script>end';
 var html = xss(source, {
   whiteList:          [],        // empty, means filter out all tags
