@@ -8,14 +8,14 @@
 
 [npm-image]: https://img.shields.io/npm/v/xss.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/xss
-[travis-image]: https://img.shields.io/travis/node-modules/xss.svg?style=flat-square
-[travis-url]: https://travis-ci.org/node-modules/xss
-[coveralls-image]: https://img.shields.io/coveralls/node-modules/xss.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/node-modules/xss?branch=master
+[travis-image]: https://img.shields.io/travis/leizongmin/xss.svg?style=flat-square
+[travis-url]: https://travis-ci.org/leizongmin/xss
+[coveralls-image]: https://img.shields.io/coveralls/leizongmin/xss.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/leizongmin/xss?branch=master
 [gittip-image]: https://img.shields.io/gittip/leizongmin.svg?style=flat-square
 [gittip-url]: https://www.gittip.com/leizongmin/
-[david-image]: https://img.shields.io/david/node-modules/xss.svg?style=flat-square
-[david-url]: https://david-dm.org/node-modules/xss
+[david-image]: https://img.shields.io/david/leizongmin/xss.svg?style=flat-square
+[david-url]: https://david-dm.org/leizongmin/xss
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.6-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/xss.svg?style=flat-square

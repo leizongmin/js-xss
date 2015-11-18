@@ -1,7 +1,25 @@
-[![NPM version](https://badge.fury.io/js/xss.png)](http://badge.fury.io/js/xss)
-[![Build Status](https://secure.travis-ci.org/leizongmin/js-xss.png?branch=master)](http://travis-ci.org/leizongmin/js-xss)
-[![Dependencies Status](https://david-dm.org/leizongmin/js-xss.png)](https://david-dm.org/leizongmin/js-xss)
-[![Node.js Version](https://img.shields.io/badge/node.js-%3E=_0.6-green.svg?style=flat-square)](https://nodejs.org/download/)
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![Gittip][gittip-image]][gittip-url]
+[![David deps][david-image]][david-url]
+[![node version][node-image]][node-url]
+[![npm download][download-image]][download-url]
+
+[npm-image]: https://img.shields.io/npm/v/xss.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/xss
+[travis-image]: https://img.shields.io/travis/leizongmin/xss.svg?style=flat-square
+[travis-url]: https://travis-ci.org/leizongmin/xss
+[coveralls-image]: https://img.shields.io/coveralls/leizongmin/xss.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/leizongmin/xss?branch=master
+[gittip-image]: https://img.shields.io/gittip/leizongmin.svg?style=flat-square
+[gittip-url]: https://www.gittip.com/leizongmin/
+[david-image]: https://img.shields.io/david/leizongmin/xss.svg?style=flat-square
+[david-url]: https://david-dm.org/leizongmin/xss
+[node-image]: https://img.shields.io/badge/node.js-%3E=_0.6-green.svg?style=flat-square
+[node-url]: http://nodejs.org/download/
+[download-image]: https://img.shields.io/npm/dm/xss.svg?style=flat-square
+[download-url]: https://npmjs.org/package/xss
 
 根据白名单过滤HTML(防止XSS攻击)
 ======
