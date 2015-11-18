@@ -15,7 +15,7 @@
     "url": "git://github.com/leizongmin/js-xss.git"
   },
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">= 0.10"
   },
   "dependencies": {
     "commander": "^2.9.0",
