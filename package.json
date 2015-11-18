@@ -18,28 +18,14 @@
     "node": ">= 0.6.0"
   },
   "dependencies": {
-    "commander": "2.8.x",
+    "commander": "^2.9.0",
     "cssfilter": "0.0.5"
   },
   "devDependencies": {
-    "blanket": "1.1.5",
-    "browserify": "^9.0.8",
-    "mocha": "1.8.2",
-    "testling": "^1.7.1",
-    "uglify-js": "^2.4.19"
-  },
-  "testling": {
-    "preprocess": "./build",
-    "harness": "mocha-bdd",
-    "files": "test/*.js",
-    "browsers": [
-      "ie/6..latest",
-      "firefox/latest",
-      "chrome/latest",
-      "safari/5..latest",
-      "opera/11",
-      "opera/next"
-    ]
+    "blanket": "^1.2.0",
+    "browserify": "^12.0.1",
+    "mocha": "^2.3.4",
+    "uglify-js": "^2.6.1"
   },
   "bin": {
     "xss": "./bin/xss"
@@ -48,7 +34,7 @@
     "blanket": {
       "pattern": "xss/lib"
     },
-    "test": "mocha -t 5000"
+    "test": "./node_modules/mocha/bin/mocha -t 5000"
   },
   "licenses": [
     {
