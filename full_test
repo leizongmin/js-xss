@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-mocha --require blanket -R html-cov > coverage.html -t 5000
-mocha -t 5000
-testling -x open
+./node_modules/mocha/bin/mocha --require blanket -R html-cov > coverage.html -t 5000
+./node_modules/mocha/bin/mocha -t 5000
