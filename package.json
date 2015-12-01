@@ -34,7 +34,10 @@
     "blanket": {
       "pattern": "xss/lib"
     },
-    "test": "./node_modules/mocha/bin/mocha -t 5000"
+    "test": "./node_modules/mocha/bin/mocha -t 5000",
+    "blanket": "./node_modules/mocha/bin/mocha --require blanket -R html-cov > coverage.html -t 5000",
+    "build": "./bin/build",
+    "prepublish": "npm run test && npm run build"
   },
   "licenses": [
     {
