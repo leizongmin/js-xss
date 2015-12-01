@@ -22,8 +22,9 @@
     "cssfilter": "0.0.5"
   },
   "devDependencies": {
-    "blanket": "^1.2.0",
+    "blanket": "^1.2.1",
     "browserify": "^12.0.1",
+    "debug": "^2.2.0",
     "mocha": "^2.3.4",
     "uglify-js": "^2.6.1"
   },
@@ -31,13 +32,21 @@
     "xss": "./bin/xss"
   },
   "scripts": {
-    "blanket": {
-      "pattern": "xss/lib"
-    },
-    "test": "./node_modules/mocha/bin/mocha -t 5000",
-    "blanket": "./node_modules/mocha/bin/mocha --require blanket -R html-cov > coverage.html -t 5000",
+    "coverage": "./node_modules/mocha/bin/mocha --require blanket -R html-cov > coverage.html -t 5000 && open coverage.html",
+    "test": "export DEBUG=xss:* && ./node_modules/mocha/bin/mocha -t 5000",
     "build": "./bin/build",
     "prepublish": "npm run test && npm run build"
+  },
+  "config": {
+    "blanket": {
+      "pattern": [
+        ""
+      ],
+      "data-cover-never": [
+        "node_modules",
+        "test"
+      ]
+    }
   },
   "licenses": [
     {
