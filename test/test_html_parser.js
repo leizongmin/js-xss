@@ -8,6 +8,7 @@ var assert = require('assert');
 var parser = require('../lib/parser');
 var parseTag = parser.parseTag;
 var parseAttr = parser.parseAttr;
+var debug = require('debug')('xss:test');
 
 describe('test HTML parser', function () {
 
@@ -27,7 +28,7 @@ describe('test HTML parser', function () {
     var i = 0;
     var html = parseTag('hello<A href="#">www</A>ccc<b><br/>', function (sourcePosition, position, tag, html, isClosing) {
       i++;
-      console.log(arguments);
+      debug(arguments);
       if (i === 1) {
         // 第1个标签
         assert.equal(sourcePosition, 5);
@@ -64,7 +65,7 @@ describe('test HTML parser', function () {
         throw new Error();
       }
     }, escapeHtml);
-    console.log(html);
+    debug(html);
     assert.equal(html, 'hello[link]www[/link]ccc[B][BR]');
   });
 
@@ -72,7 +73,7 @@ describe('test HTML parser', function () {
     var i = 0;
     var html = parseAttr('href="#"attr1=b attr2=c attr3 attr4=\'value4"\'attr5/', function (name, value) {
       i++;
-      console.log(arguments);
+      debug(arguments);
       if (i === 1) {
         assert.equal(name, 'href');
         assert.equal(value, '#');
@@ -101,7 +102,7 @@ describe('test HTML parser', function () {
         throw new Error();
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, 'href="#" attr1="b" attr2="c" attr3 attr4="value4&quote;" attr5');
   });
 
@@ -119,7 +120,7 @@ describe('test HTML parser', function () {
         return escapeHtml(html);
       }
     }, escapeHtml);
-    console.log(html);
+    debug(html);
     assert.equal(html, 'hi:<a href="#" target="_blank">link</a>');
   });
 

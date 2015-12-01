@@ -6,6 +6,7 @@
 
 var assert = require('assert');
 var xss = require('../');
+var debug = require('debug')('xss:test');
 
 
 describe('test custom XSS method', function () {
@@ -15,7 +16,7 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onTag: function (tag, html, options) {
-        console.log(arguments);
+        debug(arguments);
         i++;
         if (i === 1) {
           assert.equal(tag, 'a');
@@ -71,7 +72,7 @@ describe('test custom XSS method', function () {
         }
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, 'dd<a href="#"><b>&lt;c&gt;haha&lt;/c&gt;</b></a><br>ff');
 
   });
@@ -81,11 +82,11 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onTag: function (tag, html, options) {
-        console.log(html);
+        debug(html);
         return html;
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, source);
   });
 
@@ -94,7 +95,7 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onIgnoreTag: function (tag, html, options) {
-        console.log(arguments);
+        debug(arguments);
         i++;
         if (i === 1) {
           assert.equal(tag, 'c');
@@ -115,7 +116,7 @@ describe('test custom XSS method', function () {
         }
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, 'dd<a href="#"><b>&lt;c&gt;haha&lt;/c&gt;</b></a><br>ff');
   });
 
@@ -124,11 +125,11 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onIgnoreTag: function (tag, html, options) {
-        console.log(html);
+        debug(html);
         return '[' + (options.isClosing ? '/' : '') + 'removed]';
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, 'dd<a href="#"><b>[removed]haha[/removed]</b></a><br>ff');
   });
 
@@ -137,7 +138,7 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onTagAttr: function (tag, name, value, isWhiteAttr) {
-        console.log(arguments);
+        debug(arguments);
         assert.equal(tag, 'a');
         i++;
         if (i === 1) {
@@ -161,7 +162,7 @@ describe('test custom XSS method', function () {
         }
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a href="#" target="_blank">hi</a>');
   });
 
@@ -170,11 +171,11 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onTagAttr: function (tag, name, value, isWhiteAttr) {
-        console.log(arguments);
+        debug(arguments);
         return '$' + name + '$';
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a $href$ $target$ $checked$ $data-a$>hi</a>');
   });
 
@@ -183,7 +184,7 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
-        console.log(arguments);
+        debug(arguments);
         assert.equal(tag, 'a');
         i++;
         if (i === 1) {
@@ -199,7 +200,7 @@ describe('test custom XSS method', function () {
         }
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a href="#" target="_blank">hi</a>');
   });
 
@@ -208,18 +209,18 @@ describe('test custom XSS method', function () {
     var i = 0;
     var html = xss(source, {
       onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
-        console.log(arguments);
+        debug(arguments);
         return '$' + name + '$';
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a href="#" target="_blank" $checked$ $data-a$>hi</a>');
   });
 
   it('#escapeHtml - default', function () {
     var source = '<x>yy</x><a>bb</a>';
     var html = xss(source);
-    console.log(html);
+    debug(html);
     assert.equal(html, '&lt;x&gt;yy&lt;/x&gt;<a>bb</a>');
   });
 
@@ -230,14 +231,14 @@ describe('test custom XSS method', function () {
         return (str ? '[' + str + ']' : str);
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '[<x>][yy][</x>]<a>[bb]</a>');
   });
 
   it('#safeAttrValue - default', function () {
     var source = '<a href="javascript:alert(/xss/)" title="hi">link</a>';
     var html = xss(source);
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a href title="hi">link</a>');
   });
 
@@ -245,12 +246,12 @@ describe('test custom XSS method', function () {
     var source = '<a href="javascript:alert(/xss/)" title="hi">link</a>';
     var html = xss(source, {
       safeAttrValue: function (tag, name, value) {
-        console.log(arguments);
+        debug(arguments);
         assert.equal(tag, 'a');
         return '$' + name + '$';
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a href="$href$" title="$title$">link</a>');
   });
 
@@ -259,7 +260,7 @@ describe('test custom XSS method', function () {
     var html = xss(source, {
       stripIgnoreTag: true
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, 'yy<a>bb</a>');
   });
 
@@ -268,7 +269,7 @@ describe('test custom XSS method', function () {
     var html = xss(source, {
       stripIgnoreTagBody: true
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a>link</a>bk');
   });
 
@@ -277,7 +278,7 @@ describe('test custom XSS method', function () {
     var html = xss(source, {
       stripIgnoreTagBody: '*'
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a>link</a>bk');
   });
 
@@ -286,7 +287,7 @@ describe('test custom XSS method', function () {
     var html = xss(source, {
       stripIgnoreTagBody: ['x']
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a>link</a>&lt;y&gt;a&lt;y&gt;&lt;/y&gt;b&lt;/y&gt;k');
   });
 
@@ -298,7 +299,7 @@ describe('test custom XSS method', function () {
         return '$' + tag + '$';
       }
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '<a>link</a>$y$a$y$$y$b$y$k');
   });
 
@@ -308,7 +309,7 @@ describe('test custom XSS method', function () {
       stripIgnoreTag:     true,
       stripIgnoreTagBody: ['script']
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, '');
   });
 
@@ -318,7 +319,7 @@ describe('test custom XSS method', function () {
       stripIgnoreTag:     true,
       stripIgnoreTagBody: ['script']
     });
-    console.log(html);
+    debug(html);
     assert.equal(html, 'ooxx');
   });
 

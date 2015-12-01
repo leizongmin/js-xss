@@ -6,12 +6,13 @@
 
 var assert = require('assert');
 var _xss = require('../');
+var debug = require('debug')('xss:test');
 
 
 function xss (html, options) {
-  console.log(JSON.stringify(html));
+  debug(JSON.stringify(html));
   var ret = _xss(html, options);
-  console.log('\t' + JSON.stringify(ret));
+  debug('\t' + JSON.stringify(ret));
   return ret;
 }
 
