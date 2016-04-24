@@ -120,12 +120,18 @@ alert(html);
 </script>
 ```
 
-AMD mode (reference file `test/test_amd.html`):
+AMD mode - shim:
 
 ```html
 <script>
 require.config({
-  baseUrl: './'
+  baseUrl: './',
+  paths: {
+    xss: 'https://raw.github.com/leizongmin/js-xss/master/dist/xss.js'
+  },
+  shim: {
+    xss: {exports: 'filterXSS'}
+  }
 })
 require(['xss'], function (xss) {
   var html = xss('<script>alert("xss");</scr' + 'ipt>');
