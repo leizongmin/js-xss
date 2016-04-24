@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "cssfilter": "0.0.6"
+    "cssfilter": "git@github.com:dimarwix/js-css-filter.git#v0.0.7"
   },
   "devDependencies": {
     "blanket": "^1.2.1",
