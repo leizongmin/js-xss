@@ -1426,15 +1426,6 @@ exports = module.exports = filterCSS;
 exports.FilterCSS = FilterCSS;
 for (var i in DEFAULT) exports[i] = DEFAULT[i];
 
-
-
-// 在AMD下使用
-if (typeof define === 'function' && define.amd) {
-  define(function () {
-    return module.exports;
-  });
-}
-
 // 在浏览器端使用
 if (typeof window !== 'undefined') {
   window.filterCSS = module.exports;
