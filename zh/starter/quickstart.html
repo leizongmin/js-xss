@@ -127,8 +127,14 @@ alert(html);
 <p>AMD模式（参考文件 <code>test/test_amd.html</code>）:</p>
 <pre><code class="lang-HTML">&lt;script&gt;
 require.config({
-  baseUrl: &#39;./&#39;
-})
+  baseUrl: &#39;./&#39;,
+  paths: {
+    xss: &#39;https://raw.github.com/leizongmin/js-xss/master/dist/xss.js&#39;
+  },
+  shim: {
+    xss: {exports: &#39;filterXSS&#39;}
+  }
+});
 require([&#39;xss&#39;], function (xss) {
   var html = xss(&#39;&lt;script&gt;alert(&quot;xss&quot;);&lt;/scr&#39; + &#39;ipt&gt;&#39;);
   alert(html);
