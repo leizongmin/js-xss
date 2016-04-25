@@ -118,7 +118,13 @@ AMD模式（参考文件 `test/test_amd.html`）:
 ```html
 <script>
 require.config({
-  baseUrl: './'
+  baseUrl: './',
+  paths: {
+    xss: 'https://raw.github.com/leizongmin/js-xss/master/dist/xss.js'
+  },
+  shim: {
+    xss: {exports: 'filterXSS'}
+  }
 })
 require(['xss'], function (xss) {
   var html = xss('<script>alert("xss");</scr' + 'ipt>');
