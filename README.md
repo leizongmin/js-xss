@@ -28,21 +28,15 @@ Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whi
 
 --------------
 
-**[中文版文档](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)**
-
 `xss` is a module used to filter input from users to prevent XSS attacks.
 ([What is XSS attack?](http://en.wikipedia.org/wiki/Cross-site_scripting))
-
-This module is needed for situations that allows users to input HTML for
-typesetting or formatting, including fourms, blogs, e-shops, etc.
-
-The `xss` module controls the usage of tags and their attributes, according to
-the whitelist. It is also extendable with a series of APIs privided, which make
-it become more flexible, compares with other modules.
 
 **Project Homepage:** http://jsxss.com
 
 **Try Online:** http://jsxss.com/en/try.html
+
+**[中文版文档](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)**
+
 
 ---------------
 
