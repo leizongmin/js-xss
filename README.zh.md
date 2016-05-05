@@ -371,7 +371,7 @@ console.log('%s\nconvert to:\n%s', source, html);
 
 运行结果：
 
-```
+```html
 <div a="1" b="2" data-a="3" data-b="4">hello</div>
 convert to:
 <div data-a="3" data-b="4">hello</div>
@@ -395,7 +395,7 @@ console.log('%s\nconvert to:\n%s', source, html);
 
 运行结果：
 
-```
+```html
 <x><x-1>he<x-2 checked></x-2>wwww</x-1><a>
 convert to:
 &lt;x&gt;<x-1>he<x-2 checked></x-2>wwww</x-1><a>
@@ -421,7 +421,7 @@ console.log('image list:\n%s', list.join(', '));
 
 运行结果：
 
-```
+```html
 image list:
 img1, img2, img3, img4
 ```
@@ -441,7 +441,7 @@ console.log('text: %s', html);
 
 运行结果：
 
-```
+```html
 text: helloend
 ```
 
@@ -449,7 +449,7 @@ text: helloend
 ## 授权协议
 
 ```
-Copyright (c) 2012-2015 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
+Copyright (c) 2012-2016 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
 http://ucdok.com
 
 The MIT License

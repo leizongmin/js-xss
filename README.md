@@ -372,7 +372,7 @@ console.log('%s\nconvert to:\n%s', source, html);
 
 Result:
 
-```
+```html
 <div a="1" b="2" data-a="3" data-b="4">hello</div>
 convert to:
 <div data-a="3" data-b="4">hello</div>
@@ -396,7 +396,7 @@ console.log('%s\nconvert to:\n%s', source, html);
 
 Result:
 
-```
+```html
 <x><x-1>he<x-2 checked></x-2>wwww</x-1><a>
 convert to:
 &lt;x&gt;<x-1>he<x-2 checked></x-2>wwww</x-1><a>
@@ -424,7 +424,7 @@ console.log('image list:\n%s', list.join(', '));
 
 Result:
 
-```
+```html
 image list:
 img1, img2, img3, img4
 ```
@@ -445,7 +445,7 @@ console.log('text: %s', html);
 
 Result:
 
-```
+```html
 text: helloend
 ```
 
