@@ -26,7 +26,7 @@
     "coveralls": "^2.11.9",
     "debug": "^2.2.0",
     "istanbul": "^0.4.3",
-    "mocha": "^2.3.4",
+    "mocha": "^3.0.0",
     "uglify-js": "^2.6.1"
   },
   "bin": {
