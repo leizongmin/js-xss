@@ -21,6 +21,7 @@
 [download-image]: https://img.shields.io/npm/dm/xss.svg?style=flat-square
 [download-url]: https://npmjs.org/package/xss
 
+
 Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist.
 ======
 
@@ -36,7 +37,6 @@ Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whi
 **Try Online:** http://jsxss.com/en/try.html
 
 **[中文版文档](https://github.com/leizongmin/js-xss/blob/master/README.zh.md)**
-
 
 ---------------
 
@@ -62,9 +62,10 @@ Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whi
 For test code please refer to `benchmark` directory.
 
 
-## Unit Test
+## They are using xss module
 
-Run `npm test` command in the source directary.
++ **nodeclub** - A Node.js bbs using MongoDB - https://github.com/cnodejs/nodeclub
++ **cnpmjs.org** - Private npm registry and web for Enterprise - https://github.com/cnpm/cnpmjs.org
 
 
 ## Install
@@ -284,6 +285,25 @@ function safeAttrValue (tag, name, value) {
   // Return the value as a string
 }
 ```
+
+### Customize CSS filter
+
+If you allow the attribute `style`, the value will be processed by [cssfilter](https://github.com/leizongmin/js-css-filter) module. The cssfilter module includes a default css whitelist. You can specify the options for cssfilter module like this:
+
+```javascript
+myxss = new xss.FilterXSS({
+  css: {
+    whiteList: {
+      position: /^fixed|relative$/,
+      top: true,
+      left: true,
+    }
+  }
+});
+html = myxss.process('<script>alert("xss");</script>');
+```
+
+For more help, please see https://github.com/leizongmin/js-css-filter
 
 ### Quick Start
 

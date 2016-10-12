@@ -64,11 +64,6 @@
 测试代码参考 benchmark 目录
 
 
-## 单元测试
-
-在源码目录执行命令： `npm test`
-
-
 ## 安装
 
 ### NPM
@@ -283,6 +278,26 @@ function safeAttrValue (tag, name, value) {
   // 返回一个字符串表示该属性值
 }
 ```
+
+### 自定义CSS过滤器
+
+如果配置中允许了标签的 `style` 属性，则它的值会通过[cssfilter](https://github.com/leizongmin/js-css-filter) 模块处理。
+`cssfilter` 模块包含了一个默认的CSS白名单，你可以通过以下的方式配置：
+
+```javascript
+myxss = new xss.FilterXSS({
+  css: {
+    whiteList: {
+      position: /^fixed|relative$/,
+      top: true,
+      left: true,
+    }
+  }
+});
+html = myxss.process('<script>alert("xss");</script>');
+```
+
+要获取更多的帮助信息可看这里：https://github.com/leizongmin/js-css-filter
 
 ### 快捷配置
 
