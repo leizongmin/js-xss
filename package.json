@@ -29,6 +29,10 @@
     "mocha": "^2.3.4",
     "uglify-js": "^2.6.1"
   },
+  "files": [
+    "lib",
+    "bin/xss"
+  ],
   "bin": {
     "xss": "./bin/xss"
   },
