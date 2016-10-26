@@ -3,13 +3,7 @@
   "main": "./lib/index.js",
   "version": "0.2.15",
   "description": "Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist",
-  "author": "leizongmin <leizongmin@gmail.com> (http://ucdok.com)",
-  "contributors": [
-    {
-      "name": "Zongmin Lei",
-      "email": "leizongmin@gmail.com"
-    }
-  ],
+  "author": "Zongmin Lei <leizongmin@gmail.com> (http://ucdok.com)",
   "repository": {
     "type": "git",
     "url": "git://github.com/leizongmin/js-xss.git"
@@ -42,12 +36,7 @@
     "build": "./bin/build",
     "prepublish": "npm run test && npm run build"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/leizongmin/js-xss/master/MIT-License"
-    }
-  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/leizongmin/js-xss/issues"
   },
