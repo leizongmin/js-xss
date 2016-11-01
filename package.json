@@ -9,7 +9,7 @@
     "url": "git://github.com/leizongmin/js-xss.git"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "dependencies": {
     "commander": "^2.9.0",
