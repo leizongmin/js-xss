@@ -6,6 +6,7 @@
  */
 
 var FilterCSS = require('cssfilter').FilterCSS;
+var getDefaultCSSWhiteList = require('cssfilter').getDefaultWhiteList;
 var _ = require('./util');
 
 // 默认白名单
@@ -147,7 +148,6 @@ function escapeHtml (html) {
  * @return {String}
  */
 function safeAttrValue (tag, name, value, cssFilter) {
-  cssFilter = cssFilter || defaultCSSFilter;
   // 转换为友好的属性值，再做判断
   value = friendlyAttrValue(value);
 
@@ -189,7 +189,10 @@ function safeAttrValue (tag, name, value, cssFilter) {
         return '';
       }
     }
-    value = cssFilter.process(value);
+    if (cssFilter !== false) {
+      cssFilter = cssFilter || defaultCSSFilter;
+      value = cssFilter.process(value);
+    }
   }
 
   // 输出时需要转义<>"
@@ -408,7 +411,7 @@ exports.StripTagBody = StripTagBody;
 exports.stripCommentTag = stripCommentTag;
 exports.stripBlankChar = stripBlankChar;
 exports.cssFilter = defaultCSSFilter;
-
+exports.getDefaultCSSWhiteList = getDefaultCSSWhiteList;
 
 },{"./util":4,"cssfilter":8}],2:[function(require,module,exports){
 /**
@@ -774,7 +777,7 @@ function getAttrs (html) {
  *   选项：whiteList, onTag, onTagAttr, onIgnoreTag,
  *        onIgnoreTagAttr, safeAttrValue, escapeHtml
  *        stripIgnoreTagBody, allowCommentTag, stripBlankChar
- *        css{whiteList, onAttr, onIgnoreAttr}
+ *        css{whiteList, onAttr, onIgnoreAttr} css=false表示禁用cssfilter
  */
 function FilterXSS (options) {
   options = options || {};
@@ -793,10 +796,14 @@ function FilterXSS (options) {
   options.onIgnoreTagAttr = options.onIgnoreTagAttr || DEFAULT.onIgnoreTagAttr;
   options.safeAttrValue = options.safeAttrValue || DEFAULT.safeAttrValue;
   options.escapeHtml = options.escapeHtml || DEFAULT.escapeHtml;
-  options.css = options.css || {};
   this.options = options;
 
-  this.cssFilter = new FilterCSS(options.css);
+  if (options.css === false) {
+    this.cssFilter = false;
+  } else {
+    options.css = options.css || {};
+    this.cssFilter = new FilterCSS(options.css);
+  }
 }
 
 /**

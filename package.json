@@ -1,7 +1,7 @@
 {
   "name": "xss",
   "main": "./lib/index.js",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "description": "Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist",
   "author": "Zongmin Lei <leizongmin@gmail.com> (http://ucdok.com)",
   "repository": {
