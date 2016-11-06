@@ -296,6 +296,14 @@ myxss = new xss.FilterXSS({
 html = myxss.process('<script>alert("xss");</script>');
 ```
 
+如果不想使用 CSS 过滤器来处理 `style` 属性的内容，可指定 `css` 选项的值为 `false`：
+
+```javascript
+myxss = new xss.FilterXSS({
+  css: false,
+});
+```
+
 要获取更多的帮助信息可看这里：https://github.com/leizongmin/js-css-filter
 
 ### 快捷配置

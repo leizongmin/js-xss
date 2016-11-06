@@ -301,6 +301,14 @@ myxss = new xss.FilterXSS({
 html = myxss.process('<script>alert("xss");</script>');
 ```
 
+If you don't want to filter out the `style` content, just specify `false` to the `css` option:
+
+```javascript
+myxss = new xss.FilterXSS({
+  css: false,
+});
+```
+
 For more help, please see https://github.com/leizongmin/js-css-filter
 
 ### Quick Start

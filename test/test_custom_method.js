@@ -323,4 +323,17 @@ describe('test custom XSS method', function () {
     assert.equal(html, 'ooxx');
   });
 
+  it('cssFilter', function () {
+    var whiteList = xss.getDefaultWhiteList();
+    whiteList.div.push('style');
+    assert.equal(xss('<div style="width: 50%; vertical-align: top;">hello</div>', { whiteList: whiteList }),
+                     '<div style="width:50%;">hello</div>');
+    assert.equal(xss('<div style="width: 50%; vertical-align: top;">hello</div>', { whiteList: whiteList, css: false }),
+                     '<div style="width: 50%; vertical-align: top;">hello</div>');
+    var css = { whiteList: xss.getDefaultCSSWhiteList() };
+    css.whiteList['vertical-align'] = true;
+    assert.equal(xss('<div style="width: 50%; vertical-align: top;">hello</div>', { whiteList: whiteList, css: css }),
+                     '<div style="width:50%; vertical-align:top;">hello</div>');
+  });
+
 });
