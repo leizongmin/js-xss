@@ -25,7 +25,8 @@
   },
   "files": [
     "lib",
-    "bin/xss"
+    "bin/xss",
+    "dist"
   ],
   "bin": {
     "xss": "./bin/xss"
