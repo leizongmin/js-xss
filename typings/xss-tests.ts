@@ -1,3 +1,5 @@
+/// <reference path="./xss.d.ts" />
+
 /**
  * xss typings test
  *
