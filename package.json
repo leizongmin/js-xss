@@ -1,7 +1,8 @@
 {
   "name": "xss",
   "main": "./lib/index.js",
-  "version": "0.2.18",
+  "typings": "./typings/xss.d.ts",
+  "version": "0.3.0",
   "description": "Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist",
   "author": "Zongmin Lei <leizongmin@gmail.com> (http://ucdok.com)",
   "repository": {
@@ -26,7 +27,8 @@
   "files": [
     "lib",
     "bin/xss",
-    "dist"
+    "dist",
+    "typings/*.d.ts"
   ],
   "bin": {
     "xss": "./bin/xss"
