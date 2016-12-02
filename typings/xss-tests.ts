@@ -23,6 +23,20 @@ console.log(xss('hello', {
   css: false,
 }));
 
+xss('hello');
+xss('hello', {
+  escapeHtml(str) {
+    return str.trim();
+  },
+  stripBlankChar: true,
+  onTag(tag, html, options) {
+    return html;
+  },
+  onIgnoreTag(tag, html) {
+
+  },
+});
+
 
 interface ICustomWhiteList extends XSS.IWhiteList {
   view?: string[];

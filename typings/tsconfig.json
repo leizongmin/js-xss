@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "module": "commonjs"
+  }
+}

@@ -86,9 +86,9 @@ declare namespace XSS {
     video?: string[];
   }
 
-  export type OnTagHandler = (tag: string, html: string, options: {}) => string;
+  export type OnTagHandler = (tag: string, html: string, options: {}) => string | void;
 
-  export type OnTagAttrHandler = (tag: string, name: string, value: string) => string;
+  export type OnTagAttrHandler = (tag: string, name: string, value: string) => string | void;
 
   export type SafeAttrValueHandler = (tag: string, name: string, value: string, cssFilter: ICSSFilter) => string;
 
@@ -106,7 +106,7 @@ declare module 'xss' {
     onIgnoreTag(tag: string, html: string, options: {
       position: number;
       isClosing: boolean;
-    });
+    }): string;
     remove(html: string): string;
   };
 
@@ -119,7 +119,7 @@ declare module 'xss' {
     (html: string, options?: XSS.IFilterXSSOptions): string;
 
     FilterXSS: typeof FilterXSS;
-    parseTag(html: string, onTag: (sourcePosition: number, position: number, tag: string, html: string, isClosing: boolean) => string, escapeHtml: EscapeHandler): string;
+    parseTag(html: string, onTag: (sourcePosition: number, position: number, tag: string, html: string, isClosing: boolean) => string, escapeHtml: XSS.EscapeHandler): string;
     parseAttr(html: string, onAttr: (name: string, value: string) => string): string;
     whiteList: XSS.IWhiteList;
     getDefaultWhiteList(): XSS.IWhiteList;
