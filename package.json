@@ -19,7 +19,7 @@
   "devDependencies": {
     "browserify": "^13.0.1",
     "coveralls": "^2.11.9",
-    "debug": "^2.2.0",
+    "debug": "^2.4.0",
     "istanbul": "^0.4.3",
     "mocha": "^3.0.2",
     "uglify-js": "^2.6.1"
