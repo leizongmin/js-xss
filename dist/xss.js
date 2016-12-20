@@ -771,6 +771,20 @@ function getAttrs (html) {
 }
 
 /**
+ * 浅拷贝对象
+ *
+ * @param {Object} obj
+ * @return {Object}
+ */
+function shallowCopyObject (obj) {
+  var ret = {};
+  for (var i in obj) {
+    ret[i] = obj[i];
+  }
+  return ret;
+}
+
+/**
  * XSS过滤对象
  *
  * @param {Object} options
@@ -780,7 +794,7 @@ function getAttrs (html) {
  *        css{whiteList, onAttr, onIgnoreAttr} css=false表示禁用cssfilter
  */
 function FilterXSS (options) {
-  options = options || {};
+  options = shallowCopyObject(options || {});
 
   if (options.stripIgnoreTag) {
     if (options.onIgnoreTag) {
@@ -941,6 +955,19 @@ function isNull (obj) {
   return (obj === undefined || obj === null);
 }
 
+/**
+ * 浅拷贝对象
+ *
+ * @param {Object} obj
+ * @return {Object}
+ */
+function shallowCopyObject (obj) {
+  var ret = {};
+  for (var i in obj) {
+    ret[i] = obj[i];
+  }
+  return ret;
+}
 
 /**
  * 创建CSS过滤器
@@ -951,7 +978,7 @@ function isNull (obj) {
  *   - {Object} onIgnoreAttr
  */
 function FilterCSS (options) {
-  options = options || {};
+  options = shallowCopyObject(options || {});
   options.whiteList = options.whiteList || DEFAULT.whiteList;
   options.onAttr = options.onAttr || DEFAULT.onAttr;
   options.onIgnoreAttr = options.onIgnoreAttr || DEFAULT.onIgnoreAttr;
