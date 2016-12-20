@@ -235,4 +235,16 @@ describe('test XSS', function () {
 
   });
 
+  it('no options mutated', function () {
+      var options = {};
+
+      var ret = xss('test', options);
+      console.log(options);
+      assert.deepEqual(options, {});
+
+      var ret2 = new _xss.FilterXSS(options);
+      console.log(options);
+      assert.deepEqual(options, {});
+  });
+
 });
