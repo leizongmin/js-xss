@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "cssfilter": "0.0.9"
+    "cssfilter": "0.0.10"
   },
   "devDependencies": {
     "browserify": "^13.0.1",
