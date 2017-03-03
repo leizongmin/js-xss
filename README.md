@@ -229,7 +229,7 @@ By specifying the handler function with `onTagAttr`:
 function onTagAttr (tag, name, value, isWhiteAttr) {
   // tag is the name of current tag, e.g. 'a' for tag <a>
   // name is the name of current attribute, e.g. 'href' for href="#"
-  // isWhiteAttr whether the tag is in whitelist
+  // isWhiteAttr whether the attribute is in whitelist
   // If a string is returned, the attribute would be replaced with the string
   // If return nothing, the default measure would be taken:
   //   If in whitelist: filter the value using safeAttrValue as described below
