@@ -168,6 +168,9 @@ describe('test XSS', function () {
     assert.equal(xss('<SCRIPT SRC=//ha.ckers.org/.j'),
         '&lt;SCRIPT SRC=//ha.ckers.org/.j');
 
+    assert.equal(xss('<ſcript src="https://xss.haozi.me/j.js"></ſcript>'),
+        '&lt;ſcript src="https://xss.haozi.me/j.js"&gt;&lt;/ſcript&gt;');
+
     assert.equal(xss('<IMG SRC="javascript:alert(\'XSS\')"'),
         '&lt;IMG SRC=\"javascript:alert(\'XSS\')"');
 
