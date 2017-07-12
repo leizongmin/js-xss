@@ -22,7 +22,7 @@
     "debug": "^2.2.0",
     "istanbul": "^0.4.3",
     "mocha": "^3.0.2",
-    "uglify-js": "^2.8.14"
+    "uglify-js": "^3.0.4"
   },
   "files": [
     "lib",
