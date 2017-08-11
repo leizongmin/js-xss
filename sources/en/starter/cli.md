@@ -23,6 +23,28 @@ Example:
 $ xss -i origin.html -o target.html
 ```
 
+You can also specify a config file `-c config.json` like this:
+
+```json
+{
+  "whiteList": {
+    "p": ["id", "style"]
+  },
+  "css": {
+    "whiteList": {
+      "p": {
+        "top": true,
+        "left": true,
+        "width": true,
+        "height": true
+      }
+    }
+  },
+  "stripIgnoreTag": true,
+  "stripIgnoreTagBody": true
+}
+```
+
 ### Active Test
 
 Run the following command, them you can type HTML

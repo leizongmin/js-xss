@@ -23,6 +23,28 @@ xss -i <源文件> -o <目标文件>
 $ xss -i origin.html -o target.html
 ```
 
+可以通过 `-c config.json` 来指定一些配置，配置文件格式：
+
+```json
+{
+  "whiteList": {
+    "p": ["id", "style"]
+  },
+  "css": {
+    "whiteList": {
+      "p": {
+        "top": true,
+        "left": true,
+        "width": true,
+        "height": true
+      }
+    }
+  },
+  "stripIgnoreTag": true,
+  "stripIgnoreTagBody": true
+}
+```
+
 ### 在线测试
 
 执行以下命令，可在命令行中输入HTML代码，并看到过滤后的代码：
