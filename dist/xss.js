@@ -607,7 +607,7 @@ function parseAttr (html, onAttr) {
         }
       }
     }
-    if (c === ' ') {
+    if (/\s|\n/.test(c)) {
       if (tmpName === false) {
         j = findNextEqual(html, i);
         if (j === -1) {
