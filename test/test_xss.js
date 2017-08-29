@@ -98,6 +98,12 @@ describe('test XSS', function () {
     assert.equal(xss('<img width = 100    height     =200 title= "xxx" no=yes alt="\'yyy\'">'),
       '<img width="100" height="200" title="xxx" alt="\'yyy\'">');
 
+    // 使用Tab或换行符分隔的属性
+    assert.equal(xss('<img width=100 height=200\nsrc="#"/>'), '<img width="100" height="200" src="#" />');
+    assert.equal(xss('<a\ttarget="_blank"\ntitle="bbb">'), '<a target="_blank" title="bbb">');
+    assert.equal(xss('<a\ntarget="_blank"\ttitle="bbb">'), '<a target="_blank" title="bbb">');
+    assert.equal(xss('<a\n\n\n\ttarget="_blank"\t\t\t\ntitle="bbb">'), '<a target="_blank" title="bbb">');
+
   });
 
   // 自定义白名单
