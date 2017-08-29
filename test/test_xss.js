@@ -9,7 +9,7 @@ var _xss = require('../');
 var debug = require('debug')('xss:test');
 
 
-function xss (html, options) {
+function xss(html, options) {
   debug(JSON.stringify(html));
   var ret = _xss(html, options);
   debug('\t' + JSON.stringify(ret));
@@ -25,11 +25,11 @@ describe('test XSS', function () {
     assert.equal(xss(), '');
     assert.equal(xss(null), '');
     assert.equal(xss(123), '123');
-    assert.equal(xss({a: 1111}), '[object Object]');
+    assert.equal(xss({ a: 1111 }), '[object Object]');
 
     // 清除不可见字符
     assert.equal(xss('a\u0000\u0001\u0002\u0003\r\n b'), 'a\u0000\u0001\u0002\u0003\r\n b');
-    assert.equal(xss('a\u0000\u0001\u0002\u0003\r\n b', {stripBlankChar: true}), 'a\r\n b');
+    assert.equal(xss('a\u0000\u0001\u0002\u0003\r\n b', { stripBlankChar: true }), 'a\r\n b');
 
     // 过滤不在白名单的标签
     assert.equal(xss('<b>abcd</b>'), '<b>abcd</b>');
@@ -82,21 +82,21 @@ describe('test XSS', function () {
     assert.equal(xss('<a target = "_blank" title ="bbb">'), '<a target="_blank" title="bbb">');
     assert.equal(xss('<a target = "_blank" title =  title =  "bbb">'), '<a target="_blank" title="title">');
     assert.equal(xss('<img width = 100    height     =200 title="xxx">'),
-                     '<img width="100" height="200" title="xxx">');
+      '<img width="100" height="200" title="xxx">');
     assert.equal(xss('<img width = 100    height     =200 title=xxx>'),
-                     '<img width="100" height="200" title="xxx">');
+      '<img width="100" height="200" title="xxx">');
     assert.equal(xss('<img width = 100    height     =200 title= xxx>'),
-                     '<img width="100" height="200" title="xxx">');
+      '<img width="100" height="200" title="xxx">');
     assert.equal(xss('<img width = 100    height     =200 title= "xxx">'),
-                     '<img width="100" height="200" title="xxx">');
+      '<img width="100" height="200" title="xxx">');
     assert.equal(xss('<img width = 100    height     =200 title= \'xxx\'>'),
-                     '<img width="100" height="200" title="xxx">');
+      '<img width="100" height="200" title="xxx">');
     assert.equal(xss('<img width = 100    height     =200 title = \'xxx\'>'),
-                     '<img width="100" height="200" title="xxx">');
+      '<img width="100" height="200" title="xxx">');
     assert.equal(xss('<img width = 100    height     =200 title= "xxx" no=yes alt="yyy">'),
-                     '<img width="100" height="200" title="xxx" alt="yyy">');
+      '<img width="100" height="200" title="xxx" alt="yyy">');
     assert.equal(xss('<img width = 100    height     =200 title= "xxx" no=yes alt="\'yyy\'">'),
-                     '<img width="100" height="200" title="xxx" alt="\'yyy\'">');
+      '<img width="100" height="200" title="xxx" alt="\'yyy\'">');
 
   });
 
@@ -104,10 +104,10 @@ describe('test XSS', function () {
   it('#white list', function () {
 
     // 过滤所有标签
-    assert.equal(xss('<a title="xx">bb</a>', {whiteList: {}}), '&lt;a title="xx"&gt;bb&lt;/a&gt;');
-    assert.equal(xss('<hr>', {whiteList: {}}), '&lt;hr&gt;');
+    assert.equal(xss('<a title="xx">bb</a>', { whiteList: {} }), '&lt;a title="xx"&gt;bb&lt;/a&gt;');
+    assert.equal(xss('<hr>', { whiteList: {} }), '&lt;hr&gt;');
     // 增加白名单标签及属性
-    assert.equal(xss('<ooxx yy="ok" cc="no">uu</ooxx>', {whiteList: {ooxx: ['yy']}}), '<ooxx yy="ok">uu</ooxx>');
+    assert.equal(xss('<ooxx yy="ok" cc="no">uu</ooxx>', { whiteList: { ooxx: ['yy'] } }), '<ooxx yy="ok">uu</ooxx>');
 
   });
 
@@ -115,12 +115,12 @@ describe('test XSS', function () {
   it('#XSS_Filter_Evasion_Cheat_Sheet', function () {
 
     assert.equal(xss('></SCRI' + 'PT>">\'><SCRI' + 'PT>alert(String.fromCharCode(88,83,83))</SCRI' + 'PT>'),
-        '&gt;&lt;/SCRIPT&gt;"&gt;\'&gt;&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;');
+      '&gt;&lt;/SCRIPT&gt;"&gt;\'&gt;&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;');
 
     assert.equal(xss(';!--"<XSS>=&{()}'), ';!--"&lt;XSS&gt;=&{()}');
 
     assert.equal(xss('<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRI' + 'PT>'),
-        '&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;');
+      '&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;');
 
     assert.equal(xss('<IMG SRC="javascript:alert(\'XSS\');">'), '<img src>');
 
@@ -135,13 +135,13 @@ describe('test XSS', function () {
     assert.equal(xss('<IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>'), '<img src>');
 
     assert.equal(xss('<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>'),
-        '<img src>');
+      '<img src>');
 
     assert.equal(xss('<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>'),
-        '<img src>');
+      '<img src>');
 
     assert.equal(xss('<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>'),
-        '<img src>');
+      '<img src>');
 
     assert.equal(xss('<IMG SRC="jav ascript:alert(\'XSS\');">'), '<img src>');
 
@@ -154,40 +154,40 @@ describe('test XSS', function () {
     assert.equal(xss('<IMG SRC=" &#14;  javascript:alert(\'XSS\');">'), '<img src>');
 
     assert.equal(xss('<SCRIPT/XSS SRC="http://ha.ckers.org/xss.js"></SCRI' + 'PT>'),
-        '&lt;SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"&gt;&lt;/SCRIPT&gt;');
+      '&lt;SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"&gt;&lt;/SCRIPT&gt;');
 
     assert.equal(xss('<BODY onload!#$%&()*~+-_.,:;?@[/|\]^`=alert("XSS")>'),
-        '&lt;BODY onload!#$%&()*~+-_.,:;?@[/|]^`=alert(\"XSS\")&gt;');
+      '&lt;BODY onload!#$%&()*~+-_.,:;?@[/|]^`=alert(\"XSS\")&gt;');
 
     assert.equal(xss('<<SCRI' + 'PT>alert("XSS");//<</SCRI' + 'PT>'),
-        '&lt;&lt;SCRIPT&gt;alert(\"XSS\");//&lt;&lt;/SCRIPT&gt;');
+      '&lt;&lt;SCRIPT&gt;alert(\"XSS\");//&lt;&lt;/SCRIPT&gt;');
 
     assert.equal(xss('<SCRIPT SRC=http://ha.ckers.org/xss.js?< B >'),
-        '&lt;SCRIPT SRC=http://ha.ckers.org/xss.js?&lt; B &gt;');
+      '&lt;SCRIPT SRC=http://ha.ckers.org/xss.js?&lt; B &gt;');
 
     assert.equal(xss('<SCRIPT SRC=//ha.ckers.org/.j'),
-        '&lt;SCRIPT SRC=//ha.ckers.org/.j');
+      '&lt;SCRIPT SRC=//ha.ckers.org/.j');
 
     assert.equal(xss('<ſcript src="https://xss.haozi.me/j.js"></ſcript>'),
-        '&lt;ſcript src="https://xss.haozi.me/j.js"&gt;&lt;/ſcript&gt;');
+      '&lt;ſcript src="https://xss.haozi.me/j.js"&gt;&lt;/ſcript&gt;');
 
     assert.equal(xss('<IMG SRC="javascript:alert(\'XSS\')"'),
-        '&lt;IMG SRC=\"javascript:alert(\'XSS\')"');
+      '&lt;IMG SRC=\"javascript:alert(\'XSS\')"');
 
     assert.equal(xss('<iframe src=http://ha.ckers.org/scriptlet.html <'),
-        '&lt;iframe src=http://ha.ckers.org/scriptlet.html &lt;');
+      '&lt;iframe src=http://ha.ckers.org/scriptlet.html &lt;');
 
     // 过滤 javascript:
-    assert.equal(xss('<a style="url(\'javascript:alert(1)\')">', {whiteList: {a: ['style']}}), '<a style>');
-    assert.equal(xss('<td background="url(\'javascript:alert(1)\')">', {whiteList: {td: ['background']}}), '<td background>');
+    assert.equal(xss('<a style="url(\'javascript:alert(1)\')">', { whiteList: { a: ['style'] } }), '<a style>');
+    assert.equal(xss('<td background="url(\'javascript:alert(1)\')">', { whiteList: { td: ['background'] } }), '<td background>');
 
     // 过滤 style
-    assert.equal(xss('<DIV STYLE="width: \nexpression(alert(1));">', {whiteList: {div: ['style']}}), '<div style>');
+    assert.equal(xss('<DIV STYLE="width: \nexpression(alert(1));">', { whiteList: { div: ['style'] } }), '<div style>');
     // 不正常的url
-    assert.equal(xss('<DIV STYLE="background:\n url (javascript:ooxx);">', {whiteList: {div: ['style']}}), '<div style>');
-    assert.equal(xss('<DIV STYLE="background:url (javascript:ooxx);">', {whiteList: {div: ['style']}}), '<div style>');
+    assert.equal(xss('<DIV STYLE="background:\n url (javascript:ooxx);">', { whiteList: { div: ['style'] } }), '<div style>');
+    assert.equal(xss('<DIV STYLE="background:url (javascript:ooxx);">', { whiteList: { div: ['style'] } }), '<div style>');
     // 正常的url
-    assert.equal(xss('<DIV STYLE="background: url (ooxx);">', {whiteList: {div: ['style']}}), '<div style="background:url (ooxx);">');
+    assert.equal(xss('<DIV STYLE="background: url (ooxx);">', { whiteList: { div: ['style'] } }), '<div style="background:url (ooxx);">');
 
     assert.equal(xss('<IMG SRC=\'vbscript:msgbox("XSS")\'>'), '<img src>');
 
@@ -209,8 +209,8 @@ describe('test XSS', function () {
     // 这个暂时不知道怎么处理
     //assert.equal(xss('¼script¾alert(¢XSS¢)¼/script¾'), '');
 
-    assert.equal(xss('<!--[if gte IE 4]><SCRI' + 'PT>alert(\'XSS\');</SCRI' + 'PT><![endif]--> END', {allowCommentTag: true}),
-        '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt; END');
+    assert.equal(xss('<!--[if gte IE 4]><SCRI' + 'PT>alert(\'XSS\');</SCRI' + 'PT><![endif]--> END', { allowCommentTag: true }),
+      '&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert(\'XSS\');&lt;/SCRIPT&gt;&lt;![endif]--&gt; END');
     assert.equal(xss('<!--[if gte IE 4]><SCRI' + 'PT>alert(\'XSS\');</SCRI' + 'PT><![endif]--> END'), ' END');
 
     // HTML5新增实体编码 冒号&colon; 换行&NewLine;
@@ -231,23 +231,23 @@ describe('test XSS', function () {
     assert.equal(xss('<img src="data:image/png; base64; ofdkofiodiofl">'), '<img src>');
 
     // HTML备注处理
-    assert.equal(xss('<!--                               -->', {allowCommentTag: false}), '');
-    assert.equal(xss('<!--      a           -->', {allowCommentTag: false}), '');
-    assert.equal(xss('<!--sa       -->ss', {allowCommentTag: false}), 'ss');
-    assert.equal(xss('<!--                               ', {allowCommentTag: false}), '&lt;!--                               ');
+    assert.equal(xss('<!--                               -->', { allowCommentTag: false }), '');
+    assert.equal(xss('<!--      a           -->', { allowCommentTag: false }), '');
+    assert.equal(xss('<!--sa       -->ss', { allowCommentTag: false }), 'ss');
+    assert.equal(xss('<!--                               ', { allowCommentTag: false }), '&lt;!--                               ');
 
   });
 
   it('no options mutated', function () {
-      var options = {};
+    var options = {};
 
-      var ret = xss('test', options);
-      console.log(options);
-      assert.deepEqual(options, {});
+    var ret = xss('test', options);
+    // console.log(options);
+    assert.deepEqual(options, {});
 
-      var ret2 = new _xss.FilterXSS(options);
-      console.log(options);
-      assert.deepEqual(options, {});
+    var ret2 = new _xss.FilterXSS(options);
+    // console.log(options);
+    assert.deepEqual(options, {});
   });
 
 });
