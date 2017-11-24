@@ -209,6 +209,7 @@ describe('test XSS', function () {
     assert.equal(xss('<a href="http://aa.com">'), '<a href="http://aa.com">');
     assert.equal(xss('<a href="https://aa.com">'), '<a href="https://aa.com">');
     assert.equal(xss('<a href="mailto:me@ucdok.com">'), '<a href="mailto:me@ucdok.com">');
+    assert.equal(xss('<a href="tel:0123456789">'), '<a href="tel:0123456789">');
     assert.equal(xss('<a href="#hello">'), '<a href="#hello">');
     assert.equal(xss('<a href="other">'), '<a href>');
 
