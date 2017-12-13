@@ -159,6 +159,7 @@ function safeAttrValue (tag, name, value, cssFilter) {
     if (!(value.substr(0, 7) === 'http://' ||
          value.substr(0, 8) === 'https://' ||
          value.substr(0, 7) === 'mailto:' ||
+         value.substr(0, 4) === 'tel:' ||
          value[0] === '#' ||
          value[0] === '/')) {
       return '';
