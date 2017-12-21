@@ -1,7 +1,7 @@
 /**
- * 测试XSS 自定义处理函数
+ * tests for custom method
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var assert = require('assert');

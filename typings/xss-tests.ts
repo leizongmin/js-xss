@@ -3,7 +3,7 @@
 /**
  * xss typings test
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 import xss = require('xss');

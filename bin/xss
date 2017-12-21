@@ -3,7 +3,7 @@
 /**
  * 命令行工具
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var fs = require('fs');

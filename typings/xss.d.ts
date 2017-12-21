@@ -1,7 +1,7 @@
 /**
  * xss
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 declare namespace XSS {
@@ -97,7 +97,7 @@ declare namespace XSS {
   export interface ICSSFilter {
     process(value: string): string;
   }
-  
+
 }
 
 declare module 'xss' {

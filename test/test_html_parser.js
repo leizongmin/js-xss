@@ -1,7 +1,7 @@
 /**
- * 测试 html parser
+ * tests for html parser
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var assert = require('assert');

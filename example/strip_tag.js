@@ -1,7 +1,7 @@
 /**
  * 应用实例：去除HTML标签（只保留文本内容）
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var xss = require('../');
