@@ -1,7 +1,7 @@
 /**
  * 应用实例：允许标签以data-开头的属性
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var xss = require('../');

@@ -1,7 +1,7 @@
 /**
  * 应用实例：允许名称以x-开头的标签
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var xss = require('../');

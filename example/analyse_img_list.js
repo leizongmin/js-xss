@@ -1,7 +1,7 @@
 /**
  * 应用实例：分析HTML代码中的图片列表
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var xss = require('../');

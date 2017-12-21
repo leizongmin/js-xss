@@ -1,7 +1,7 @@
 /**
- * 测试XSS
+ * tests for xss() function
  *
- * @author 老雷<leizongmin@gmail.com>
+ * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
 var assert = require('assert');
