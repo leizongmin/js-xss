@@ -504,6 +504,7 @@ function parseTag(html, onTag, escapeHtml) {
   var currentPos = 0;
   var len = html.length;
   var currentTagName = "";
+  var currentHtml = "";
 
   for (currentPos = 0; currentPos < len; currentPos++) {
     var c = html.charAt(currentPos);
