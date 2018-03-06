@@ -14,6 +14,7 @@ declare namespace XSS {
     onIgnoreTagAttr?: OnTagAttrHandler;
     safeAttrValue?: SafeAttrValueHandler;
     escapeHtml?: EscapeHandler;
+    stripIgnoreTag?: boolean;
     stripIgnoreTagBody?: boolean | string[];
     allowCommentTag?: boolean;
     stripBlankChar?: boolean;
