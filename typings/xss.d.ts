@@ -89,7 +89,7 @@ declare namespace XSS {
 
   export type OnTagHandler = (tag: string, html: string, options: {}) => string | void;
 
-  export type OnTagAttrHandler = (tag: string, name: string, value: string) => string | void;
+  export type OnTagAttrHandler = (tag: string, name: string, value: string, isWhiteAttr: boolean) => string | void;
 
   export type SafeAttrValueHandler = (tag: string, name: string, value: string, cssFilter: ICSSFilter) => string;
 
