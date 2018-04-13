@@ -22,6 +22,8 @@
 
 # Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist.
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/leizongmin/js-xss.svg)](https://greenkeeper.io/)
+
 ![xss](https://nodei.co/npm/xss.png?downloads=true&stars=true)
 
 ---
