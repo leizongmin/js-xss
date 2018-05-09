@@ -17,7 +17,7 @@
     "cssfilter": "0.0.10"
   },
   "devDependencies": {
-    "browserify": "^14.1.0",
+    "browserify": "^16.2.1",
     "coveralls": "^3.0.0",
     "debug": "^3.1.0",
     "istanbul": "^0.4.3",
