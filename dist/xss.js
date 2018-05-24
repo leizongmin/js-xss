@@ -448,6 +448,14 @@ if (typeof window !== "undefined") {
   window.filterXSS = module.exports;
 }
 
+// using `xss` on the WebWorker, output `filterXSS` to the globals
+function isWorkerEnv() {
+  return typeof self !== 'undefined' && self instanceof DedicatedWorkerGlobalScope;
+}
+if (isWorkerEnv()) {
+  self.filterXSS = module.exports;
+}
+
 },{"./default":1,"./parser":3,"./xss":5}],3:[function(require,module,exports){
 /**
  * Simple HTML Parser
