@@ -60,19 +60,19 @@
 ### NPM
 
 ```bash
-$ npm install xss
+npm install xss
 ```
 
 ### Bower
 
 ```bash
-$ bower install xss
+bower install xss
 ```
 
 或者
 
 ```bash
-$ bower install https://github.com/leizongmin/js-xss.git
+bower install https://github.com/leizongmin/js-xss.git
 ```
 
 ## 使用方法
@@ -133,7 +133,7 @@ xss -i <源文件> -o <目标文件>
 例：
 
 ```bash
-$ xss -i origin.html -o target.html
+xss -i origin.html -o target.html
 ```
 
 ### 在线测试
@@ -141,7 +141,7 @@ $ xss -i origin.html -o target.html
 执行以下命令，可在命令行中输入 HTML 代码，并看到过滤后的代码：
 
 ```bash
-$ xss -t
+xss -t
 ```
 
 详细命令行参数说明，请输入 `$ xss -h` 来查看。

@@ -67,19 +67,19 @@ For test code please refer to `benchmark` directory.
 ### NPM
 
 ```bash
-$ npm install xss
+npm install xss
 ```
 
 ### Bower
 
 ```bash
-$ bower install xss
+bower install xss
 ```
 
 Or
 
 ```bash
-$ bower install https://github.com/leizongmin/js-xss.git
+bower install https://github.com/leizongmin/js-xss.git
 ```
 
 ## Usages
@@ -140,7 +140,7 @@ xss -i <input_file> -o <output_file>
 Example:
 
 ```bash
-$ xss -i origin.html -o target.html
+xss -i origin.html -o target.html
 ```
 
 ### Active Test
@@ -149,7 +149,7 @@ Run the following command, them you can type HTML
 code in the command-line, and check the filtered output:
 
 ```bash
-$ xss -t
+xss -t
 ```
 
 For more details, please run `$ xss -h` to see it.
