@@ -97,7 +97,7 @@ console.log(html);
 Shim mode (reference file `test/test.html`):
 
 ```html
-<script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
+<script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
 // apply function filterXSS in the same way
 var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
@@ -112,7 +112,7 @@ AMD mode - shim:
 require.config({
   baseUrl: './',
   paths: {
-    xss: 'https://raw.github.com/leizongmin/js-xss/master/dist/xss.js'
+    xss: 'https://rawgit.com/leizongmin/js-xss/master/dist/xss.js'
   },
   shim: {
     xss: {exports: 'filterXSS'}
@@ -124,6 +124,8 @@ require(['xss'], function (xss) {
 });
 </script>
 ```
+
+**Notes: please don't use the URL https://rawgit.com/leizongmin/js-xss/master/dist/xss.js in production environment.**
 
 ## Command Line Tool
 
