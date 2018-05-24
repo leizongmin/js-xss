@@ -459,7 +459,7 @@ text: helloend
 ## 授权协议
 
 ```text
-Copyright (c) 2012-2017 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
+Copyright (c) 2012-2018 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
 http://ucdok.com
 
 The MIT License
