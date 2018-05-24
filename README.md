@@ -473,7 +473,7 @@ text: helloend
 ## License
 
 ```text
-Copyright (c) 2012-2017 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
+Copyright (c) 2012-2018 Zongmin Lei(雷宗民) <leizongmin@gmail.com>
 http://ucdok.com
 
 The MIT License
