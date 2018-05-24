@@ -90,7 +90,7 @@ console.log(html);
 Shim 模式（参考文件 `test/test.html`）:
 
 ```html
-<script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
+<script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
 // 使用函数名 filterXSS，用法一样
 var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
@@ -105,7 +105,7 @@ AMD 模式（参考文件 `test/test_amd.html`）:
 require.config({
   baseUrl: './',
   paths: {
-    xss: 'https://raw.github.com/leizongmin/js-xss/master/dist/xss.js'
+    xss: 'https://rawgit.com/leizongmin/js-xss/master/dist/xss.js'
   },
   shim: {
     xss: {exports: 'filterXSS'}
@@ -117,6 +117,8 @@ require(['xss'], function (xss) {
 });
 </script>
 ```
+
+**说明：请勿将 URL https://rawgit.com/leizongmin/js-xss/master/dist/xss.js 用于生产环境。**
 
 ### 使用命令行工具来对文件进行 XSS 处理
 
