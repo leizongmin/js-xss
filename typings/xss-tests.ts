@@ -6,25 +6,27 @@
  * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
-import xss = require('xss');
+import xss = require("xss");
 
 const x = new xss.FilterXSS();
 
-x.process('html');
+x.process("html");
 
 const a = xss.StripTagBody([], () => {});
 console.log(a.onIgnoreTag, a.remove);
 
-console.log(xss('hello'));
-console.log(xss('hello', {
-  onTag(tag: string, html: string, options: {}): string {
-    return html;
-  },
-  css: false,
-}));
+console.log(xss.filterXSS("hello"));
+console.log(
+  xss.filterXSS("hello", {
+    onTag(tag: string, html: string, options: {}): string {
+      return html;
+    },
+    css: false
+  })
+);
 
-xss('hello');
-xss('hello', {
+xss.filterXSS("hello");
+xss.filterXSS("hello", {
   escapeHtml(str) {
     return str.trim();
   },
@@ -32,18 +34,16 @@ xss('hello', {
   onTag(tag, html, options) {
     return html;
   },
-  onIgnoreTag(tag, html) {
-
-  },
+  onIgnoreTag(tag, html) {}
 });
 
-
-interface ICustomWhiteList extends XSS.IWhiteList {
+interface ICustomWhiteList extends xss.IWhiteList {
   view?: string[];
 }
 
 const whiteList: ICustomWhiteList = xss.getDefaultWhiteList();
 console.log(whiteList.abbr);
-whiteList.view = [ 'class', 'style', 'id' ];
+whiteList.view = ["class", "style", "id"];
 console.log(whiteList);
 
+filterXSS("hello");
