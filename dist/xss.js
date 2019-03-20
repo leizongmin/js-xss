@@ -439,6 +439,7 @@ function filterXSS(html, options) {
 }
 
 exports = module.exports = filterXSS;
+exports.filterXSS = filterXSS;
 exports.FilterXSS = FilterXSS;
 for (var i in DEFAULT) exports[i] = DEFAULT[i];
 for (var i in parser) exports[i] = parser[i];
