@@ -4,9 +4,16 @@
  * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
+export = XSS;
+export as namespace xss;
+
+declare global {
+  function filterXSS(html: string, options?: XSS.IFilterXSSOptions): string;
+}
+
 declare namespace XSS {
 
-  export interface IFilterXSSOptions {
+  interface IFilterXSSOptions {
     whiteList?: IWhiteList;
     onTag?: OnTagHandler;
     onTagAttr?: OnTagAttrHandler;
@@ -21,7 +28,7 @@ declare namespace XSS {
     css?: {} | boolean;
   }
 
-  export interface IWhiteList {
+  interface IWhiteList {
     a?: string[];
     abbr?: string[];
     address?: string[];
@@ -87,21 +94,17 @@ declare namespace XSS {
     video?: string[];
   }
 
-  export type OnTagHandler = (tag: string, html: string, options: {}) => string | void;
+  type OnTagHandler = (tag: string, html: string, options: {}) => string | void;
 
-  export type OnTagAttrHandler = (tag: string, name: string, value: string, isWhiteAttr: boolean) => string | void;
+  type OnTagAttrHandler = (tag: string, name: string, value: string, isWhiteAttr: boolean) => string | void;
 
-  export type SafeAttrValueHandler = (tag: string, name: string, value: string, cssFilter: ICSSFilter) => string;
+  type SafeAttrValueHandler = (tag: string, name: string, value: string, cssFilter: ICSSFilter) => string;
 
-  export type EscapeHandler = (str: string) => string;
+  type EscapeHandler = (str: string) => string;
 
-  export interface ICSSFilter {
+  interface ICSSFilter {
     process(value: string): string;
   }
-
-}
-
-declare module 'xss' {
 
   function StripTagBody(tags: string[], next: () => void): {
     onIgnoreTag(tag: string, html: string, options: {
@@ -144,8 +147,4 @@ declare module 'xss' {
     cssFilter: XSS.ICSSFilter;
     getDefaultCSSWhiteList(): XSS.ICSSFilter;
   }
-
-  var xss: filterXSS;
-  export = xss;
-
 }
