@@ -6,7 +6,7 @@
  * @author Zongmin Lei<leizongmin@gmail.com>
  */
 
-import xss = require("xss");
+import * as xss from "xss";
 
 const x = new xss.FilterXSS();
 
@@ -37,7 +37,7 @@ xss.filterXSS("hello", {
   onIgnoreTag(tag, html) {}
 });
 
-interface ICustomWhiteList extends xss.IWhiteList {
+interface ICustomWhiteList extends XSS.IWhiteList {
   view?: string[];
 }
 
@@ -47,3 +47,5 @@ whiteList.view = ["class", "style", "id"];
 console.log(whiteList);
 
 filterXSS("hello");
+
+const options: XSS.IFilterXSSOptions = {};
