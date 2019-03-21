@@ -6,114 +6,130 @@
 
 declare global {
   function filterXSS(html: string, options?: IFilterXSSOptions): string;
+
+  namespace XSS {
+    export interface IFilterXSSOptions {
+      whiteList?: IWhiteList;
+      onTag?: OnTagHandler;
+      onTagAttr?: OnTagAttrHandler;
+      onIgnoreTag?: OnTagHandler;
+      onIgnoreTagAttr?: OnTagAttrHandler;
+      safeAttrValue?: SafeAttrValueHandler;
+      escapeHtml?: EscapeHandler;
+      stripIgnoreTag?: boolean;
+      stripIgnoreTagBody?: boolean | string[];
+      allowCommentTag?: boolean;
+      stripBlankChar?: boolean;
+      css?: {} | boolean;
+    }
+
+    interface IWhiteList {
+      a?: string[];
+      abbr?: string[];
+      address?: string[];
+      area?: string[];
+      article?: string[];
+      aside?: string[];
+      audio?: string[];
+      b?: string[];
+      bdi?: string[];
+      bdo?: string[];
+      big?: string[];
+      blockquote?: string[];
+      br?: string[];
+      caption?: string[];
+      center?: string[];
+      cite?: string[];
+      code?: string[];
+      col?: string[];
+      colgroup?: string[];
+      dd?: string[];
+      del?: string[];
+      details?: string[];
+      div?: string[];
+      dl?: string[];
+      dt?: string[];
+      em?: string[];
+      font?: string[];
+      footer?: string[];
+      h1?: string[];
+      h2?: string[];
+      h3?: string[];
+      h4?: string[];
+      h5?: string[];
+      h6?: string[];
+      header?: string[];
+      hr?: string[];
+      i?: string[];
+      img?: string[];
+      ins?: string[];
+      li?: string[];
+      mark?: string[];
+      nav?: string[];
+      ol?: string[];
+      p?: string[];
+      pre?: string[];
+      s?: string[];
+      section?: string[];
+      small?: string[];
+      span?: string[];
+      sub?: string[];
+      sup?: string[];
+      strong?: string[];
+      table?: string[];
+      tbody?: string[];
+      td?: string[];
+      tfoot?: string[];
+      th?: string[];
+      thead?: string[];
+      tr?: string[];
+      tt?: string[];
+      u?: string[];
+      ul?: string[];
+      video?: string[];
+    }
+
+    type OnTagHandler = (
+      tag: string,
+      html: string,
+      options: {}
+    ) => string | void;
+
+    type OnTagAttrHandler = (
+      tag: string,
+      name: string,
+      value: string,
+      isWhiteAttr: boolean
+    ) => string | void;
+
+    type SafeAttrValueHandler = (
+      tag: string,
+      name: string,
+      value: string,
+      cssFilter: ICSSFilter
+    ) => string;
+
+    type EscapeHandler = (str: string) => string;
+
+    interface ICSSFilter {
+      process(value: string): string;
+    }
+  }
 }
 
-export interface IFilterXSSOptions {
-  whiteList?: IWhiteList;
-  onTag?: OnTagHandler;
-  onTagAttr?: OnTagAttrHandler;
-  onIgnoreTag?: OnTagHandler;
-  onIgnoreTagAttr?: OnTagAttrHandler;
-  safeAttrValue?: SafeAttrValueHandler;
-  escapeHtml?: EscapeHandler;
-  stripIgnoreTag?: boolean;
-  stripIgnoreTagBody?: boolean | string[];
-  allowCommentTag?: boolean;
-  stripBlankChar?: boolean;
-  css?: {} | boolean;
-}
+export interface IFilterXSSOptions extends XSS.IFilterXSSOptions {}
 
-export interface IWhiteList {
-  a?: string[];
-  abbr?: string[];
-  address?: string[];
-  area?: string[];
-  article?: string[];
-  aside?: string[];
-  audio?: string[];
-  b?: string[];
-  bdi?: string[];
-  bdo?: string[];
-  big?: string[];
-  blockquote?: string[];
-  br?: string[];
-  caption?: string[];
-  center?: string[];
-  cite?: string[];
-  code?: string[];
-  col?: string[];
-  colgroup?: string[];
-  dd?: string[];
-  del?: string[];
-  details?: string[];
-  div?: string[];
-  dl?: string[];
-  dt?: string[];
-  em?: string[];
-  font?: string[];
-  footer?: string[];
-  h1?: string[];
-  h2?: string[];
-  h3?: string[];
-  h4?: string[];
-  h5?: string[];
-  h6?: string[];
-  header?: string[];
-  hr?: string[];
-  i?: string[];
-  img?: string[];
-  ins?: string[];
-  li?: string[];
-  mark?: string[];
-  nav?: string[];
-  ol?: string[];
-  p?: string[];
-  pre?: string[];
-  s?: string[];
-  section?: string[];
-  small?: string[];
-  span?: string[];
-  sub?: string[];
-  sup?: string[];
-  strong?: string[];
-  table?: string[];
-  tbody?: string[];
-  td?: string[];
-  tfoot?: string[];
-  th?: string[];
-  thead?: string[];
-  tr?: string[];
-  tt?: string[];
-  u?: string[];
-  ul?: string[];
-  video?: string[];
-}
+export interface IWhiteList extends XSS.IWhiteList {}
 
-export type OnTagHandler = (
-  tag: string,
-  html: string,
-  options: {}
-) => string | void;
+export type OnTagHandler = XSS.OnTagHandler;
 
-export type OnTagAttrHandler = (
-  tag: string,
-  name: string,
-  value: string,
-  isWhiteAttr: boolean
-) => string | void;
+export type OnTagAttrHandler = XSS.OnTagAttrHandler;
 
-export type SafeAttrValueHandler = (
-  tag: string,
-  name: string,
-  value: string,
-  cssFilter: ICSSFilter
-) => string;
+export type SafeAttrValueHandler = XSS.SafeAttrValueHandler;
 
-export type EscapeHandler = (str: string) => string;
+export type EscapeHandler = XSS.EscapeHandler;
 
-export interface ICSSFilter {
-  process(value: string): string;
-}
+export interface ICSSFilter extends XSS.ICSSFilter {}
 
 export function StripTagBody(
   tags: string[],
