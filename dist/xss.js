@@ -504,7 +504,7 @@ function isClosing(html) {
  * @return {String}
  */
 function parseTag(html, onTag, escapeHtml) {
-  "user strict";
+  "use strict";
 
   var rethtml = "";
   var lastPos = 0;
@@ -574,7 +574,7 @@ var REGEXP_ILLEGAL_ATTR_NAME = /[^a-zA-Z0-9_:\.\-]/gim;
  * @return {String}
  */
 function parseAttr(html, onAttr) {
-  "user strict";
+  "use strict";
 
   var lastPos = 0;
   var retAttrs = [];
