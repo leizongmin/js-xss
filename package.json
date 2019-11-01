@@ -13,7 +13,7 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "commander": "^2.20.0",
+    "commander": "^4.0.0",
     "cssfilter": "0.0.10"
   },
   "devDependencies": {
