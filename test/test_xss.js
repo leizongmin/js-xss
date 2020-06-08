@@ -388,7 +388,7 @@ describe("test XSS", function() {
     assert.equal(xss('<img src="data: aaa/text;">'), "<img src>");
     assert.equal(
       xss('<img src="data:image/png; base64; ofdkofiodiofl">'),
-      "<img src>"
+      '<img src="data:image/png; base64; ofdkofiodiofl">'
     );
 
     // HTML备注处理
