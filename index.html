@@ -2,6 +2,10 @@
 var lang = 'en';
 try {
   lang = navigator.language.split('-')[0];
+  // only supports zh-cn or en
+  if (lang !== 'zh') {
+    lang = 'en';
+  }
 } catch (err) {
   alert(err);
 }
