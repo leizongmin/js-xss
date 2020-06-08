@@ -20,8 +20,8 @@
     "browserify": "^16.5.1",
     "coveralls": "^3.1.0",
     "debug": "^4.1.1",
-    "istanbul": "^0.4.3",
     "mocha": "^6.2.3",
+    "nyc": "^15.1.0",
     "uglify-js": "^3.9.4"
   },
   "files": [
@@ -35,7 +35,8 @@
   },
   "scripts": {
     "test": "export DEBUG=xss:* && mocha -t 5000",
-    "test-cov": "export DEBUG=xss:* && istanbul cover _mocha --report lcovonly -- -t 5000 -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "test-cov": "nyc --reporter=lcov mocha --exit \"test/*.js\" && nyc report",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "build": "./bin/build",
     "prepublish": "npm run test && npm run build"
   },

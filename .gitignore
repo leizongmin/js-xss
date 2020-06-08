@@ -18,3 +18,5 @@ npm-debug.log
 benchmark/result*.html
 
 coverage.html
+.nyc_output
+coverage
