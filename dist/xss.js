@@ -161,6 +161,7 @@ function safeAttrValue(tag, name, value, cssFilter) {
         value.substr(0, 7) === "mailto:" ||
         value.substr(0, 4) === "tel:" ||
         value.substr(0, 11) === "data:image/" ||
+        value.substr(0, 9) === "weixin://" ||
         value.substr(0, 6) === "ftp://" ||
         value.substr(0, 2) === "./" ||
         value.substr(0, 3) === "../" ||
