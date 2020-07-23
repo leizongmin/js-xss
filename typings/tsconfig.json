@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "module": "commonjs"
+    "module": "commonjs",
+    "esModuleInterop": true
   }
 }
