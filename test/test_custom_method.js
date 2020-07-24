@@ -366,9 +366,8 @@ describe("test custom XSS method", function() {
     var html = xss(source, {
       onTag: function(_, E, S) {
         if (S.isWhite && "a" === _) {
-          if (S.isClosing)
-            return "</span></a>";
-          return "".concat(E, '<span>')
+          if (S.isClosing) return "</span></a>";
+          return "".concat(E, '<span>');
         }
       }
     });
