@@ -52,8 +52,8 @@
 
 ## Benchmark (for references only)
 
-* the xss module: 8.2 MB/s
-* `xss()` function from module `validator@0.3.7`: 4.4 MB/s
+* the xss module: 22.53 MB/s
+* `xss()` function from module `validator@0.3.7`: 6.9 MB/s
 
 For test code please refer to `benchmark` directory.
 

@@ -519,7 +519,7 @@ function parseTag(html, onTag, escapeHtml) {
   var currentTagName = "";
   var currentHtml = "";
 
-  for (currentPos = 0; currentPos < len; currentPos++) {
+  chariterator: for (currentPos = 0; currentPos < len; currentPos++) {
     var c = html.charAt(currentPos);
     if (tagStart === false) {
       if (c === "<") {
@@ -549,9 +549,17 @@ function parseTag(html, onTag, escapeHtml) {
           tagStart = false;
           continue;
         }
-        if ((c === '"' || c === "'") && html.charAt(currentPos - 1) === "=") {
-          quoteStart = c;
-          continue;
+        if ((c === '"' || c === "'")) {
+          var i = 1;
+          var ic = html.charAt(currentPos - i);
+
+          while ((ic === " ") || (ic === "=")) {
+            if (ic === "=") {
+              quoteStart = c;
+              continue chariterator;
+            }
+            ic = html.charAt(currentPos - ++i);
+          }
         }
       } else {
         if (c === quoteStart) {
