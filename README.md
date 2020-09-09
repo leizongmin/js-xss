@@ -20,7 +20,7 @@
 [download-url]: https://npmjs.org/package/xss
 [license-image]: https://img.shields.io/npm/l/xss.svg
 
-# Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist.
+# Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a whitelist.
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/leizongmin/js-xss.svg)](https://greenkeeper.io/)
 
@@ -41,8 +41,8 @@
 
 ## Features
 
-* Specifies HTML tags and their attributes allowed with whitelist
-* Handle any tags or attributes using custom function.
+* Specify allowed HTML tags and their attributes with a whitelist
+* Handle any tags or attributes using a custom function
 
 ## Reference
 
@@ -50,10 +50,10 @@
 * [Data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)
 * [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
 
-## Benchmark (for references only)
+## Benchmark (for reference only)
 
 * the xss module: 22.53 MB/s
-* `xss()` function from module `validator@0.3.7`: 6.9 MB/s
+* `xss()` function from `validator@0.3.7` module: 6.9 MB/s
 
 For test code please refer to `benchmark` directory.
 
@@ -82,9 +82,9 @@ Or
 bower install https://github.com/leizongmin/js-xss.git
 ```
 
-## Usages
+## Usage
 
-### On Node.js
+### In Node.js
 
 ```javascript
 var xss = require("xss");
@@ -92,14 +92,14 @@ var html = xss('<script>alert("xss");</script>');
 console.log(html);
 ```
 
-### On Browser
+### In the Browser
 
 Shim mode (reference file `test/test.html`):
 
 ```html
 <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
-// apply function filterXSS in the same way
+// apply function filterXSS the same way
 var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
 alert(html);
 </script>
@@ -125,11 +125,11 @@ require(['xss'], function (xss) {
 </script>
 ```
 
-**Notes: please don't use the URL https://rawgit.com/leizongmin/js-xss/master/dist/xss.js in production environment.**
+**Note: please don't use the URL https://rawgit.com/leizongmin/js-xss/master/dist/xss.js in production environment.**
 
 ## Command Line Tool
 
-### Process File
+### Process a File
 
 You can use the xss command line tool to process a file. Usage:
 
@@ -145,16 +145,16 @@ xss -i origin.html -o target.html
 
 ### Active Test
 
-Run the following command, them you can type HTML
-code in the command-line, and check the filtered output:
+Run the following command, then you can type HTML
+code on the command-line and check the filtered output:
 
 ```bash
 xss -t
 ```
 
-For more details, please run `$ xss -h` to see it.
+For more details, please run `$ xss -h`
 
-## Custom filter rules
+## Custom Filter Rules
 
 When using the `xss()` function, the second parameter could be used to specify
 custom rules:
@@ -164,8 +164,7 @@ options = {}; // Custom rules
 html = xss('<script>alert("xss");</script>', options);
 ```
 
-To avoid passing `options` every time, you can also do it in a faster way by
-creating a `FilterXSS` instance:
+To avoid passing `options` every time, you can create a `FilterXSS` instance:
 
 ```javascript
 options = {}; // Custom rules
@@ -174,27 +173,27 @@ myxss = new xss.FilterXSS(options);
 html = myxss.process('<script>alert("xss");</script>');
 ```
 
-Details of parameters in `options` would be described below.
+Details of parameters in `options` are described below.
 
 ### Whitelist
 
-By specifying a `whiteList`, e.g. `{ 'tagName': [ 'attr-1', 'attr-2' ] }`. Tags
-and attributes not in the whitelist would be filter out. For example:
+By specifying a `whiteList`, e.g. `{ 'tagName': [ 'attr-1', 'attr-2' ] }`, tags
+and attributes not in the whitelist will be filtered out. For example:
 
 ```javascript
-// only tag a and its attributes href, title, target are allowed
+// Only the 'a' tag and its attributes 'href', 'title', and 'target' are allowed:
 var options = {
   whiteList: {
     a: ["href", "title", "target"]
   }
 };
-// With the configuration specified above, the following HTML:
+// With the configuration specified above, the following input HTML:
 // <a href="#" onclick="hello()"><i>Hello</i></a>
-// would become:
+// will become the following output HTML:
 // <a href="#">Hello</a>
 ```
 
-For the default whitelist, please refer `xss.whiteList`.
+For the default whitelist, please see `xss.whiteList`.
 
 ### Customize the handler function for matched tags
 
@@ -204,13 +203,13 @@ By specifying the handler function with `onTag`:
 function onTag(tag, html, options) {
   // tag is the name of current tag, e.g. 'a' for tag <a>
   // html is the HTML of this tag, e.g. '<a>' for tag <a>
-  // options is some addition informations:
-  //   isWhite    boolean, whether the tag is in whitelist
-  //   isClosing  boolean, whether the tag is a closing tag, e.g. true for </a>
+  // options is some additional information:
+  //   isWhite         boolean, whether the tag is in whitelist
+  //   isClosing       boolean, whether the tag is a closing tag, e.g. true for </a>
   //   position        integer, the position of the tag in output result
   //   sourcePosition  integer, the position of the tag in input HTML source
-  // If a string is returned, the current tag would be replaced with the string
-  // If return nothing, the default measure would be taken:
+  // If a string is returned, the current tag will be replaced with the string
+  // If nothing is returned, the default measure will be taken:
   //   If in whitelist: filter attributes using onTagAttr, as described below
   //   If not in whitelist: handle by onIgnoreTag, as described below
 }
@@ -225,8 +224,8 @@ function onTagAttr(tag, name, value, isWhiteAttr) {
   // tag is the name of current tag, e.g. 'a' for tag <a>
   // name is the name of current attribute, e.g. 'href' for href="#"
   // isWhiteAttr whether the attribute is in whitelist
-  // If a string is returned, the attribute would be replaced with the string
-  // If return nothing, the default measure would be taken:
+  // If a string is returned, the attribute will be replaced with the string
+  // If nothing is returned, the default measure will be taken:
   //   If in whitelist: filter the value using safeAttrValue as described below
   //   If not in whitelist: handle by onIgnoreTagAttr, as described below
 }
@@ -238,10 +237,10 @@ By specifying the handler function with `onIgnoreTag`:
 
 ```javascript
 function onIgnoreTag(tag, html, options) {
-  // Parameters are the same with onTag
-  // If a string is returned, the tag would be replaced with the string
-  // If return nothing, the default measure would be taken (specifies using
-  // escape, as described below)
+  // Parameters are the same as onTag
+  // If a string is returned, the tag will be replaced with the string
+  // If nothing is returned, the default measure will be taken
+  // (specified using escape, as described below)
 }
 ```
 
@@ -251,9 +250,9 @@ By specifying the handler function with `onIgnoreTagAttr`:
 
 ```javascript
 function onIgnoreTagAttr(tag, name, value, isWhiteAttr) {
-  // Parameters are the same with onTagAttr
-  // If a string is returned, the value would be replaced with this string
-  // If return nothing, then keep default (remove the attribute)
+  // Parameters are the same as onTagAttr
+  // If a string is returned, the value will be replaced with the string
+  // If nothing is returned, then the attribute will be removed
 }
 ```
 
@@ -274,7 +273,7 @@ By specifying the handler function with `safeAttrValue`:
 
 ```javascript
 function safeAttrValue(tag, name, value) {
-  // Parameters are the same with onTagAttr (without options)
+  // Parameters are the same as onTagAttr (without options)
   // Return the value as a string
 }
 ```
@@ -323,7 +322,7 @@ If `stripIgnoreTag = true` is set, the following code:
 code:<script>alert(/xss/);</script>
 ```
 
-would output filtered:
+will output filtered:
 
 ```html
 code:alert(/xss/);
@@ -345,7 +344,7 @@ If `stripIgnoreTagBody = ['script']` is set, the following code:
 code:<script>alert(/xss/);</script>
 ```
 
-would output filtered:
+will output filtered:
 
 ```html
 code:
@@ -366,7 +365,7 @@ If `allowCommentTag = false` is set, the following code:
 code:<!-- something --> END
 ```
 
-would output filtered:
+will output filtered:
 
 ```html
 code: END
@@ -374,7 +373,7 @@ code: END
 
 ## Examples
 
-### Allow attributes of whitelist tags start with `data-`
+### Allow attributes of whitelist tags that start with `data-`
 
 ```javascript
 var source = '<div a="1" b="2" data-a="3" data-b="4">hello</div>';
@@ -398,7 +397,7 @@ convert to:
 <div data-a="3" data-b="4">hello</div>
 ```
 
-### Allow tags start with `x-`
+### Allow tags that start with `x-`
 
 ```javascript
 var source = "<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>";
