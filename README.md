@@ -191,7 +191,7 @@ var options = {
 // With the configuration specified above, the following HTML:
 // <a href="#" onclick="hello()"><i>Hello</i></a>
 // would become:
-// <a href="#">Hello</a>
+// <a href="#">&lt;i&gt;Hello&lt;/i&gt;</a>
 ```
 
 For the default whitelist, please refer `xss.whiteList`.
