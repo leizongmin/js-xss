@@ -39,3 +39,40 @@ $('#page a').prop('target', '_blank');
   ga('send', 'pageview');
 
 </script>
+
+<script charset='UTF-8' src="https://cdn.jsdelivr.net/npm/sa-sdk-javascript@1.15.16/sensorsdata.min.js"></script>
+<script>
+  var MySDK = window['sensorsDataAnalytic201505'];
+  MySDK.init({
+    server_url: 'https://track.fc.umer.im/track/sa?project=jsxss',
+    preset_properties: {
+      //是否采集 $latest_utm 最近一次广告系列相关参数，默认值 true。
+      latest_utm: true,
+      //是否采集 $latest_traffic_source_type 最近一次流量来源类型，默认值 true。
+      latest_traffic_source_type: true,
+      //是否采集 $latest_search_keyword 最近一次搜索引擎关键字，默认值 true。
+      latest_search_keyword: true,
+      //是否采集 $latest_referrer 最近一次前向地址，默认值 true。
+      latest_referrer: true,
+      //是否采集 $latest_referrer_host 最近一次前向地址，1.14.8 以下版本默认是true，1.14.8 及以上版本默认是 false，需要手动设置为 true 开启。
+      latest_referrer_host: true,
+      //是否采集 $latest_landing_page 最近一次落地页地址，默认值 false。
+      latest_landing_page: true,
+      //是否采集 $url 页面地址作为公共属性，默认值 false。
+      url: true,
+      //是否采集 $title 页面标题作为公共属性，默认值 false。
+      title: true,
+    },
+    heatmap: {
+      //是否开启点击图，default 表示开启，自动采集 $WebClick 事件，可以设置 'not_collect' 表示关闭。
+      clickmap: 'default',
+      //是否开启触达注意力图，default 表示开启，自动采集 $WebStay 事件，可以设置 'not_collect' 表示关闭。
+      //需要 Web JS SDK 版本号大于 1.9.1
+      scroll_notice_map: 'default',
+      //采集标签的点击事件
+      collect_tags: { div: true },
+    },
+  });
+  // 用于采集 $pageview 事件
+  MySDK.quick('autoTrack');
+</script>
