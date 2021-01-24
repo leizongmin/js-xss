@@ -61,6 +61,7 @@ function getDefaultWhiteList() {
     small: [],
     span: [],
     sub: [],
+    summary: [],
     sup: [],
     strong: [],
     table: ["width", "border", "align", "valign"],
