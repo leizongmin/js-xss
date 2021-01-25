@@ -52,8 +52,8 @@
 
 ## Benchmark (for references only)
 
-* the xss module: 8.2 MB/s
-* `xss()` function from module `validator@0.3.7`: 4.4 MB/s
+* the xss module: 22.53 MB/s
+* `xss()` function from module `validator@0.3.7`: 6.9 MB/s
 
 For test code please refer to `benchmark` directory.
 
@@ -191,7 +191,7 @@ var options = {
 // With the configuration specified above, the following HTML:
 // <a href="#" onclick="hello()"><i>Hello</i></a>
 // would become:
-// <a href="#">Hello</a>
+// <a href="#">&lt;i&gt;Hello&lt;/i&gt;</a>
 ```
 
 For the default whitelist, please refer `xss.whiteList`.

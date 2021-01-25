@@ -117,12 +117,12 @@ describe("test HTML parser", function() {
 
   it("#parseTag & #parseAttr", function() {
     var html = parseTag(
-      'hi:<a href="#"target=_blank title="this is a link">link</a>',
+      'hi:<a href="#"target=_blank title="this is a link" alt  = hello   class   = "hello2">link</a>',
       function(sourcePosition, position, tag, html, isClosing) {
         if (tag === "a") {
           if (isClosing) return "</a>";
           var attrhtml = parseAttr(html.slice(2, -1), function(name, value) {
-            if (name === "href" || name === "target") {
+            if (name === "href" || name === "target" || name === "alt" || name === "class") {
               return attr(name, value);
             }
           });
@@ -134,6 +134,6 @@ describe("test HTML parser", function() {
       escapeHtml
     );
     debug(html);
-    assert.equal(html, 'hi:<a href="#" target="_blank">link</a>');
+    assert.equal(html, 'hi:<a href="#" target="_blank" alt="hello" class="hello2">link</a>');
   });
 });

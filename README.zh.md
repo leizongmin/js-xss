@@ -50,8 +50,8 @@
 
 ## 性能（仅作参考）
 
-* xss 模块：8.2 MB/s
-* validator@0.3.7 模块的 xss()函数：4.4 MB/s
+* xss 模块：22.53 MB/s
+* validator@0.3.7 模块的 xss()函数：6.9 MB/s
 
 测试代码参考 benchmark 目录
 

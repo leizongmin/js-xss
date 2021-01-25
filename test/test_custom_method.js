@@ -359,4 +359,19 @@ describe("test custom XSS method", function() {
       '<div style="width:50%; vertical-align:top;">hello</div>'
     );
   });
+
+  it("#onTag - sanitize html parameter", function() {
+    var source = '<a target= " href="><script>alert(2)</script>"><span>';
+    var i = 0;
+    var html = xss(source, {
+      onTag: function(_, E, S) {
+        if (S.isWhite && "a" === _) {
+          if (S.isClosing) return "</span></a>";
+          return "".concat(E, '<span>');
+        }
+      }
+    });
+    debug(html);
+    assert.equal(html, '<a target= " href="><span>&lt;script&gt;alert(2)&lt;/script&gt;"&gt;<span>');
+  });
 });
