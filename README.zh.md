@@ -442,7 +442,7 @@ img1, img2, img3, img4
 ```javascript
 var source = "<strong>hello</strong><script>alert(/xss/);</script>end";
 var html = xss(source, {
-  whiteList: [], // 白名单为空，表示过滤所有标签
+  whiteList: {}, // 白名单为空，表示过滤所有标签
   stripIgnoreTag: true, // 过滤所有非白名单标签的HTML
   stripIgnoreTagBody: ["script"] // script标签较特殊，需要过滤标签中间的内容
 });
