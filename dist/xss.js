@@ -61,7 +61,6 @@ function getDefaultWhiteList() {
     small: [],
     span: [],
     sub: [],
-    summary: [],
     sup: [],
     strong: [],
     table: ["width", "border", "align", "valign"],
@@ -554,7 +553,7 @@ function parseTag(html, onTag, escapeHtml) {
           var i = 1;
           var ic = html.charAt(currentPos - i);
 
-          while ((ic === " ") || (ic === "=")) {
+          while ((ic.trim() === "") || (ic === "=")) {
             if (ic === "=") {
               quoteStart = c;
               continue chariterator;
