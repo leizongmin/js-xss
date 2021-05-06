@@ -97,7 +97,12 @@ declare module "xss" {
       type OnTagHandler = (
         tag: string,
         html: string,
-        options: {}
+        options: {
+          sourcePosition?: number;
+          position?: number;
+          isClosing?: boolean;
+          isWhite?: boolean;
+        }
       ) => string | void;
 
       type OnTagAttrHandler = (
