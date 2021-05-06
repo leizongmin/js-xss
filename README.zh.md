@@ -1,5 +1,5 @@
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
+[![Node.js CI](https://github.com/leizongmin/js-xss/actions/workflows/nodejs.yml/badge.svg)](https://github.com/leizongmin/js-xss/actions/workflows/nodejs.yml)
 [![Test coverage][coveralls-image]][coveralls-url]
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
@@ -8,8 +8,6 @@
 
 [npm-image]: https://img.shields.io/npm/v/xss.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/xss
-[travis-image]: https://img.shields.io/travis/leizongmin/js-xss.svg?style=flat-square
-[travis-url]: https://travis-ci.org/leizongmin/js-xss
 [coveralls-image]: https://img.shields.io/coveralls/leizongmin/js-xss.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/leizongmin/js-xss?branch=master
 [david-image]: https://img.shields.io/david/leizongmin/js-xss.svg?style=flat-square
@@ -36,22 +34,22 @@
 
 ## 特性
 
-* 白名单控制允许的 HTML 标签及各标签的属性
-* 通过自定义处理函数，可对任意标签及其属性进行处理
+- 白名单控制允许的 HTML 标签及各标签的属性
+- 通过自定义处理函数，可对任意标签及其属性进行处理
 
 ## 参考资料
 
-* [XSS 与字符编码的那些事儿 ---科普文](http://drops.wooyun.org/tips/689)
-* [腾讯实例教程：那些年我们一起学 XSS](http://www.wooyun.org/whitehats/%E5%BF%83%E4%BC%A4%E7%9A%84%E7%98%A6%E5%AD%90)
-* [mXSS 攻击的成因及常见种类](http://drops.wooyun.org/tips/956)
-* [XSS Filter Evasion Cheat Sheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
-* [Data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)
-* [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
+- [XSS 与字符编码的那些事儿 ---科普文](http://drops.wooyun.org/tips/689)
+- [腾讯实例教程：那些年我们一起学 XSS](http://www.wooyun.org/whitehats/%E5%BF%83%E4%BC%A4%E7%9A%84%E7%98%A6%E5%AD%90)
+- [mXSS 攻击的成因及常见种类](http://drops.wooyun.org/tips/956)
+- [XSS Filter Evasion Cheat Sheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
+- [Data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)
+- [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
 
 ## 性能（仅作参考）
 
-* xss 模块：22.53 MB/s
-* validator@0.3.7 模块的 xss()函数：6.9 MB/s
+- xss 模块：22.53 MB/s
+- validator@0.3.7 模块的 xss()函数：6.9 MB/s
 
 测试代码参考 benchmark 目录
 
@@ -92,9 +90,9 @@ Shim 模式（参考文件 `test/test.html`）:
 ```html
 <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
-// 使用函数名 filterXSS，用法一样
-var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
-alert(html);
+  // 使用函数名 filterXSS，用法一样
+  var html = filterXSS('<script>alert("xss");</scr' + "ipt>");
+  alert(html);
 </script>
 ```
 
@@ -102,19 +100,19 @@ AMD 模式（参考文件 `test/test_amd.html`）:
 
 ```html
 <script>
-require.config({
-  baseUrl: './',
-  paths: {
-    xss: 'https://rawgit.com/leizongmin/js-xss/master/dist/xss.js'
-  },
-  shim: {
-    xss: {exports: 'filterXSS'}
-  }
-})
-require(['xss'], function (xss) {
-  var html = xss('<script>alert("xss");</scr' + 'ipt>');
-  alert(html);
-});
+  require.config({
+    baseUrl: "./",
+    paths: {
+      xss: "https://rawgit.com/leizongmin/js-xss/master/dist/xss.js",
+    },
+    shim: {
+      xss: { exports: "filterXSS" },
+    },
+  });
+  require(["xss"], function (xss) {
+    var html = xss('<script>alert("xss");</scr' + "ipt>");
+    alert(html);
+  });
 </script>
 ```
 
@@ -174,8 +172,8 @@ html = myxss.process('<script>alert("xss");</script>');
 // 只允许a标签，该标签只允许href, title, target这三个属性
 var options = {
   whiteList: {
-    a: ["href", "title", "target"]
-  }
+    a: ["href", "title", "target"],
+  },
 };
 // 使用以上配置后，下面的HTML
 // <a href="#" onclick="hello()"><i>大家好</i></a>
@@ -278,9 +276,9 @@ myxss = new xss.FilterXSS({
     whiteList: {
       position: /^fixed|relative$/,
       top: true,
-      left: true
-    }
-  }
+      left: true,
+    },
+  },
 });
 html = myxss.process('<script>alert("xss");</script>');
 ```
@@ -289,7 +287,7 @@ html = myxss.process('<script>alert("xss");</script>');
 
 ```javascript
 myxss = new xss.FilterXSS({
-  css: false
+  css: false,
 });
 ```
 
@@ -301,15 +299,18 @@ myxss = new xss.FilterXSS({
 
 通过 `stripIgnoreTag` 来设置：
 
-* `true`：去掉不在白名单上的标签
-* `false`：（默认），使用配置的`escape`函数对该标签进行转义
+- `true`：去掉不在白名单上的标签
+- `false`：（默认），使用配置的`escape`函数对该标签进行转义
 
 示例：
 
 当设置 `stripIgnoreTag = true`时，以下代码
 
 ```html
-code:<script>alert(/xss/);</script>
+code:
+<script>
+  alert(/xss/);
+</script>
 ```
 
 过滤后将输出
@@ -322,16 +323,19 @@ code:alert(/xss/);
 
 通过 `stripIgnoreTagBody` 来设置：
 
-* `false|null|undefined`：（默认），不特殊处理
-* `'*'|true`：去掉所有不在白名单上的标签
-* `['tag1', 'tag2']`：仅去掉指定的不在白名单上的标签
+- `false|null|undefined`：（默认），不特殊处理
+- `'*'|true`：去掉所有不在白名单上的标签
+- `['tag1', 'tag2']`：仅去掉指定的不在白名单上的标签
 
 示例：
 
 当设置 `stripIgnoreTagBody = ['script']`时，以下代码
 
 ```html
-code:<script>alert(/xss/);</script>
+code:
+<script>
+  alert(/xss/);
+</script>
 ```
 
 过滤后将输出
@@ -344,15 +348,16 @@ code:
 
 通过 `allowCommentTag` 来设置：
 
-* `true`：不处理
-* `false`：（默认），自动去掉 HTML 中的备注
+- `true`：不处理
+- `false`：（默认），自动去掉 HTML 中的备注
 
 示例：
 
 当设置 `allowCommentTag = false` 时，以下代码
 
 ```html
-code:<!-- something --> END
+code:<!-- something -->
+END
 ```
 
 过滤后将输出
@@ -368,12 +373,12 @@ code: END
 ```javascript
 var source = '<div a="1" b="2" data-a="3" data-b="4">hello</div>';
 var html = xss(source, {
-  onIgnoreTagAttr: function(tag, name, value, isWhiteAttr) {
+  onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
     if (name.substr(0, 5) === "data-") {
       // 通过内置的escapeAttrValue函数来对属性值进行转义
       return name + '="' + xss.escapeAttrValue(value) + '"';
     }
-  }
+  },
 });
 
 console.log("%s\nconvert to:\n%s", source, html);
@@ -392,12 +397,12 @@ convert to:
 ```javascript
 var source = "<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>";
 var html = xss(source, {
-  onIgnoreTag: function(tag, html, options) {
+  onIgnoreTag: function (tag, html, options) {
     if (tag.substr(0, 2) === "x-") {
       // 不对其属性列表进行过滤
       return html;
     }
-  }
+  },
 });
 
 console.log("%s\nconvert to:\n%s", source, html);
@@ -406,9 +411,11 @@ console.log("%s\nconvert to:\n%s", source, html);
 运行结果：
 
 ```html
-<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>
-convert to:
-&lt;x&gt;<x-1>he<x-2 checked></x-2>wwww</x-1><a>
+<x
+  ><x-1>he<x-2 checked></x-2>wwww</x-1
+  ><a>
+    convert to: &lt;x&gt;<x-1>he<x-2 checked></x-2>wwww</x-1><a></a></a
+></x>
 ```
 
 ### 分析 HTML 代码中的图片列表
@@ -418,13 +425,13 @@ var source =
   '<img src="img1">a<img src="img2">b<img src="img3">c<img src="img4">d';
 var list = [];
 var html = xss(source, {
-  onTagAttr: function(tag, name, value, isWhiteAttr) {
+  onTagAttr: function (tag, name, value, isWhiteAttr) {
     if (tag === "img" && name === "src") {
       // 使用内置的friendlyAttrValue函数来对属性值进行转义，可将&lt;这类的实体标记转换成打印字符<
       list.push(xss.friendlyAttrValue(value));
     }
     // 不返回任何值，表示还是按照默认的方法处理
-  }
+  },
 });
 
 console.log("image list:\n%s", list.join(", "));
@@ -433,8 +440,7 @@ console.log("image list:\n%s", list.join(", "));
 运行结果：
 
 ```html
-image list:
-img1, img2, img3, img4
+image list: img1, img2, img3, img4
 ```
 
 ### 去除 HTML 标签（只保留文本内容）
@@ -444,7 +450,7 @@ var source = "<strong>hello</strong><script>alert(/xss/);</script>end";
 var html = xss(source, {
   whiteList: {}, // 白名单为空，表示过滤所有标签
   stripIgnoreTag: true, // 过滤所有非白名单标签的HTML
-  stripIgnoreTagBody: ["script"] // script标签较特殊，需要过滤标签中间的内容
+  stripIgnoreTagBody: ["script"], // script标签较特殊，需要过滤标签中间的内容
 });
 
 console.log("text: %s", html);

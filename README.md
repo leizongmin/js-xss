@@ -1,5 +1,5 @@
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
+[![Node.js CI](https://github.com/leizongmin/js-xss/actions/workflows/nodejs.yml/badge.svg)](https://github.com/leizongmin/js-xss/actions/workflows/nodejs.yml)
 [![Test coverage][coveralls-image]][coveralls-url]
 [![David deps][david-image]][david-url]
 [![node version][node-image]][node-url]
@@ -8,8 +8,6 @@
 
 [npm-image]: https://img.shields.io/npm/v/xss.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/xss
-[travis-image]: https://img.shields.io/travis/leizongmin/js-xss.svg?style=flat-square
-[travis-url]: https://travis-ci.org/leizongmin/js-xss
 [coveralls-image]: https://img.shields.io/coveralls/leizongmin/js-xss.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/leizongmin/js-xss?branch=master
 [david-image]: https://img.shields.io/david/leizongmin/js-xss.svg?style=flat-square
@@ -41,26 +39,26 @@
 
 ## Features
 
-* Specifies HTML tags and their attributes allowed with whitelist
-* Handle any tags or attributes using custom function.
+- Specifies HTML tags and their attributes allowed with whitelist
+- Handle any tags or attributes using custom function.
 
 ## Reference
 
-* [XSS Filter Evasion Cheat Sheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
-* [Data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)
-* [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
+- [XSS Filter Evasion Cheat Sheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
+- [Data URI scheme](http://en.wikipedia.org/wiki/Data_URI_scheme)
+- [XSS with Data URI Scheme](http://hi.baidu.com/badzzzz/item/bdbafe83144619c199255f7b)
 
 ## Benchmark (for references only)
 
-* the xss module: 22.53 MB/s
-* `xss()` function from module `validator@0.3.7`: 6.9 MB/s
+- the xss module: 22.53 MB/s
+- `xss()` function from module `validator@0.3.7`: 6.9 MB/s
 
 For test code please refer to `benchmark` directory.
 
 ## They are using xss module
 
-* **nodeclub** - A Node.js bbs using MongoDB - https://github.com/cnodejs/nodeclub
-* **cnpmjs.org** - Private npm registry and web for Enterprise - https://github.com/cnpm/cnpmjs.org
+- **nodeclub** - A Node.js bbs using MongoDB - https://github.com/cnodejs/nodeclub
+- **cnpmjs.org** - Private npm registry and web for Enterprise - https://github.com/cnpm/cnpmjs.org
 
 ## Install
 
@@ -99,9 +97,9 @@ Shim mode (reference file `test/test.html`):
 ```html
 <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
 <script>
-// apply function filterXSS in the same way
-var html = filterXSS('<script>alert("xss");</scr' + 'ipt>');
-alert(html);
+  // apply function filterXSS in the same way
+  var html = filterXSS('<script>alert("xss");</scr' + "ipt>");
+  alert(html);
 </script>
 ```
 
@@ -109,19 +107,19 @@ AMD mode - shim:
 
 ```html
 <script>
-require.config({
-  baseUrl: './',
-  paths: {
-    xss: 'https://rawgit.com/leizongmin/js-xss/master/dist/xss.js'
-  },
-  shim: {
-    xss: {exports: 'filterXSS'}
-  }
-})
-require(['xss'], function (xss) {
-  var html = xss('<script>alert("xss");</scr' + 'ipt>');
-  alert(html);
-});
+  require.config({
+    baseUrl: "./",
+    paths: {
+      xss: "https://rawgit.com/leizongmin/js-xss/master/dist/xss.js",
+    },
+    shim: {
+      xss: { exports: "filterXSS" },
+    },
+  });
+  require(["xss"], function (xss) {
+    var html = xss('<script>alert("xss");</scr' + "ipt>");
+    alert(html);
+  });
 </script>
 ```
 
@@ -185,8 +183,8 @@ and attributes not in the whitelist would be filter out. For example:
 // only tag a and its attributes href, title, target are allowed
 var options = {
   whiteList: {
-    a: ["href", "title", "target"]
-  }
+    a: ["href", "title", "target"],
+  },
 };
 // With the configuration specified above, the following HTML:
 // <a href="#" onclick="hello()"><i>Hello</i></a>
@@ -289,9 +287,9 @@ myxss = new xss.FilterXSS({
     whiteList: {
       position: /^fixed|relative$/,
       top: true,
-      left: true
-    }
-  }
+      left: true,
+    },
+  },
 });
 html = myxss.process('<script>alert("xss");</script>');
 ```
@@ -300,7 +298,7 @@ If you don't want to filter out the `style` content, just specify `false` to the
 
 ```javascript
 myxss = new xss.FilterXSS({
-  css: false
+  css: false,
 });
 ```
 
@@ -312,15 +310,18 @@ For more help, please see https://github.com/leizongmin/js-css-filter
 
 By using `stripIgnoreTag` parameter:
 
-* `true` filter out tags not in the whitelist
-* `false`: by default: escape the tag using configured `escape` function
+- `true` filter out tags not in the whitelist
+- `false`: by default: escape the tag using configured `escape` function
 
 Example:
 
 If `stripIgnoreTag = true` is set, the following code:
 
 ```html
-code:<script>alert(/xss/);</script>
+code:
+<script>
+  alert(/xss/);
+</script>
 ```
 
 would output filtered:
@@ -333,16 +334,19 @@ code:alert(/xss/);
 
 By using `stripIgnoreTagBody` parameter:
 
-* `false|null|undefined` by default: do nothing
-* `'*'|true`: filter out all tags not in the whitelist
-* `['tag1', 'tag2']`: filter out only specified tags not in the whitelist
+- `false|null|undefined` by default: do nothing
+- `'*'|true`: filter out all tags not in the whitelist
+- `['tag1', 'tag2']`: filter out only specified tags not in the whitelist
 
 Example:
 
 If `stripIgnoreTagBody = ['script']` is set, the following code:
 
 ```html
-code:<script>alert(/xss/);</script>
+code:
+<script>
+  alert(/xss/);
+</script>
 ```
 
 would output filtered:
@@ -355,15 +359,16 @@ code:
 
 By using `allowCommentTag` parameter:
 
-* `true`: do nothing
-* `false` by default: filter out HTML comments
+- `true`: do nothing
+- `false` by default: filter out HTML comments
 
 Example:
 
 If `allowCommentTag = false` is set, the following code:
 
 ```html
-code:<!-- something --> END
+code:<!-- something -->
+END
 ```
 
 would output filtered:
@@ -379,12 +384,12 @@ code: END
 ```javascript
 var source = '<div a="1" b="2" data-a="3" data-b="4">hello</div>';
 var html = xss(source, {
-  onIgnoreTagAttr: function(tag, name, value, isWhiteAttr) {
+  onIgnoreTagAttr: function (tag, name, value, isWhiteAttr) {
     if (name.substr(0, 5) === "data-") {
       // escape its value using built-in escapeAttrValue function
       return name + '="' + xss.escapeAttrValue(value) + '"';
     }
-  }
+  },
 });
 
 console.log("%s\nconvert to:\n%s", source, html);
@@ -403,12 +408,12 @@ convert to:
 ```javascript
 var source = "<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>";
 var html = xss(source, {
-  onIgnoreTag: function(tag, html, options) {
+  onIgnoreTag: function (tag, html, options) {
     if (tag.substr(0, 2) === "x-") {
       // do not filter its attributes
       return html;
     }
-  }
+  },
 });
 
 console.log("%s\nconvert to:\n%s", source, html);
@@ -417,9 +422,11 @@ console.log("%s\nconvert to:\n%s", source, html);
 Result:
 
 ```html
-<x><x-1>he<x-2 checked></x-2>wwww</x-1><a>
-convert to:
-&lt;x&gt;<x-1>he<x-2 checked></x-2>wwww</x-1><a>
+<x
+  ><x-1>he<x-2 checked></x-2>wwww</x-1
+  ><a>
+    convert to: &lt;x&gt;<x-1>he<x-2 checked></x-2>wwww</x-1><a></a></a
+></x>
 ```
 
 ### Parse images in HTML
@@ -429,7 +436,7 @@ var source =
   '<img src="img1">a<img src="img2">b<img src="img3">c<img src="img4">d';
 var list = [];
 var html = xss(source, {
-  onTagAttr: function(tag, name, value, isWhiteAttr) {
+  onTagAttr: function (tag, name, value, isWhiteAttr) {
     if (tag === "img" && name === "src") {
       // Use the built-in friendlyAttrValue function to escape attribute
       // values. It supports converting entity tags such as &lt; to printable
@@ -437,7 +444,7 @@ var html = xss(source, {
       list.push(xss.friendlyAttrValue(value));
     }
     // Return nothing, means keep the default handling measure
-  }
+  },
 });
 
 console.log("image list:\n%s", list.join(", "));
@@ -446,8 +453,7 @@ console.log("image list:\n%s", list.join(", "));
 Result:
 
 ```html
-image list:
-img1, img2, img3, img4
+image list: img1, img2, img3, img4
 ```
 
 ### Filter out HTML tags (keeps only plain text)
@@ -457,7 +463,7 @@ var source = "<strong>hello</strong><script>alert(/xss/);</script>end";
 var html = xss(source, {
   whiteList: {}, // empty, means filter out all tags
   stripIgnoreTag: true, // filter out all HTML not in the whitelist
-  stripIgnoreTagBody: ["script"] // the script tag is a special case, we need
+  stripIgnoreTagBody: ["script"], // the script tag is a special case, we need
   // to filter out its content
 });
 
