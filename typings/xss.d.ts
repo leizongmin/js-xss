@@ -24,7 +24,7 @@ declare module "xss" {
         css?: {} | boolean;
       }
 
-      interface IWhiteList {
+      interface IWhiteList extends Record<string, string[] | undefined> {
         a?: string[];
         abbr?: string[];
         address?: string[];
@@ -51,6 +51,8 @@ declare module "xss" {
         dl?: string[];
         dt?: string[];
         em?: string[];
+        figure?: string[];
+        figcaption?: string[];
         font?: string[];
         footer?: string[];
         h1?: string[];
@@ -77,6 +79,8 @@ declare module "xss" {
         sub?: string[];
         sup?: string[];
         strong?: string[];
+        strike?: string[];
+        summary?: string[];
         table?: string[];
         tbody?: string[];
         td?: string[];
