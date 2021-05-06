@@ -1,3 +1,10 @@
+# CHANGELOG
+
+## v1.0.9 (2021-05-06)
+
+- [Fix whitespace bypass #218](https://github.com/leizongmin/js-xss/pull/218/files) by @TomAnthony
+- [Add `<summary>` to default whitelist #216](https://github.com/leizongmin/js-xss/pull/216) by @spacegaier
+
 ## v1.0.8 (2020-07-27)
 
 - [Allow default imports in TS #200](https://github.com/leizongmin/js-xss/pull/200) by @danvk
