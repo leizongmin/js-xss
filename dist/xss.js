@@ -479,7 +479,11 @@ if (typeof window !== "undefined") {
 
 // using `xss` on the WebWorker, output `filterXSS` to the globals
 function isWorkerEnv() {
-  return typeof self !== 'undefined' && typeof DedicatedWorkerGlobalScope !== 'undefined' && self instanceof DedicatedWorkerGlobalScope;
+  return (
+    typeof self !== "undefined" &&
+    typeof DedicatedWorkerGlobalScope !== "undefined" &&
+    self instanceof DedicatedWorkerGlobalScope
+  );
 }
 if (isWorkerEnv()) {
   self.filterXSS = module.exports;
@@ -573,11 +577,11 @@ function parseTag(html, onTag, escapeHtml) {
           tagStart = false;
           continue;
         }
-        if ((c === '"' || c === "'")) {
+        if (c === '"' || c === "'") {
           var i = 1;
           var ic = html.charAt(currentPos - i);
 
-          while ((ic.trim() === "") || (ic === "=")) {
+          while (ic.trim() === "" || ic === "=") {
             if (ic === "=") {
               quoteStart = c;
               continue chariterator;
@@ -736,7 +740,7 @@ exports.parseAttr = parseAttr;
 
 },{"./util":4}],4:[function(require,module,exports){
 module.exports = {
-  indexOf: function(arr, item) {
+  indexOf: function (arr, item) {
     var i, j;
     if (Array.prototype.indexOf) {
       return arr.indexOf(item);
@@ -748,7 +752,7 @@ module.exports = {
     }
     return -1;
   },
-  forEach: function(arr, fn, scope) {
+  forEach: function (arr, fn, scope) {
     var i, j;
     if (Array.prototype.forEach) {
       return arr.forEach(fn, scope);
@@ -757,17 +761,17 @@ module.exports = {
       fn.call(scope, arr[i], i, arr);
     }
   },
-  trim: function(str) {
+  trim: function (str) {
     if (String.prototype.trim) {
       return str.trim();
     }
     return str.replace(/(^\s*)|(\s*$)/g, "");
   },
-  spaceIndex: function(str) {
+  spaceIndex: function (str) {
     var reg = /\s|\n|\t/;
     var match = reg.exec(str);
     return match ? match.index : -1;
-  }
+  },
 };
 
 },{}],5:[function(require,module,exports){
@@ -807,7 +811,7 @@ function getAttrs(html) {
   if (i === -1) {
     return {
       html: "",
-      closing: html[html.length - 2] === "/"
+      closing: html[html.length - 2] === "/",
     };
   }
   html = _.trim(html.slice(i + 1, -1));
@@ -815,7 +819,7 @@ function getAttrs(html) {
   if (isClosing) html = _.trim(html.slice(0, -1));
   return {
     html: html,
-    closing: isClosing
+    closing: isClosing,
   };
 }
 
@@ -877,7 +881,7 @@ function FilterXSS(options) {
  * @param {String} html
  * @return {String}
  */
-FilterXSS.prototype.process = function(html) {
+FilterXSS.prototype.process = function (html) {
   // compatible with the input
   html = html || "";
   html = html.toString();
@@ -916,12 +920,12 @@ FilterXSS.prototype.process = function(html) {
 
   var retHtml = parseTag(
     html,
-    function(sourcePosition, position, tag, html, isClosing) {
+    function (sourcePosition, position, tag, html, isClosing) {
       var info = {
         sourcePosition: sourcePosition,
         position: position,
         isClosing: isClosing,
-        isWhite: whiteList.hasOwnProperty(tag)
+        isWhite: whiteList.hasOwnProperty(tag),
       };
 
       // call `onTag()`
@@ -935,7 +939,7 @@ FilterXSS.prototype.process = function(html) {
 
         var attrs = getAttrs(html);
         var whiteAttrList = whiteList[tag];
-        var attrsHtml = parseAttr(attrs.html, function(name, value) {
+        var attrsHtml = parseAttr(attrs.html, function (name, value) {
           // call `onTagAttr()`
           var isWhiteAttr = _.indexOf(whiteAttrList, name) !== -1;
           var ret = onTagAttr(tag, name, value, isWhiteAttr);

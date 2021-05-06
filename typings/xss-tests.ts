@@ -21,7 +21,7 @@ console.log(
     onTag(tag: string, html: string, options: {}): string {
       return html;
     },
-    css: false
+    css: false,
   })
 );
 
@@ -34,7 +34,7 @@ xss.filterXSS("hello", {
   onTag(tag, html, options) {
     return html;
   },
-  onIgnoreTag(tag, html) {}
+  onIgnoreTag(tag, html) {},
 });
 
 interface ICustomWhiteList extends XSS.IWhiteList {
