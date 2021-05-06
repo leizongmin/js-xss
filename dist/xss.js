@@ -74,6 +74,7 @@ function getDefaultWhiteList() {
     summary: [],
     sup: [],
     strong: [],
+    strike: [],
     table: ["width", "border", "align", "valign"],
     tbody: ["align", "valign"],
     td: ["width", "rowspan", "colspan", "align", "valign"],

@@ -6,6 +6,7 @@
 - [Add `<summary>` to default whitelist #216](https://github.com/leizongmin/js-xss/pull/216) by @spacegaier
 - [Add `<figure>` and `<figcaption>` to default whitelist](https://github.com/leizongmin/js-xss/pull/220) by @daraz999
 - Add `<audio crossorigin muted>`, `<video crossorigin muted playsinline poster>` to default whitelist
+- Add `<strike>` to default whitelist
 
 ## v1.0.8 (2020-07-27)
 
