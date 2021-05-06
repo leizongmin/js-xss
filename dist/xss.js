@@ -61,6 +61,7 @@ function getDefaultWhiteList() {
     small: [],
     span: [],
     sub: [],
+    summary: [],
     sup: [],
     strong: [],
     table: ["width", "border", "align", "valign"],
@@ -73,7 +74,15 @@ function getDefaultWhiteList() {
     tt: [],
     u: [],
     ul: [],
-    video: ["autoplay", "controls", "loop", "preload", "src", "height", "width"]
+    video: [
+      "autoplay",
+      "controls",
+      "loop",
+      "preload",
+      "src",
+      "height",
+      "width",
+    ],
   };
 }
 
@@ -319,7 +328,7 @@ function onIgnoreTagStripAll() {
  */
 function StripTagBody(tags, next) {
   if (typeof next !== "function") {
-    next = function() {};
+    next = function () {};
   }
 
   var isRemoveAllTag = !Array.isArray(tags);
@@ -332,14 +341,14 @@ function StripTagBody(tags, next) {
   var posStart = false;
 
   return {
-    onIgnoreTag: function(tag, html, options) {
+    onIgnoreTag: function (tag, html, options) {
       if (isRemoveTag(tag)) {
         if (options.isClosing) {
           var ret = "[/removed]";
           var end = options.position + ret.length;
           removeList.push([
             posStart !== false ? posStart : options.position,
-            end
+            end,
           ]);
           posStart = false;
           return ret;
@@ -353,16 +362,16 @@ function StripTagBody(tags, next) {
         return next(tag, html, options);
       }
     },
-    remove: function(html) {
+    remove: function (html) {
       var rethtml = "";
       var lastPos = 0;
-      _.forEach(removeList, function(pos) {
+      _.forEach(removeList, function (pos) {
         rethtml += html.slice(lastPos, pos[0]);
         lastPos = pos[1];
       });
       rethtml += html.slice(lastPos);
       return rethtml;
-    }
+    },
   };
 }
 
@@ -385,7 +394,7 @@ var STRIP_COMMENT_TAG_REGEXP = /<!--[\s\S]*?-->/g;
  */
 function stripBlankChar(html) {
   var chars = html.split("");
-  chars = chars.filter(function(char) {
+  chars = chars.filter(function (char) {
     var c = char.charCodeAt(0);
     if (c === 127) return false;
     if (c <= 31) {
