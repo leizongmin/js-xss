@@ -20,3 +20,5 @@ benchmark/result*.html
 coverage.html
 .nyc_output
 coverage
+
+package-lock.json
