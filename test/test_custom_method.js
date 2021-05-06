@@ -360,7 +360,7 @@ describe("test custom XSS method", function() {
     );
   });
 
-  it("#onTag - sanitize html parameter", function() {
+  it("#onTag - sanitize html parameter space", function() {
     var source = '<a target= " href="><script>alert(2)</script>"><span>';
     var i = 0;
     var html = xss(source, {
@@ -373,5 +373,20 @@ describe("test custom XSS method", function() {
     });
     debug(html);
     assert.equal(html, '<a target= " href="><span>&lt;script&gt;alert(2)&lt;/script&gt;"&gt;<span>');
+  });
+
+  it("#onTag - sanitize html parameter tab", function() {
+    var source = '<a target=	" href="><script>alert(2)</script>"><span>';
+    var i = 0;
+    var html = xss(source, {
+      onTag: function(_, E, S) {
+        if (S.isWhite && "a" === _) {
+          if (S.isClosing) return "</span></a>";
+          return "".concat(E, '<span>');
+        }
+      }
+    });
+    debug(html);
+    assert.equal(html, '<a target=	" href="><span>&lt;script&gt;alert(2)&lt;/script&gt;"&gt;<span>');
   });
 });
