@@ -403,7 +403,7 @@ describe("test XSS", function() {
     assert.equal(xss("<!--sa       -->ss", { allowCommentTag: false }), "ss");
     assert.equal(
       xss("<!--                               ", { allowCommentTag: false }),
-      "&lt;!--                               "
+      ""
     );
   });
 
