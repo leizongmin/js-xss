@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.0.10 (2021-10-08)
+
+- [Fix: #239 stripCommentTag DoS attack](https://github.com/leizongmin/js-xss/pull/239)
+
 ## v1.0.9 (2021-05-06)
 
 - [Fix whitespace bypass #218](https://github.com/leizongmin/js-xss/pull/218/files) by @TomAnthony
