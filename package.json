@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "commander": "^2.20.3",
-    "cssfilter": "0.0.10"
+    "cssfilter": "0.0.10",
+    "jsdom": "^18.1.0"
   },
   "devDependencies": {
     "browserify": "^17.0.0",
