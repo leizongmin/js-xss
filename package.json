@@ -4,11 +4,7 @@
   "typings": "./typings/xss.d.ts",
   "version": "1.0.10",
   "description": "Sanitize untrusted HTML (to prevent XSS) with a configuration specified by a Whitelist",
-  "author": "Zongmin Lei <leizongmin@gmail.com> (http://ucdok.com)",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/leizongmin/js-xss.git"
-  },
+  "author": "Jan Palak <jan.palak@comarch.com>",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -42,10 +38,6 @@
     "prepublish": "npm run test && npm run build"
   },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/leizongmin/js-xss/issues"
-  },
-  "homepage": "https://github.com/leizongmin/js-xss",
   "keywords": [
     "sanitization",
     "xss",
