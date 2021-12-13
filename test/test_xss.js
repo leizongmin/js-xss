@@ -167,6 +167,20 @@ describe("test XSS", function() {
     );
   });
 
+  it("#allowList", ()=>{
+    // 过滤所有标签
+    assert.equal(
+      xss('<a title="xx">bb</a>', { allowList: {} }),
+      '&lt;a title="xx"&gt;bb&lt;/a&gt;'
+    );
+    assert.equal(xss("<hr>", { allowList: {} }), "&lt;hr&gt;");
+    // 增加白名单标签及属性
+    assert.equal(
+      xss('<ooxx yy="ok" cc="no">uu</ooxx>', { allowList: { ooxx: ["yy"] } }),
+      '<ooxx yy="ok">uu</ooxx>'
+    );
+  })
+
   // XSS攻击测试：https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
   it("#XSS_Filter_Evasion_Cheat_Sheet", function() {
     assert.equal(
