@@ -194,6 +194,8 @@ var options = {
 
 For the default whitelist, please refer `xss.whiteList`.
 
+`allowList` is also supported, and has the same function as `whiteList`.
+
 ### Customize the handler function for matched tags
 
 By specifying the handler function with `onTag`:
