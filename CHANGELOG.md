@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.0.11 (2022-03-06)
+
+- [feat: add support for allowList as an alias for whiteList](https://github.com/leizongmin/js-xss/pull/249)
+
 ## v1.0.10 (2021-10-08)
 
 - [Fix: #239 stripCommentTag DoS attack](https://github.com/leizongmin/js-xss/pull/239)
