@@ -15,8 +15,8 @@ function xss(html, options) {
   return ret;
 }
 
-describe("test XSS", function() {
-  it("#normal", function() {
+describe("test XSS", function () {
+  it("#normal", function () {
     // 兼容各种奇葩输入
     assert.equal(xss(), "");
     assert.equal(xss(null), "");
@@ -153,7 +153,7 @@ describe("test XSS", function() {
   });
 
   // 自定义白名单
-  it("#white list", function() {
+  it("#white list", function () {
     // 过滤所有标签
     assert.equal(
       xss('<a title="xx">bb</a>', { whiteList: {} }),
@@ -167,7 +167,7 @@ describe("test XSS", function() {
     );
   });
 
-  it("#allowList", ()=>{
+  it("#allowList", () => {
     // 过滤所有标签
     assert.equal(
       xss('<a title="xx">bb</a>', { allowList: {} }),
@@ -182,13 +182,13 @@ describe("test XSS", function() {
   })
 
   // XSS攻击测试：https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
-  it("#XSS_Filter_Evasion_Cheat_Sheet", function() {
+  it("#XSS_Filter_Evasion_Cheat_Sheet", function () {
     assert.equal(
       xss(
         "></SCRI" +
-          "PT>\">'><SCRI" +
-          "PT>alert(String.fromCharCode(88,83,83))</SCRI" +
-          "PT>"
+        "PT>\">'><SCRI" +
+        "PT>alert(String.fromCharCode(88,83,83))</SCRI" +
+        "PT>"
       ),
       "&gt;&lt;/SCRIPT&gt;\"&gt;'&gt;&lt;SCRIPT&gt;alert(String.fromCharCode(88,83,83))&lt;/SCRIPT&gt;"
     );
@@ -367,8 +367,8 @@ describe("test XSS", function() {
     assert.equal(
       xss(
         "<!--[if gte IE 4]><SCRI" +
-          "PT>alert('XSS');</SCRI" +
-          "PT><![endif]--> END",
+        "PT>alert('XSS');</SCRI" +
+        "PT><![endif]--> END",
         { allowCommentTag: true }
       ),
       "&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert('XSS');&lt;/SCRIPT&gt;&lt;![endif]--&gt; END"
@@ -376,8 +376,8 @@ describe("test XSS", function() {
     assert.equal(
       xss(
         "<!--[if gte IE 4]><SCRI" +
-          "PT>alert('XSS');</SCRI" +
-          "PT><![endif]--> END"
+        "PT>alert('XSS');</SCRI" +
+        "PT><![endif]--> END"
       ),
       " END"
     );
@@ -421,7 +421,7 @@ describe("test XSS", function() {
     );
   });
 
-  it("no options mutated", function() {
+  it("no options mutated", function () {
     var options = {};
 
     var ret = xss("test", options);
@@ -431,5 +431,17 @@ describe("test XSS", function() {
     var ret2 = new _xss.FilterXSS(options);
     // console.log(options);
     assert.deepEqual(options, {});
+  });
+
+  it("camel case tag names", function () {
+    assert.equal(xss('<animateTransform attributeName="transform"' +
+      'attributeType="XML"' +
+      'type="rotate"' +
+      'repeatCount="indefinite"/>', {
+      whiteList: {
+        animateTransform: ["attributeType", "repeatCount"]
+      }
+    }),
+      '<animatetransform attributetype="XML" repeatcount="indefinite" />');
   });
 });
