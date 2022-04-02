@@ -101,7 +101,7 @@
           <hr>
           <div class="page-content"><pre><code class="lang-JavaScript">var source = &#39;&lt;strong&gt;hello&lt;/strong&gt;&lt;script&gt;alert(/xss/);&lt;/script&gt;end&#39;;
 var html = xss(source, {
-  whiteList:          [],        // empty, means filter out all tags
+  whiteList:          {},        // empty, means filter out all tags
   stripIgnoreTag:     true,      // filter out all HTML not in the whilelist
   stripIgnoreTagBody: [&#39;script&#39;] // the script tag is a special case, we need
                                  // to filter out its content

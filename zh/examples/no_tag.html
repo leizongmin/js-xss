@@ -101,7 +101,7 @@
           <hr>
           <div class="page-content"><pre><code class="lang-JavaScript">var source = &#39;&lt;strong&gt;hello&lt;/strong&gt;&lt;script&gt;alert(/xss/);&lt;/script&gt;end&#39;;
 var html = xss(source, {
-  whiteList:          [],        // 白名单为空，表示过滤所有标签
+  whiteList:          {},        // 白名单为空，表示过滤所有标签
   stripIgnoreTag:     true,      // 过滤所有非白名单标签的HTML
   stripIgnoreTagBody: [&#39;script&#39;] // script标签较特殊，需要过滤标签中间的内容
 });
