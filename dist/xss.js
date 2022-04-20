@@ -620,7 +620,7 @@ function parseTag(html, onTag, escapeHtml) {
   return rethtml;
 }
 
-var REGEXP_ILLEGAL_ATTR_NAME = /[^a-zA-Z0-9_:\.\-]/gim;
+var REGEXP_ILLEGAL_ATTR_NAME = /[^a-zA-Z0-9\\_:.-]/gim;
 
 /**
  * parse input attributes and returns processed attributes
@@ -633,6 +633,7 @@ function parseAttr(html, onAttr) {
   "use strict";
 
   var lastPos = 0;
+  var lastMarkPos = 0;
   var retAttrs = [];
   var tmpName = false;
   var len = html.length;
@@ -652,19 +653,18 @@ function parseAttr(html, onAttr) {
     if (tmpName === false && c === "=") {
       tmpName = html.slice(lastPos, i);
       lastPos = i + 1;
+      lastMarkPos = html.charAt(lastPos) === '"' || html.charAt(lastPos) === "'" ? lastPos : findNextQuotationMark(html, i + 1);
       continue;
     }
     if (tmpName !== false) {
       if (
-        i === lastPos &&
-        (c === '"' || c === "'") &&
-        html.charAt(i - 1) === "="
+        i === lastMarkPos
       ) {
         j = html.indexOf(c, i + 1);
         if (j === -1) {
           break;
         } else {
-          v = _.trim(html.slice(lastPos + 1, j));
+          v = _.trim(html.slice(lastMarkPos + 1, j));
           addAttr(tmpName, v);
           tmpName = false;
           i = j;
@@ -719,6 +719,15 @@ function findNextEqual(str, i) {
     var c = str[i];
     if (c === " ") continue;
     if (c === "=") return i;
+    return -1;
+  }
+}
+
+function findNextQuotationMark(str, i) {
+  for (; i < str.length; i++) {
+    var c = str[i];
+    if (c === " ") continue;
+    if (c === "'" || c === '"') return i;
     return -1;
   }
 }
@@ -941,7 +950,7 @@ FilterXSS.prototype.process = function (html) {
         sourcePosition: sourcePosition,
         position: position,
         isClosing: isClosing,
-        isWhite: whiteList.hasOwnProperty(tag),
+        isWhite: Object.prototype.hasOwnProperty.call(whiteList, tag),
       };
 
       // call `onTag()`
