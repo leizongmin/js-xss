@@ -14,6 +14,7 @@ declare module "xss" {
         onTag?: OnTagHandler;
         onTagAttr?: OnTagAttrHandler;
         onIgnoreTag?: OnTagHandler;
+        onTagRemoved?: OnTagRemovedHandler;
         onIgnoreTagAttr?: OnTagAttrHandler;
         safeAttrValue?: SafeAttrValueHandler;
         escapeHtml?: EscapeHandler;
@@ -90,6 +91,10 @@ declare module "xss" {
         video?: string[];
       }
 
+      type OnTagRemovedHandler = (
+        tag: string
+      ) => void;
+
       type OnTagHandler = (
         tag: string,
         html: string,
@@ -123,6 +128,8 @@ declare module "xss" {
 
   export type OnTagHandler = XSS.OnTagHandler;
 
+  export type OnTagRemovedHandler = XSS.OnTagRemovedHandler;
+
   export type OnTagAttrHandler = XSS.OnTagAttrHandler;
 
   export type SafeAttrValueHandler = XSS.SafeAttrValueHandler;
@@ -133,7 +140,8 @@ declare module "xss" {
 
   export function StripTagBody(
     tags: string[],
-    next: () => void
+    next: () => void,
+    onTagRemoved: () => void
   ): {
     onIgnoreTag(
       tag: string,
@@ -171,6 +179,7 @@ declare module "xss" {
   export function getDefaultWhiteList(): IWhiteList;
   export const onTag: OnTagHandler;
   export const onIgnoreTag: OnTagHandler;
+  export const onTagRemoved: OnTagRemovedHandler;
   export const onTagAttr: OnTagAttrHandler;
   export const onIgnoreTagAttr: OnTagAttrHandler;
   export const safeAttrValue: SafeAttrValueHandler;
