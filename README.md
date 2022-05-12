@@ -59,6 +59,7 @@ For test code please refer to `benchmark` directory.
 
 - **nodeclub** - A Node.js bbs using MongoDB - https://github.com/cnodejs/nodeclub
 - **cnpmjs.org** - Private npm registry and web for Enterprise - https://github.com/cnpm/cnpmjs.org
+- **cocalc.com** - Collaborative Calculation and Data Science - https://cocalc.com
 
 ## Install
 
