@@ -167,7 +167,7 @@ describe("test XSS", function() {
     );
   });
 
-  it("#allowList", ()=>{
+  it("#allowList", function() {
     // 过滤所有标签
     assert.equal(
       xss('<a title="xx">bb</a>', { allowList: {} }),
@@ -431,5 +431,17 @@ describe("test XSS", function() {
     var ret2 = new _xss.FilterXSS(options);
     // console.log(options);
     assert.deepEqual(options, {});
+  });
+
+  it("camel case tag names", function() {
+    assert.equal(xss('<animateTransform attributeName="transform"' +
+      'attributeType="XML"' +
+      'type="rotate"' +
+      'repeatCount="indefinite"/>', {
+      whiteList: {
+        animateTransform: ["attributeType", "repeatCount"]
+      }
+    }),
+      '<animatetransform attributetype="XML" repeatcount="indefinite" />');
   });
 });
