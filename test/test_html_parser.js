@@ -75,7 +75,7 @@ describe("test HTML parser", function() {
   it("#parseAttr", function() {
     var i = 0;
     var html = parseAttr(
-      'href="#"attr1=b attr2=c attr3 attr4=\'value4"\'attr5/',
+      'href="#"attr1=b attr2=c attr3 attr4=\'value4"\'attr5/ attr6\\" attr7= "123 456"',
       function(name, value) {
         i++;
         debug(arguments);
@@ -103,7 +103,16 @@ describe("test HTML parser", function() {
           assert.equal(name, "attr5");
           assert.equal(value, "");
           return attr(name, value);
-        } else {
+        } else if(i === 7) {
+          assert.equal(name, "attr6\\");
+          assert.equal(value, "");
+          return attr(name, value);
+        } else if(i === 8){
+          assert.equal(name , "attr7");
+          assert.equal(value , "123 456");
+          return attr(name, value);
+        }
+        else {
           throw new Error();
         }
       }
@@ -111,7 +120,7 @@ describe("test HTML parser", function() {
     debug(html);
     assert.equal(
       html,
-      'href="#" attr1="b" attr2="c" attr3 attr4="value4&quote;" attr5'
+      'href="#" attr1="b" attr2="c" attr3 attr4="value4&quote;" attr5 attr6\\ attr7="123 456"'
     );
   });
 
