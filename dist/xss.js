@@ -161,6 +161,15 @@ function escapeHtml(html) {
 }
 
 /**
+ * default escapeHtml function but dont escape comment
+ *
+ * @param {String} html
+ */
+function escapeHtmlNotComment(html) {
+  return html.replace(REGEXP_LT_NOT_COMMENT, "&lt;").replace(REGEXP_RT_NOT_COMMENT, "&gt;");
+}
+
+/**
  * default safeAttrValue function
  *
  * @param {String} tag
@@ -229,16 +238,18 @@ function safeAttrValue(tag, name, value, cssFilter) {
 // RegExp list
 var REGEXP_LT = /</g;
 var REGEXP_GT = />/g;
+var REGEXP_LT_NOT_COMMENT = /<(?!!--)/g;
+var REGEXP_RT_NOT_COMMENT = /(?<!--)>/g;
 var REGEXP_QUOTE = /"/g;
 var REGEXP_QUOTE_2 = /&quot;/g;
 var REGEXP_ATTR_VALUE_1 = /&#([a-zA-Z0-9]*);?/gim;
 var REGEXP_ATTR_VALUE_COLON = /&colon;?/gim;
 var REGEXP_ATTR_VALUE_NEWLINE = /&newline;?/gim;
-var REGEXP_DEFAULT_ON_TAG_ATTR_3 = /\/\*|\*\//gm;
+// var REGEXP_DEFAULT_ON_TAG_ATTR_3 = /\/\*|\*\//gm;
 var REGEXP_DEFAULT_ON_TAG_ATTR_4 =
-  /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a)\:/gi;
-var REGEXP_DEFAULT_ON_TAG_ATTR_5 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:/gi;
-var REGEXP_DEFAULT_ON_TAG_ATTR_6 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:\s*image\//gi;
+  /((j\s*a\s*v\s*a|v\s*b|l\s*i\s*v\s*e)\s*s\s*c\s*r\s*i\s*p\s*t\s*|m\s*o\s*c\s*h\s*a):/gi;
+// var REGEXP_DEFAULT_ON_TAG_ATTR_5 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:/gi;
+// var REGEXP_DEFAULT_ON_TAG_ATTR_6 = /^[\s"'`]*(d\s*a\s*t\s*a\s*)\:\s*image\//gi;
 var REGEXP_DEFAULT_ON_TAG_ATTR_7 =
   /e\s*x\s*p\s*r\s*e\s*s\s*s\s*i\s*o\s*n\s*\(.*/gi;
 var REGEXP_DEFAULT_ON_TAG_ATTR_8 = /u\s*r\s*l\s*\(.*/gi;
@@ -445,6 +456,7 @@ exports.onTagAttr = onTagAttr;
 exports.onIgnoreTagAttr = onIgnoreTagAttr;
 exports.safeAttrValue = safeAttrValue;
 exports.escapeHtml = escapeHtml;
+exports.escapeHtmlNotComment = escapeHtmlNotComment;
 exports.escapeQuote = escapeQuote;
 exports.unescapeQuote = unescapeQuote;
 exports.escapeHtmlEntities = escapeHtmlEntities;
@@ -485,8 +497,15 @@ function filterXSS(html, options) {
 exports = module.exports = filterXSS;
 exports.filterXSS = filterXSS;
 exports.FilterXSS = FilterXSS;
-for (var i in DEFAULT) exports[i] = DEFAULT[i];
-for (var i in parser) exports[i] = parser[i];
+
+(function () {
+  for (var i in DEFAULT) {
+    exports[i] = DEFAULT[i];
+  }
+  for (var j in parser) {
+    exports[j] = parser[j];
+  }
+})();
 
 // using `xss` on the browser, output `filterXSS` to the globals
 if (typeof window !== "undefined") {
@@ -522,10 +541,11 @@ var _ = require("./util");
  */
 function getTagName(html) {
   var i = _.spaceIndex(html);
+  var tagName;
   if (i === -1) {
-    var tagName = html.slice(1, -1);
+    tagName = html.slice(1, -1);
   } else {
-    var tagName = html.slice(1, i + 1);
+    tagName = html.slice(1, i + 1);
   }
   tagName = _.trim(tagName).toLowerCase();
   if (tagName.slice(0, 1) === "/") tagName = tagName.slice(1);
@@ -862,6 +882,20 @@ function shallowCopyObject(obj) {
   return ret;
 }
 
+function keysToLowerCase(obj) {
+  var ret = {};
+  for (var i in obj) {
+    if (Array.isArray(obj[i])) {
+      ret[i.toLowerCase()] = obj[i].map(function (item) {
+        return item.toLowerCase();
+      });
+    } else {
+      ret[i.toLowerCase()] = obj[i];
+    }
+  }
+  return ret;
+}
+
 /**
  * FilterXSS class
  *
@@ -882,14 +916,18 @@ function FilterXSS(options) {
     }
     options.onIgnoreTag = DEFAULT.onIgnoreTagStripAll;
   }
+  if (options.whiteList || options.allowList) {
+    options.whiteList = keysToLowerCase(options.whiteList || options.allowList);
+  } else {
+    options.whiteList = DEFAULT.whiteList;
+  }
 
-  options.whiteList = options.whiteList || options.allowList || DEFAULT.whiteList;
   options.onTag = options.onTag || DEFAULT.onTag;
   options.onTagAttr = options.onTagAttr || DEFAULT.onTagAttr;
   options.onIgnoreTag = options.onIgnoreTag || DEFAULT.onIgnoreTag;
   options.onIgnoreTagAttr = options.onIgnoreTagAttr || DEFAULT.onIgnoreTagAttr;
   options.safeAttrValue = options.safeAttrValue || DEFAULT.safeAttrValue;
-  options.escapeHtml = options.escapeHtml || DEFAULT.escapeHtml;
+  options.escapeHtml = options.escapeHtml || (options.allowCommentTag ? DEFAULT.escapeHtmlNotComment : DEFAULT.escapeHtml);
   this.options = options;
 
   if (options.css === false) {
@@ -936,7 +974,7 @@ FilterXSS.prototype.process = function (html) {
   // if enable stripIgnoreTagBody
   var stripIgnoreTagBody = false;
   if (options.stripIgnoreTagBody) {
-    var stripIgnoreTagBody = DEFAULT.StripTagBody(
+    stripIgnoreTagBody = DEFAULT.StripTagBody(
       options.stripIgnoreTagBody,
       onIgnoreTag
     );
@@ -980,21 +1018,21 @@ FilterXSS.prototype.process = function (html) {
             }
           } else {
             // call `onIgnoreTagAttr()`
-            var ret = onIgnoreTagAttr(tag, name, value, isWhiteAttr);
+            ret = onIgnoreTagAttr(tag, name, value, isWhiteAttr);
             if (!isNull(ret)) return ret;
             return;
           }
         });
 
         // build new tag html
-        var html = "<" + tag;
+        html = "<" + tag;
         if (attrsHtml) html += " " + attrsHtml;
         if (attrs.closing) html += " /";
         html += ">";
         return html;
       } else {
         // call `onIgnoreTag()`
-        var ret = onIgnoreTag(tag, html, info);
+        ret = onIgnoreTag(tag, html, info);
         if (!isNull(ret)) return ret;
         return escapeHtml(html);
       }
