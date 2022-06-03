@@ -1,8 +1,15 @@
 # CHANGELOG
 
+## v1.0.12 (2022-06-04)
+
+- [feat: add eslint:recommended check](https://github.com/leizongmin/js-xss/pull/252) by @lumburr
+- [fix: comment has encoded](https://github.com/leizongmin/js-xss/pull/257) by @lumburr
+- [fix: whitelist match failure due to case ignoring](https://github.com/leizongmin/js-xss/pull/256) by @lumburr
+- [fix: class is wrong separated by attributes in method onTagAttr](https://github.com/leizongmin/js-xss/pull/253) by @lumburr
+
 ## v1.0.11 (2022-03-06)
 
-- [feat: add support for allowList as an alias for whiteList](https://github.com/leizongmin/js-xss/pull/249)
+- [feat: add support for allowList as an alias for whiteList](https://github.com/leizongmin/js-xss/pull/249) by @schu34
 
 ## v1.0.10 (2021-10-08)
 
