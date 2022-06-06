@@ -371,7 +371,7 @@ describe("test XSS", function() {
           "PT><![endif]--> END",
         { allowCommentTag: true }
       ),
-      "<!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert('XSS');&lt;/SCRIPT&gt;&lt;![endif]--> END"
+      "&lt;!--[if gte IE 4]&gt;&lt;SCRIPT&gt;alert('XSS');&lt;/SCRIPT&gt;&lt;![endif]--&gt; END"
     );
     assert.equal(
       xss(
