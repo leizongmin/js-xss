@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.0.13 (2022-06-07)
+
+- [revert: fix: comment has encoded](https://github.com/leizongmin/js-xss/pull/257)
+
 ## v1.0.12 (2022-06-04)
 
 - [feat: add eslint:recommended check](https://github.com/leizongmin/js-xss/pull/252) by @lumburr

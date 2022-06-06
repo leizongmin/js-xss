@@ -161,15 +161,6 @@ function escapeHtml(html) {
 }
 
 /**
- * default escapeHtml function but dont escape comment
- *
- * @param {String} html
- */
-function escapeHtmlNotComment(html) {
-  return html.replace(REGEXP_LT_NOT_COMMENT, "&lt;").replace(REGEXP_RT_NOT_COMMENT, "&gt;");
-}
-
-/**
  * default safeAttrValue function
  *
  * @param {String} tag
@@ -238,8 +229,6 @@ function safeAttrValue(tag, name, value, cssFilter) {
 // RegExp list
 var REGEXP_LT = /</g;
 var REGEXP_GT = />/g;
-var REGEXP_LT_NOT_COMMENT = /<(?!!--)/g;
-var REGEXP_RT_NOT_COMMENT = /(?<!--)>/g;
 var REGEXP_QUOTE = /"/g;
 var REGEXP_QUOTE_2 = /&quot;/g;
 var REGEXP_ATTR_VALUE_1 = /&#([a-zA-Z0-9]*);?/gim;
@@ -456,7 +445,6 @@ exports.onTagAttr = onTagAttr;
 exports.onIgnoreTagAttr = onIgnoreTagAttr;
 exports.safeAttrValue = safeAttrValue;
 exports.escapeHtml = escapeHtml;
-exports.escapeHtmlNotComment = escapeHtmlNotComment;
 exports.escapeQuote = escapeQuote;
 exports.unescapeQuote = unescapeQuote;
 exports.escapeHtmlEntities = escapeHtmlEntities;
@@ -927,7 +915,7 @@ function FilterXSS(options) {
   options.onIgnoreTag = options.onIgnoreTag || DEFAULT.onIgnoreTag;
   options.onIgnoreTagAttr = options.onIgnoreTagAttr || DEFAULT.onIgnoreTagAttr;
   options.safeAttrValue = options.safeAttrValue || DEFAULT.safeAttrValue;
-  options.escapeHtml = options.escapeHtml || (options.allowCommentTag ? DEFAULT.escapeHtmlNotComment : DEFAULT.escapeHtml);
+  options.escapeHtml = options.escapeHtml || DEFAULT.escapeHtml;
   this.options = options;
 
   if (options.css === false) {
