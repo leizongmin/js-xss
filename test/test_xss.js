@@ -88,6 +88,7 @@ describe("test XSS", function() {
     assert.equal(xss("<img src//>"), "<img src />");
     assert.equal(xss("<br/>"), "<br />");
     assert.equal(xss("<br />"), "<br />");
+    assert.equal(xss("<img src=x onerror=alert('XSS')"), "<img src>");
 
     // 畸形属性格式
     assert.equal(
