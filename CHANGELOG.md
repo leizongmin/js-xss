@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.0.14 (2022-08-16)
+
+- [fix: problem with not closed tag](https://github.com/leizongmin/js-xss/pull/262) by @slawiko
+- [fix: add allowList to types](https://github.com/leizongmin/js-xss/pull/261) by @metonym
+
 ## v1.0.13 (2022-06-07)
 
 - [revert: fix: comment has encoded](https://github.com/leizongmin/js-xss/pull/257)
