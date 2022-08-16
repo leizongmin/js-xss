@@ -10,6 +10,7 @@ declare module "xss" {
 
     namespace XSS {
       export interface IFilterXSSOptions {
+        allowList?: IWhiteList;
         whiteList?: IWhiteList;
         onTag?: OnTagHandler;
         onTagAttr?: OnTagAttrHandler;
