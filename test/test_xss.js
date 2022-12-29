@@ -151,6 +151,16 @@ describe("test XSS", function() {
       xss('<a\n\n\n\ttarget="_blank"\t\t\t\ntitle="bbb">'),
       '<a target="_blank" title="bbb">'
     );
+
+    // 属性用斜杠分隔
+    assert.equal(
+      xss('<img/width=100/height=200/src="#"/>'),
+      '<img width="100" height="200" src="#" />'
+    );
+    assert.equal(
+      xss('<a/target="_blank"///title="bbb">'),
+      '<a target="_blank" title="bbb">'
+    );
   });
 
   // 自定义白名单
