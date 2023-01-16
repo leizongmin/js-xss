@@ -240,7 +240,7 @@ function onIgnoreTag(tag, html, options) {
 function onIgnoreTagAttr(tag, name, value, isWhiteAttr) {
   // 参数说明与onTagAttr相同
   // 如果返回一个字符串，则当前属性值将被替换为该字符串
-  // 如果不返回任何值，则使用默认的处理方法（删除该属）
+  // 如果不返回任何值，则使用默认的处理方法（删除该属性）
 }
 ```
 
