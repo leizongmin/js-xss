@@ -133,6 +133,12 @@ describe("test XSS", function() {
       ),
       '<img width="100" height="200" title="xxx" alt="\'yyy\'">'
     );
+    assert.equal(
+      xss(
+        '<img loading="lazy">'
+      ),
+      '<img loading="lazy">'
+    );
 
     // 使用Tab或换行符分隔的属性
     assert.equal(
