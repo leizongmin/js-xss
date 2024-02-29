@@ -428,6 +428,22 @@ describe("test XSS", function() {
     );
   });
 
+  it("#singleQuotedAttributeValue", function() {
+    assert.equal(xss('<a title="xx">not-defined</a>'), '<a title="xx">not-defined</a>');
+    assert.equal(
+      xss('<a title="xx">single-quoted</a>', { singleQuotedAttributeValue: true }),
+      '<a title=\'xx\'>single-quoted</a>'
+    );
+    assert.equal(
+      xss('<a title="xx">double-quoted</a>', { singleQuotedAttributeValue: false }),
+      '<a title="xx">double-quoted</a>'
+    );
+    assert.equal(
+      xss('<a title="xx">invalid-value</a>', { singleQuotedAttributeValue: 'invalid' }),
+      '<a title="xx">invalid-value</a>'
+    );
+  })
+
   it("no options mutated", function() {
     var options = {};
 

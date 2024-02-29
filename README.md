@@ -280,6 +280,20 @@ function safeAttrValue(tag, name, value) {
 }
 ```
 
+### Customize output attribute value syntax for HTML
+
+By specifying a `singleQuotedAttributeValue`. Use `true` for `'`. Otherwise default `"` will be used
+
+```javascript
+var options = {
+  singleQuotedAttributeValue: true,
+};
+// With the configuration specified above, the following HTML:
+// <a href="#">Hello</a>
+// would become:
+// <a href='#'>Hello</a>
+```
+
 ### Customize CSS filter
 
 If you allow the attribute `style`, the value will be processed by [cssfilter](https://github.com/leizongmin/js-css-filter) module. The cssfilter module includes a default css whitelist. You can specify the options for cssfilter module like this:
