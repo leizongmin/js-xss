@@ -528,7 +528,7 @@ var _ = require("./util");
  * @return {String}
  */
 function getTagName(html) {
-  var i = _.spaceIndex(html);
+  var i = _.separatorIndex(html);
   var tagName;
   if (i === -1) {
     tagName = html.slice(1, -1);
@@ -681,8 +681,8 @@ function parseAttr(html, onAttr) {
         }
       }
     }
-    if (/\s|\n|\t/.test(c)) {
-      html = html.replace(/\s|\n|\t/g, " ");
+    if (/\s|\//.test(c)) {
+      html = html.replace(/\s|\//g, " ");
       if (tmpName === false) {
         j = findNextEqual(html, i);
         if (j === -1) {
@@ -800,8 +800,8 @@ module.exports = {
     }
     return str.replace(/(^\s*)|(\s*$)/g, "");
   },
-  spaceIndex: function (str) {
-    var reg = /\s|\n|\t/;
+  separatorIndex: function (str) {
+    var reg = /\s|\b\/[^>]/;
     var match = reg.exec(str);
     return match ? match.index : -1;
   },
@@ -840,7 +840,7 @@ function isNull(obj) {
  *   - {Boolean} closing
  */
 function getAttrs(html) {
-  var i = _.spaceIndex(html);
+  var i = _.separatorIndex(html);
   if (i === -1) {
     return {
       html: "",
