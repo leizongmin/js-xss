@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.0.15 (2024-03-03)
+
+- [feat: add <kbd> to default whitelist](https://github.com/leizongmin/js-xss/pull/279) by @rayrny
+- [feat: single-quoted attribute value syntax support](https://github.com/leizongmin/js-xss/pull/287) by @mdk000
+
 ## v1.0.14 (2022-08-16)
 
 - [fix: problem with not closed tag](https://github.com/leizongmin/js-xss/pull/262) by @slawiko
