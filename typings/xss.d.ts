@@ -22,6 +22,7 @@ declare module "xss" {
         stripIgnoreTagBody?: boolean | string[];
         allowCommentTag?: boolean;
         stripBlankChar?: boolean;
+        singleQuotedAttributeValue?: boolean;
         css?: {} | boolean;
       }
 
@@ -195,6 +196,7 @@ declare module "xss" {
   export function onIgnoreTagStripAll(): string;
   export const stripCommentTag: EscapeHandler;
   export const stripBlankChar: EscapeHandler;
+  export const attributeWrapSign: string;
   export const cssFilter: ICSSFilter;
   export function getDefaultCSSWhiteList(): ICSSFilter;
 
