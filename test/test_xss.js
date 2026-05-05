@@ -467,4 +467,119 @@ describe("test XSS", function() {
     }),
       '<animatetransform attributetype="XML" repeatcount="indefinite" />');
   });
+
+  describe("prototype pollution protection", function() {
+    it("should not use properties from Object.prototype when no options are given", function() {
+      // Store original prototype
+      const originalProto = Object.prototype;
+      const originalOnTag = originalProto.onTag;
+      const originalOnTagAttr = originalProto.onTagAttr;
+      const originalOnIgnoreTag = originalProto.onIgnoreTag;
+      const originalOnIgnoreTagAttr = originalProto.onIgnoreTagAttr;
+      const originalSafeAttrValue = originalProto.safeAttrValue;
+      const originalEscapeHtml = originalProto.escapeHtml;
+      const originalWhiteList = originalProto.whiteList;
+      const originalCss = originalProto.css;
+      const originalStripIgnoreTag = originalProto.stripIgnoreTag;
+      const originalSingleQuotedAttributeValue = originalProto.singleQuotedAttributeValue;
+
+      try {
+        // Pollute prototype
+        let onTagCalled = false;
+        let escapeHtmlCalled = false;
+        let safeAttrValueCalled = false;
+        const evilWhiteList = { script: ["src"] };
+        const evilCss = false;
+        
+        Object.prototype.onTag = () => {
+          onTagCalled = true;
+          return '<img src=x onerror=alert(1)>';
+        };
+        Object.prototype.onTagAttr = () => {};
+        Object.prototype.onIgnoreTag = () => {};
+        Object.prototype.onIgnoreTagAttr = () => {};
+        Object.prototype.safeAttrValue = () => {
+          safeAttrValueCalled = true;
+          return "javascript:alert(1)";
+        };
+        Object.prototype.escapeHtml = () => {
+          escapeHtmlCalled = true;
+          return '<img src=x onerror=alert(1)>';
+        };
+        Object.prototype.whiteList = evilWhiteList;
+        Object.prototype.allowList = evilWhiteList;
+        Object.prototype.stripIgnoreTag = true;
+        Object.prototype.singleQuotedAttributeValue = true;
+        Object.prototype.css = evilCss;
+
+        // Test xss without options
+        const result = xss("<p>text</p>");
+        const result2 = xss('<script src="evil.js"></script>');
+        const result3 = xss('<a href="https://example.com">click</a>');
+
+        // Verify no pollution effects
+        assert.equal(onTagCalled, false, "onTag should not be called from prototype");
+        assert.equal(escapeHtmlCalled, false, "escapeHtml should not be called from prototype");
+        assert.equal(safeAttrValueCalled, false, "safeAttrValue should not be called from prototype");
+        assert.equal(result, "<p>text</p>");
+        assert.equal(result2, "&lt;script src=\"evil.js\"&gt;&lt;/script&gt;");
+        assert.equal(result3, '<a href="https://example.com">click</a>');
+      } finally {
+        // Restore prototype
+        delete Object.prototype.onTag;
+        delete Object.prototype.onTagAttr;
+        delete Object.prototype.onIgnoreTag;
+        delete Object.prototype.onIgnoreTagAttr;
+        delete Object.prototype.safeAttrValue;
+        delete Object.prototype.escapeHtml;
+        delete Object.prototype.whiteList;
+        delete Object.prototype.allowList;
+        delete Object.prototype.stripIgnoreTag;
+        delete Object.prototype.singleQuotedAttributeValue;
+        delete Object.prototype.css;
+      }
+    });
+
+    it("should not use properties from Object.prototype when options are given", function() {
+      // Store original prototype
+      const originalProto = Object.prototype;
+      const originalOnTag = originalProto.onTag;
+      const originalWhiteList = originalProto.whiteList;
+
+      try {
+        // Pollute prototype
+        let prototypeOnTagCalled = false;
+        let prototypeEscapeHtmlCalled = false;
+        
+        Object.prototype.onTag = () => {
+          prototypeOnTagCalled = true;
+          return '<evil>';
+        };
+        Object.prototype.escapeHtml = () => {
+          prototypeEscapeHtmlCalled = true;
+          return '<evil>';
+        };
+
+        // Test xss with options
+        let customOnTagCalled = false;
+        const options = {
+          onTag: () => {
+            customOnTagCalled = true;
+            return null;
+          }
+        };
+        const result = xss("<p>text</p>", options);
+
+        // Verify
+        assert.equal(prototypeOnTagCalled, false, "Prototype onTag should not be called");
+        assert.equal(prototypeEscapeHtmlCalled, false, "Prototype escapeHtml should not be called");
+        assert.equal(customOnTagCalled, true, "Custom onTag should be called");
+        assert.equal(result, "<p>text</p>");
+      } finally {
+        // Restore prototype
+        delete Object.prototype.onTag;
+        delete Object.prototype.escapeHtml;
+      }
+    });
+  });
 });
