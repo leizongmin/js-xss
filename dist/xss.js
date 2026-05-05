@@ -490,10 +490,14 @@ exports.FilterXSS = FilterXSS;
 
 (function () {
   for (var i in DEFAULT) {
-    exports[i] = DEFAULT[i];
+    if (Object.prototype.hasOwnProperty.call(DEFAULT, i)) {
+      exports[i] = DEFAULT[i];
+    }
   }
   for (var j in parser) {
-    exports[j] = parser[j];
+    if (Object.prototype.hasOwnProperty.call(parser, j)) {
+      exports[j] = parser[j];
+    }
   }
 })();
 
@@ -867,7 +871,9 @@ function getAttrs(html) {
 function shallowCopyObject(obj) {
   var ret = {};
   for (var i in obj) {
-    ret[i] = obj[i];
+    if (Object.prototype.hasOwnProperty.call(obj, i)) {
+      ret[i] = obj[i];
+    }
   }
   return ret;
 }
@@ -875,12 +881,14 @@ function shallowCopyObject(obj) {
 function keysToLowerCase(obj) {
   var ret = {};
   for (var i in obj) {
-    if (Array.isArray(obj[i])) {
-      ret[i.toLowerCase()] = obj[i].map(function (item) {
-        return item.toLowerCase();
-      });
-    } else {
-      ret[i.toLowerCase()] = obj[i];
+    if (Object.prototype.hasOwnProperty.call(obj, i)) {
+      if (Array.isArray(obj[i])) {
+        ret[i.toLowerCase()] = obj[i].map(function (item) {
+          return item.toLowerCase();
+        });
+      } else {
+        ret[i.toLowerCase()] = obj[i];
+      }
     }
   }
   return ret;
@@ -898,34 +906,35 @@ function keysToLowerCase(obj) {
 function FilterXSS(options) {
   options = shallowCopyObject(options || {});
 
-  if (options.stripIgnoreTag) {
-    if (options.onIgnoreTag) {
+  if (Object.prototype.hasOwnProperty.call(options, 'stripIgnoreTag') && options.stripIgnoreTag) {
+    if (Object.prototype.hasOwnProperty.call(options, 'onIgnoreTag') && options.onIgnoreTag) {
       console.error(
         'Notes: cannot use these two options "stripIgnoreTag" and "onIgnoreTag" at the same time'
       );
     }
     options.onIgnoreTag = DEFAULT.onIgnoreTagStripAll;
   }
-  if (options.whiteList || options.allowList) {
-    options.whiteList = keysToLowerCase(options.whiteList || options.allowList);
+  if (Object.prototype.hasOwnProperty.call(options, 'whiteList') || Object.prototype.hasOwnProperty.call(options, 'allowList')) {
+    const wl = Object.prototype.hasOwnProperty.call(options, 'whiteList') ? options.whiteList : options.allowList;
+    options.whiteList = keysToLowerCase(wl);
   } else {
     options.whiteList = DEFAULT.whiteList;
   }
 
-  this.attributeWrapSign = options.singleQuotedAttributeValue === true ? "'" : DEFAULT.attributeWrapSign;
+  this.attributeWrapSign = Object.prototype.hasOwnProperty.call(options, 'singleQuotedAttributeValue') && options.singleQuotedAttributeValue === true ? "'" : DEFAULT.attributeWrapSign;
 
-  options.onTag = options.onTag || DEFAULT.onTag;
-  options.onTagAttr = options.onTagAttr || DEFAULT.onTagAttr;
-  options.onIgnoreTag = options.onIgnoreTag || DEFAULT.onIgnoreTag;
-  options.onIgnoreTagAttr = options.onIgnoreTagAttr || DEFAULT.onIgnoreTagAttr;
-  options.safeAttrValue = options.safeAttrValue || DEFAULT.safeAttrValue;
-  options.escapeHtml = options.escapeHtml || DEFAULT.escapeHtml;
+  options.onTag = Object.prototype.hasOwnProperty.call(options, 'onTag') ? options.onTag : DEFAULT.onTag;
+  options.onTagAttr = Object.prototype.hasOwnProperty.call(options, 'onTagAttr') ? options.onTagAttr : DEFAULT.onTagAttr;
+  options.onIgnoreTag = Object.prototype.hasOwnProperty.call(options, 'onIgnoreTag') ? options.onIgnoreTag : DEFAULT.onIgnoreTag;
+  options.onIgnoreTagAttr = Object.prototype.hasOwnProperty.call(options, 'onIgnoreTagAttr') ? options.onIgnoreTagAttr : DEFAULT.onIgnoreTagAttr;
+  options.safeAttrValue = Object.prototype.hasOwnProperty.call(options, 'safeAttrValue') ? options.safeAttrValue : DEFAULT.safeAttrValue;
+  options.escapeHtml = Object.prototype.hasOwnProperty.call(options, 'escapeHtml') ? options.escapeHtml : DEFAULT.escapeHtml;
   this.options = options;
 
-  if (options.css === false) {
+  if (Object.prototype.hasOwnProperty.call(options, 'css') && options.css === false) {
     this.cssFilter = false;
   } else {
-    options.css = options.css || {};
+    options.css = Object.prototype.hasOwnProperty.call(options, 'css') ? options.css : {};
     this.cssFilter = new FilterCSS(options.css);
   }
 }
