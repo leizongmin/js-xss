@@ -484,8 +484,71 @@ function filterXSS(html, options) {
   return xss.process(html);
 }
 
+/**
+ * Filter XSS and return both the sanitized HTML and a list of removed elements.
+ * Addresses feature request: https://github.com/leizongmin/js-xss/issues/284
+ *
+ * @param {String} html    - dirty HTML string to sanitize
+ * @param {Object} options - same options as filterXSS()
+ * @return {Object} { html: String, removed: Array }
+ *
+ * Each item in `removed` is one of:
+ *   { type: "tag",  tag: "script", html: "<script>",  isClosing: false }
+ *   { type: "attr", tag: "a",      attr: "onclick",   value: "evil()" }
+ */
+function filterXSSWithResult(html, options) {
+  var removed = [];
+
+  // Copy options so we don't mutate the caller's object
+  var opts = {};
+  if (options) {
+    for (var key in options) {
+      opts[key] = options[key];
+    }
+  }
+
+  // Save any hooks the user may have already provided
+  var originalOnIgnoreTag = opts.onIgnoreTag;
+  var originalOnIgnoreTagAttr = opts.onIgnoreTagAttr;
+
+  // Override onIgnoreTag to record removed tags
+  opts.onIgnoreTag = function (tag, tagHtml, tagOptions) {
+    removed.push({
+      type: "tag",
+      tag: tag,
+      html: tagHtml,
+      isClosing: !!(tagOptions && tagOptions.isClosing),
+    });
+    // Still call the user's original hook if they had one
+    if (originalOnIgnoreTag) {
+      return originalOnIgnoreTag(tag, tagHtml, tagOptions);
+    }
+  };
+
+  // Override onIgnoreTagAttr to record removed attributes
+  opts.onIgnoreTagAttr = function (tag, name, value, isWhiteAttr) {
+    removed.push({
+      type: "attr",
+      tag: tag,
+      attr: name,
+      value: value,
+    });
+    // Still call the user's original hook if they had one
+    if (originalOnIgnoreTagAttr) {
+      return originalOnIgnoreTagAttr(tag, name, value, isWhiteAttr);
+    }
+  };
+
+  var cleanHtml = filterXSS(html, opts);
+
+  return {
+    html: cleanHtml,
+    removed: removed,
+  };
+}
 exports = module.exports = filterXSS;
 exports.filterXSS = filterXSS;
+exports.filterXSSWithResult = filterXSSWithResult;
 exports.FilterXSS = FilterXSS;
 
 (function () {

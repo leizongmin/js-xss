@@ -91,6 +91,23 @@ var html = xss('<script>alert("xss");</script>');
 console.log(html);
 ```
 
+### Get sanitized HTML and removed elements
+
+You can use `filterXSSWithResult` to get both the sanitized HTML and a list of removed tags/attributes:
+
+```javascript
+var xss = require("xss");
+var result = xss.filterXSSWithResult('<script>alert("xss");</script><a href="#" onclick="evil()">click</a>');
+console.log(result.html);
+// Output: "&lt;script&gt;alert(\"xss\");&lt;/script&gt;<a href=\"#\">click</a>"
+console.log(result.removed);
+// Output: [
+//   { type: "tag", tag: "script", html: "<script>", isClosing: false },
+//   { type: "tag", tag: "script", html: "</script>", isClosing: true },
+//   { type: "attr", tag: "a", attr: "onclick", value: "evil()" }
+// ]
+```
+
 ### On Browser
 
 Shim mode (reference file `test/test.html`):
