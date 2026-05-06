@@ -7,6 +7,13 @@
 declare module "xss" {
   global {
     function filterXSS(html: string, options?: IFilterXSSOptions): string;
+    function filterXSSWithResult(html: string, options?: IFilterXSSOptions): {
+      html: string;
+      removed: Array<
+        | { type: "tag"; tag: string; html: string; isClosing: boolean }
+        | { type: "attr"; tag: string; attr: string; value: string }
+      >;
+    };
 
     namespace XSS {
       export interface IFilterXSSOptions {
@@ -163,6 +170,13 @@ declare module "xss" {
   }
 
   export function filterXSS(html: string, options?: IFilterXSSOptions): string;
+  export function filterXSSWithResult(html: string, options?: IFilterXSSOptions): {
+    html: string;
+    removed: Array<
+      | { type: "tag"; tag: string; html: string; isClosing: boolean }
+      | { type: "attr"; tag: string; attr: string; value: string }
+    >;
+  };
   export function parseTag(
     html: string,
     onTag: (
