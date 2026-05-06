@@ -83,6 +83,23 @@ var html = xss('<script>alert("xss");</script>');
 console.log(html);
 ```
 
+### 获取过滤后的 HTML 及被移除的元素
+
+可以使用 `filterXSSWithResult` 函数同时获取过滤后的 HTML 和被移除的标签/属性列表：
+
+```javascript
+var xss = require("xss");
+var result = xss.filterXSSWithResult('<script>alert("xss");</script><a href="#" onclick="evil()">click</a>');
+console.log(result.html);
+// 输出: "&lt;script&gt;alert(\"xss\");&lt;/script&gt;<a href=\"#\">click</a>"
+console.log(result.removed);
+// 输出: [
+//   { type: "tag", tag: "script", html: "<script>", isClosing: false },
+//   { type: "tag", tag: "script", html: "</script>", isClosing: true },
+//   { type: "attr", tag: "a", attr: "onclick", value: "evil()" }
+// ]
+```
+
 ### 在浏览器端使用
 
 Shim 模式（参考文件 `test/test.html`）:
