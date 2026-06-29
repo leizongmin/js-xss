@@ -101,6 +101,41 @@ describe("filterXSSWithResult", function () {
     assert.strictEqual(originalAttr, "onclick");
   });
 
+  it("should not use config properties from Object.prototype when options are given", function () {
+    var escapeHtmlCalled = false;
+    var safeAttrValueCalled = false;
+
+    try {
+      // Simulate an externally polluted Object.prototype (same threat model as
+      // the prototype pollution fix in #298). A malicious config on the prototype
+      // must not become the effective sanitizer config.
+      Object.prototype.escapeHtml = function () {
+        escapeHtmlCalled = true;
+        return "<img src=x onerror=alert(1)>";
+      };
+      Object.prototype.safeAttrValue = function () {
+        safeAttrValueCalled = true;
+        return "javascript:alert(1)";
+      };
+      Object.prototype.whiteList = { script: ["src"] };
+      Object.prototype.allowList = { script: ["src"] };
+
+      var result = xss.filterXSSWithResult('<script src="evil.js"></script>', {});
+
+      assert.equal(escapeHtmlCalled, false, "escapeHtml from prototype should not be used");
+      assert.equal(safeAttrValueCalled, false, "safeAttrValue from prototype should not be used");
+      assert.strictEqual(
+        result.html,
+        "&lt;script src=\"evil.js\"&gt;&lt;/script&gt;"
+      );
+    } finally {
+      delete Object.prototype.escapeHtml;
+      delete Object.prototype.safeAttrValue;
+      delete Object.prototype.whiteList;
+      delete Object.prototype.allowList;
+    }
+  });
+
   it("should not mutate the original options object", function () {
     var options = {
       onIgnoreTag: function () {},
