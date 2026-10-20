@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.0.16 (2026-10-20)
+
+- fix: reject unsafe URL schemes in `action` and `formaction` when allowed by a custom whitelist. Form destinations now allow only HTTP(S) and relative URLs; other schemes, including `javascript:`, `data:`, `mailto:`, `tel:` and FTP, are rejected. The default whitelist is unaffected.
+- [fix: ignore inherited properties when reading sanitizer options and whitelists to prevent prototype pollution from overriding filtering behavior](https://github.com/leizongmin/js-xss/pull/298)
+- feat: add `filterXSSWithResult()` to return sanitized HTML and records of ignored tags and attributes, with TypeScript declarations ([#297](https://github.com/leizongmin/js-xss/pull/297), [#299](https://github.com/leizongmin/js-xss/pull/299), [#300](https://github.com/leizongmin/js-xss/pull/300)).
+- [ci: update GitHub Actions and tested Node.js versions](https://github.com/leizongmin/js-xss/pull/296)
+
 ## v1.0.15 (2024-03-03)
 
 - [feat: add `<kbd>` to default whitelist](https://github.com/leizongmin/js-xss/pull/279) by @rayrny
