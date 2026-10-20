@@ -273,6 +273,11 @@ function escapeHtml(html) {
 
 ### 自定义标签属性值的转义函数
 
+当自定义白名单允许 `action` 或 `formaction` 属性时，默认 `safeAttrValue`
+也会检查其提交地址。表单地址允许 HTTP(S) 或相对 URL（包括路径、查询参数和片段），
+其他协议（包括 `javascript:` 和 `data:`）会被拒绝。
+`href` 和 `src` 的 `data:image/` 例外不适用于表单提交地址。
+
 通过 `safeAttrValue` 来指定相应的处理函数。以下是详细说明：
 
 ```javascript

@@ -288,6 +288,12 @@ function escapeHtml(html) {
 
 ### Customize escaping function for value of attributes
 
+The default `safeAttrValue` also checks `action` and `formaction` when these
+attributes are allowed by a custom whitelist. Form destinations may use HTTP(S)
+or relative URLs (including paths, queries and fragments); other schemes,
+including `javascript:` and `data:`, are rejected. The `data:image/` exception
+for `href` and `src` does not apply to form destinations.
+
 By specifying the handler function with `safeAttrValue`:
 
 ```javascript
