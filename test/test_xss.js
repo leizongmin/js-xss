@@ -60,7 +60,7 @@ describe("test XSS", function() {
     assert.equal(xss('<a t="">'), "<a>");
 
     // 属性内的特殊字符
-    assert.equal(xss('<a title="\'<<>>">'), '<a title="\'&lt;&lt;&gt;&gt;">');
+    assert.equal(xss('<a title="\'<<>>">'), '<a title="&apos;&lt;&lt;&gt;&gt;">');
     assert.equal(xss('<a title=""">'), "<a title>");
     assert.equal(xss('<a h=title="oo">'), "<a>");
     assert.equal(xss('<a h= title="oo">'), "<a>");
@@ -80,7 +80,7 @@ describe("test XSS", function() {
     // 没有双引号括起来的属性值
     assert.equal(xss("<a title=home>"), '<a title="home">');
     assert.equal(xss('<a title=abc("d")>'), '<a title="abc(&quot;d&quot;)">');
-    assert.equal(xss("<a title=abc('d')>"), "<a title=\"abc('d')\">");
+    assert.equal(xss("<a title=abc('d')>"), "<a title=\"abc(&apos;d&apos;)\">");
 
     // 单个闭合标签
     assert.equal(xss("<img src/>"), "<img src />");
@@ -131,7 +131,7 @@ describe("test XSS", function() {
       xss(
         '<img width = 100    height     =200 title= "xxx" no=yes alt="\'yyy\'">'
       ),
-      '<img width="100" height="200" title="xxx" alt="\'yyy\'">'
+      '<img width="100" height="200" title="xxx" alt="&apos;yyy&apos;">'
     );
     assert.equal(
       xss(
@@ -441,6 +441,10 @@ describe("test XSS", function() {
     assert.equal(
       xss('<a title="xx">invalid-value</a>', { singleQuotedAttributeValue: 'invalid' }),
       '<a title="xx">invalid-value</a>'
+    );
+    assert.equal(
+      xss(`<img src="/url' onerror='alert(1)'" />`, { singleQuotedAttributeValue: true }),
+      `<img src='/url&apos; onerror=&apos;alert(1)&apos;' />`
     );
   })
 
