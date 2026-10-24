@@ -581,5 +581,106 @@ describe("test XSS", function() {
         delete Object.prototype.escapeHtml;
       }
     });
+
+    it("should use default callbacks when an own property is undefined and the prototype is polluted", function() {
+      var html = '<a href="https://example.com" onclick="alert(1)">x</a><script>y</script>';
+      var keys = ["onTag", "onTagAttr", "onIgnoreTag", "onIgnoreTagAttr", "safeAttrValue", "escapeHtml"];
+      var called = {};
+      var options = {};
+      keys.forEach(function (key) {
+        called[key] = false;
+        options[key] = undefined;
+        Object.prototype[key] = function () {
+          called[key] = true;
+          return "<evil>";
+        };
+      });
+
+      try {
+        assert.equal(xss(html, options), xss(html));
+        keys.forEach(function (key) {
+          assert.equal(called[key], false, key + " should not be called from prototype");
+        });
+      } finally {
+        keys.forEach(function (key) {
+          delete Object.prototype[key];
+        });
+      }
+    });
+  });
+
+  describe("undefined callback options fall back to defaults", function() {
+    var html = '<a href="https://example.com" onclick="alert(1)">x</a><script>y</script>';
+    var plain = "width=280";
+
+    it("should match the default output when callbacks are undefined", function() {
+      assert.equal(xss(plain, { escapeHtml: undefined }), xss(plain));
+      assert.equal(xss(html, { escapeHtml: undefined }), xss(html));
+      assert.equal(xss(html, { onTag: undefined }), xss(html));
+      assert.equal(xss(html, { onTagAttr: undefined }), xss(html));
+      assert.equal(xss(html, { onIgnoreTag: undefined }), xss(html));
+      assert.equal(xss(html, { onIgnoreTagAttr: undefined }), xss(html));
+      assert.equal(xss(html, { safeAttrValue: undefined }), xss(html));
+      assert.equal(xss(plain, { escapeHtml: null }), xss(plain));
+    });
+
+    it("should keep a caller-supplied function", function() {
+      assert.equal(
+        xss(plain, {
+          escapeHtml: function () {
+            return "ESCAPED";
+          },
+        }),
+        "ESCAPED"
+      );
+      assert.equal(
+        xss("<p>text</p>", {
+          onTag: function () {
+            return "TAG";
+          },
+        }),
+        "TAGtextTAG"
+      );
+      assert.equal(
+        xss('<a href="https://example.com">x</a>', {
+          onTagAttr: function () {
+            return 'title="t"';
+          },
+        }),
+        '<a title="t">x</a>'
+      );
+      assert.equal(
+        xss("<script>y</script>", {
+          onIgnoreTag: function () {
+            return "IGNORED";
+          },
+        }),
+        "IGNOREDyIGNORED"
+      );
+      assert.equal(
+        xss('<a onclick="alert(1)">x</a>', {
+          onIgnoreTagAttr: function () {
+            return 'data-x="1"';
+          },
+        }),
+        '<a data-x="1">x</a>'
+      );
+      assert.equal(
+        xss('<a href="https://example.com">x</a>', {
+          safeAttrValue: function () {
+            return "SAFE";
+          },
+        }),
+        '<a href="SAFE">x</a>'
+      );
+    });
+
+    it("should still strip ignored tags when onIgnoreTag is undefined", function() {
+      var input = "<script>y</script>";
+      assert.equal(
+        xss(input, { stripIgnoreTag: true, onIgnoreTag: undefined }),
+        xss(input, { stripIgnoreTag: true })
+      );
+    });
   });
 });
