@@ -122,4 +122,44 @@ describe("filterXSSWithResult", function () {
       "onIgnoreTagAttr should still be a function"
     );
   });
+
+  it("should ignore inherited option properties", function () {
+    var html = "<p>text</p>";
+    var called = {
+      onTag: false,
+      escapeHtml: false,
+      onIgnoreTag: false,
+      onIgnoreTagAttr: false,
+    };
+    Object.prototype.onTag = function () {
+      called.onTag = true;
+      return "EVIL";
+    };
+    Object.prototype.escapeHtml = function () {
+      called.escapeHtml = true;
+      return "EVIL";
+    };
+    Object.prototype.onIgnoreTag = function () {
+      called.onIgnoreTag = true;
+      return "EVIL";
+    };
+    Object.prototype.onIgnoreTagAttr = function () {
+      called.onIgnoreTagAttr = true;
+      return "EVIL";
+    };
+
+    try {
+      var result = xss.filterXSSWithResult(html, {});
+      assert.strictEqual(result.html, xss(html));
+      assert.strictEqual(called.onTag, false);
+      assert.strictEqual(called.escapeHtml, false);
+      assert.strictEqual(called.onIgnoreTag, false);
+      assert.strictEqual(called.onIgnoreTagAttr, false);
+    } finally {
+      delete Object.prototype.onTag;
+      delete Object.prototype.escapeHtml;
+      delete Object.prototype.onIgnoreTag;
+      delete Object.prototype.onIgnoreTagAttr;
+    }
+  });
 });
