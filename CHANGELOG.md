@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.0.17 (2026-10-24)
+
+- fix: use the default callback when `escapeHtml`, `onTag`, `onTagAttr`, `onIgnoreTag`, `onIgnoreTagAttr` or `safeAttrValue` is `null`, `undefined`, or not a function. An own function still overrides the default, and inherited properties are still ignored ([#304](https://github.com/leizongmin/js-xss/issues/304)).
+- fix: `filterXSSWithResult()` copies only own option properties, so a polluted prototype can no longer supply callbacks.
+- fix: treat `null` and `undefined` `whiteList` / `allowList` as unset. An explicit object, including `{}`, is still used. When `whiteList` is unset, `allowList` is used; otherwise the default whitelist is used.
+
 ## v1.0.16 (2026-10-20)
 
 - fix: reject unsafe URL schemes in `action` and `formaction` when allowed by a custom whitelist. Form destinations now allow only HTTP(S) and relative URLs; other schemes, including `javascript:`, `data:`, `mailto:`, `tel:` and FTP, are rejected. The default whitelist is unaffected.
