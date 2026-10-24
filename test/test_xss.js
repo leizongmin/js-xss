@@ -683,4 +683,72 @@ describe("test XSS", function() {
       );
     });
   });
+
+  describe("undefined list options fall back to defaults", function() {
+    var html = '<a href="https://example.com">x</a><b>y</b>';
+
+    it("should use the default list when whiteList or allowList is nullish", function() {
+      assert.equal(xss(html, { whiteList: undefined }), xss(html));
+      assert.equal(xss(html, { allowList: undefined }), xss(html));
+      assert.equal(xss(html, { whiteList: null }), xss(html));
+      assert.equal(xss(html, { allowList: null }), xss(html));
+      assert.equal(
+        xss(html, { whiteList: undefined, allowList: undefined }),
+        xss(html)
+      );
+    });
+
+    it("should use allowList when whiteList is nullish", function() {
+      var input = "<b>x</b><i>y</i>";
+      var options = { allowList: { b: [] } };
+      assert.equal(
+        xss(input, { whiteList: undefined, allowList: options.allowList }),
+        xss(input, options)
+      );
+      assert.equal(
+        xss(input, { whiteList: null, allowList: options.allowList }),
+        xss(input, options)
+      );
+    });
+
+    it("should keep an explicit empty list", function() {
+      var input = '<a href="https://example.com">x</a>';
+      assert.equal(
+        xss(input, { whiteList: {} }),
+        '&lt;a href="https://example.com"&gt;x&lt;/a&gt;'
+      );
+      assert.equal(
+        xss(input, { allowList: {} }),
+        '&lt;a href="https://example.com"&gt;x&lt;/a&gt;'
+      );
+    });
+
+    it("should ignore a polluted prototype list when the own list is nullish", function() {
+      var input = '<a href="https://example.com">x</a><script src="e.js"></script>';
+      var clean = xss(input);
+      var allowOnlyB = xss('<b>x</b><script src="e.js"></script>', {
+        allowList: { b: [] },
+      });
+      Object.prototype.whiteList = { script: ["src"] };
+      Object.prototype.allowList = { script: ["src"] };
+      try {
+        assert.equal(xss(input, { whiteList: undefined }), clean);
+        assert.equal(xss(input, { allowList: undefined }), clean);
+        assert.equal(
+          xss('<b>x</b><script src="e.js"></script>', {
+            whiteList: undefined,
+            allowList: { b: [] },
+          }),
+          allowOnlyB
+        );
+        assert.equal(
+          xss('<script src="e.js"></script>', { whiteList: {} }),
+          '&lt;script src="e.js"&gt;&lt;/script&gt;'
+        );
+      } finally {
+        delete Object.prototype.whiteList;
+        delete Object.prototype.allowList;
+      }
+    });
+  });
 });

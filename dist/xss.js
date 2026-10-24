@@ -987,6 +987,26 @@ function ownFunction(options, key, fallback) {
 }
 
 /**
+ * Read an own option when the caller actually provided a value.
+ * null and undefined mean "not set". An own object, including {}, is explicit.
+ * Do not read the option with ||: a missing own property would still
+ * resolve to a polluted Object.prototype.
+ *
+ * @param {Object} options
+ * @param {String} key
+ * @return {*}
+ */
+function ownProvided(options, key) {
+  if (!Object.prototype.hasOwnProperty.call(options, key)) {
+    return;
+  }
+  if (options[key] === undefined || options[key] === null) {
+    return;
+  }
+  return options[key];
+}
+
+/**
  * FilterXSS class
  *
  * @param {Object} options
@@ -1006,11 +1026,14 @@ function FilterXSS(options) {
     }
     options.onIgnoreTag = DEFAULT.onIgnoreTagStripAll;
   }
-  if (Object.prototype.hasOwnProperty.call(options, 'whiteList') || Object.prototype.hasOwnProperty.call(options, 'allowList')) {
-    const wl = Object.prototype.hasOwnProperty.call(options, 'whiteList') ? options.whiteList : options.allowList;
-    options.whiteList = keysToLowerCase(wl);
-  } else {
+  var wl = ownProvided(options, 'whiteList');
+  if (wl === undefined) {
+    wl = ownProvided(options, 'allowList');
+  }
+  if (wl === undefined) {
     options.whiteList = DEFAULT.whiteList;
+  } else {
+    options.whiteList = keysToLowerCase(wl);
   }
 
   this.attributeWrapSign = Object.prototype.hasOwnProperty.call(options, 'singleQuotedAttributeValue') && options.singleQuotedAttributeValue === true ? "'" : DEFAULT.attributeWrapSign;
